@@ -1,6 +1,5 @@
+import { add } from '@mockp/sample-lib';
 
 export default function Home() {
-  return (
-    <></>
-  );
+  return <>{add(1, 2)}</>;
 }

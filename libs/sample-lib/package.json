@@ -1,0 +1,13 @@
+{
+  "name": "@mockp/sample-lib",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Matheus Depolito <matheussousadg@gmail.com>",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "tsc": "tsc --noEmit"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
