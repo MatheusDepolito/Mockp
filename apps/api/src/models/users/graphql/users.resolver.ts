@@ -16,7 +16,7 @@ export class UsersResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @AllowAuthenticated()
+  @AllowAuthenticated('admin')
   @Mutation(() => User)
   createUser(
     @Args('createUserInput') args: CreateUserInput,
@@ -26,6 +26,7 @@ export class UsersResolver {
     return this.usersService.create(args);
   }
 
+  @AllowAuthenticated()
   @Query(() => [User], { name: 'users' })
   findAll(@Args() args: FindManyUserArgs) {
     return this.usersService.findAll(args);
