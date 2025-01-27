@@ -7,8 +7,12 @@ export class UserOrderByWithRelationInputStrict
   implements
     RestrictProperties<
       UserOrderByWithRelationInputStrict,
-      Omit<Prisma.UserOrderByWithRelationInput, 'Credentials' | 'AuthProvider' | 'Admin'>
-    > {
+      Omit<
+        Prisma.UserOrderByWithRelationInput,
+        'Credentials' | 'AuthProvider' | 'Admin'
+      >
+    >
+{
   @Field(() => Prisma.SortOrder)
   uid: Prisma.SortOrder;
   @Field(() => Prisma.SortOrder)

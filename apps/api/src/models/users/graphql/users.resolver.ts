@@ -42,7 +42,9 @@ export class UsersResolver {
     @Args('updateUserInput') args: UpdateUserInput,
     @GetUser() user: GetUserType,
   ) {
-    const userInfo = await this.prisma.user.findUnique({ where: { uid: args.uid } });
+    const userInfo = await this.prisma.user.findUnique({
+      where: { uid: args.uid },
+    });
     checkRowLevelPermission(user, userInfo.uid);
     return this.usersService.update(args);
   }
