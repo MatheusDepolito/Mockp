@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { UpdateUserInput } from './dtos/update-user.input';
@@ -16,7 +20,7 @@ import { JwtService } from '@nestjs/jwt';
 export class UsersService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) {}
 
   async login({ email, password }: LoginInput): Promise<LoginOutput> {
@@ -27,9 +31,9 @@ export class UsersService {
       include: {
         Credentials: true,
       },
-    })
+    });
 
-    if(!user) {
+    if (!user) {
       throw new UnauthorizedException('Invalid email or password.');
     }
 
@@ -38,16 +42,16 @@ export class UsersService {
       user.Credentials.passwordHash,
     );
 
-    if(!isPasswordValid) {
+    if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid email or password.');
     }
 
     const jwtToken = this.jwtService.sign(
       { uid: user.uid },
       {
-        algorithm: 'HS256'
+        algorithm: 'HS256',
       },
-    )
+    );
 
     return { token: jwtToken };
   }

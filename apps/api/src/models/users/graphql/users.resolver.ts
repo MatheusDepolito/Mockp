@@ -21,7 +21,7 @@ export class UsersResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @Mutation(() => LoginOutput) 
+  @Mutation(() => LoginOutput)
   async login(@Args('loginInput') args: LoginInput) {
     return this.usersService.login(args);
   }
