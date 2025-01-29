@@ -18,7 +18,13 @@ export class UserWhereInputStrict
       UserWhereInputStrict,
       Omit<
         Prisma.UserWhereInput,
-        'Admin' | 'AuthProvider' | 'Credentials' | 'image'
+        | 'Admin'
+        | 'AuthProvider'
+        | 'Credentials'
+        | 'image'
+        | 'Manager'
+        | 'Valet'
+        | 'Customer'
       >
     >
 {

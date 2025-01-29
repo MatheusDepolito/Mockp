@@ -13,7 +13,10 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "entity:gql": "npx nestjs-prisma-codegen --graphql",
+    "entity:rest": "npx nestjs-prisma-codegen --rest",
+    "entity:complete": "npx nestjs-prisma-codegen --complete"
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",
