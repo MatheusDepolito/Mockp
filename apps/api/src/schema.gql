@@ -8,6 +8,10 @@ type User {
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  admin: Admin
+  valet: Valet
+  customer: Customer
+  manager: Manager
 }
 
 """
@@ -15,12 +19,23 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type AuthProvider {
+  type: AuthProviderType!
+  uid: String!
+}
+
+enum AuthProviderType {
+  GOOGLE
+  CREDENTIALS
+}
+
 type AggregateCountOutput {
   count: Int!
 }
 
 type LoginOutput {
   token: String!
+  user: User!
 }
 
 type Admin {
@@ -32,12 +47,14 @@ type Admin {
   verificationsCount: Int!
 }
 
-type Verification {
+type Valet {
+  image: String
+  companyId: Int
+  uid: String!
   createdAt: DateTime!
-  garageId: Int!
   updatedAt: DateTime!
-  verified: Boolean!
-  adminId: String!
+  displayName: String!
+  licenseID: String!
 }
 
 type Customer {
@@ -47,6 +64,23 @@ type Customer {
   updatedAt: DateTime!
   user: User
   bookings: [Booking!]!
+}
+
+type Manager {
+  displayName: String
+  uid: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  companyId: Int!
+  company: Company
+}
+
+type Verification {
+  createdAt: DateTime!
+  garageId: Int!
+  updatedAt: DateTime!
+  verified: Boolean!
+  adminId: String!
 }
 
 type Booking {
@@ -79,15 +113,6 @@ enum BookingStatus {
   VALET_RETURNED
 }
 
-type Manager {
-  displayName: String
-  uid: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  companyId: Int!
-  company: Company
-}
-
 type Company {
   displayName: String
   description: String
@@ -96,16 +121,6 @@ type Company {
   updatedAt: DateTime!
   garages: [Garage!]!
   managers: [Manager!]!
-}
-
-type Valet {
-  image: String
-  companyId: Int
-  uid: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  displayName: String!
-  licenseID: String!
 }
 
 type Garage {
@@ -612,6 +627,7 @@ type Query {
   whoami: User!
   users(distinct: [UserScalarFieldEnum!], where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int): [User!]!
   user(where: UserWhereUniqueInput!): User!
+  getAuthProvider(uid: String!): AuthProvider
   admins(distinct: [AdminScalarFieldEnum!], where: AdminWhereInput, orderBy: [AdminOrderByWithRelationInput!], cursor: AdminWhereUniqueInput, take: Int, skip: Int): [Admin!]!
   admin(where: AdminWhereUniqueInput!): Admin!
   adminMe: Admin!
@@ -1131,11 +1147,6 @@ input RegisterWithProviderInput {
   name: String
   uid: String!
   type: AuthProviderType!
-}
-
-enum AuthProviderType {
-  GOOGLE
-  CREDENTIALS
 }
 
 input UpdateUserInput {

@@ -1,6 +1,13 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { User } from './entity/user.entity';
+import { AuthProvider, User } from './entity/user.entity';
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args';
 import {
   RegisterWithProviderInput,
@@ -13,6 +20,11 @@ import { checkRowLevelPermission } from 'src/common/auth/util';
 import { GetUserType } from 'src/common/types';
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { Admin } from 'src/models/admins/graphql/entity/admin.entity';
+import { Valet } from 'src/models/valets/graphql/entity/valet.entity';
+import { Customer } from 'src/models/customers/graphql/entity/customer.entity';
+import { Manager } from 'src/models/managers/graphql/entity/manager.entity';
+import { AuthProviderType } from '@prisma/client';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -80,5 +92,38 @@ export class UsersResolver {
     const userInfo = await this.prisma.user.findUnique(args);
     checkRowLevelPermission(user, userInfo.uid);
     return this.usersService.remove(args);
+  }
+
+  @ResolveField(() => Admin, { nullable: true })
+  admin(@Parent() user: User) {
+    return this.prisma.admin.findUnique({
+      where: { uid: user.uid },
+    });
+  }
+
+  @ResolveField(() => Valet, { nullable: true })
+  valet(@Parent() user: User) {
+    return this.prisma.valet.findUnique({
+      where: { uid: user.uid },
+    });
+  }
+
+  @ResolveField(() => Customer, { nullable: true })
+  customer(@Parent() user: User) {
+    return this.prisma.customer.findUnique({
+      where: { uid: user.uid },
+    });
+  }
+
+  @ResolveField(() => Manager, { nullable: true })
+  manager(@Parent() user: User) {
+    return this.prisma.manager.findUnique({
+      where: { uid: user.uid },
+    });
+  }
+
+  @Query(() => AuthProvider, { name: 'getAuthProvider', nullable: true })
+  getAuthProvider(@Args('uid') uid: string) {
+    return this.prisma.authProvider.findUnique({ where: { uid } });
   }
 }

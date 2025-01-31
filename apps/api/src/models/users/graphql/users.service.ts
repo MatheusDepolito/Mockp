@@ -53,7 +53,7 @@ export class UsersService {
       },
     );
 
-    return { token: jwtToken };
+    return { token: jwtToken, user };
   }
 
   async registerWithCredentials({

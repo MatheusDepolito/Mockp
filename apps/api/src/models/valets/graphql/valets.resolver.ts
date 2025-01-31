@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ValetsService } from './valets.service';
 import { Valet } from './entity/valet.entity';
 import { FindManyValetArgs, FindUniqueValetArgs } from './dtos/find.args';
@@ -8,6 +15,8 @@ import { checkRowLevelPermission } from 'src/common/auth/util';
 import { GetUserType } from 'src/common/types';
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { Company } from 'src/models/companies/graphql/entity/company.entity';
+import { BookingTimeline } from 'src/models/booking-timelines/graphql/entity/booking-timeline.entity';
 
 @Resolver(() => Valet)
 export class ValetsResolver {
