@@ -1,18 +1,7 @@
 import type { Config } from 'tailwindcss';
 
-export default {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-      },
-    },
-  },
-  plugins: [],
-} satisfies Config;
+const config: Config = {
+  presets: [require('../../libs/ui/tailwind.config')],
+  content: ['./src/**/*.{ts,tsx}', '../../libs/ui/**/*.{ts,tsx}'],
+};
+export default config;

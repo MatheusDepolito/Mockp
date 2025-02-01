@@ -1,5 +1,6 @@
+'use client';
 import { add } from '@mockp/sample-lib';
-
+import { BrandIcon } from '@mockp/ui/src/components/atoms/BrandIcon';
 export default function Home() {
-  return <>{add(1, 2)}</>;
+  return <div className="bg-primary-900">test</div>;
 }

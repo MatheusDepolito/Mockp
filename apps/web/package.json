@@ -11,7 +11,10 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@mockp/sample-lib": "*",
+    "@mockp/ui": "*",
+    "@tabler/icons-react": "^3.29.0",
     "next": "15.1.6",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
