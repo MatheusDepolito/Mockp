@@ -36,7 +36,7 @@ export async function fetchGraphQL<TData, V>({
   return await fetch(process.env.NEXT_PUBLIC_API_URL + '/graphql', {
     method: 'POST',
     headers: {
-      'Content Type': 'application/json',
+      'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : null),
     },
     body: JSON.stringify({ query, variables }),

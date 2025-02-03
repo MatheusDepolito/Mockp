@@ -13,7 +13,7 @@ export const AuthLayout = ({ title, children }: IAuthLayoutProps) => {
   return (
     <div className="relative h-[calc(100vh-4rem)]  ">
       <div className=" flex flex-col justify-center items-center absolute top-0 bg-black/20 backdrop-blur-sm bottom-0  ">
-        <div className="p-4 text-white ">
+        <div className="p-4 text-black ">
           <div className="w-full max-w-lg mx-auto ">
             <h1 className="flex items-center gap-2 mb-2 text-2xl">
               <BrandIcon /> <div>{title}</div>

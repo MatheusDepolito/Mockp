@@ -1,6 +1,19 @@
 'use client';
-import { add } from '@mockp/sample-lib';
-import { BrandIcon } from '@mockp/ui/src/components/atoms/BrandIcon';
+
+import { Button } from '@mockp/ui/src/components/atoms/Button';
+import { useSession, signOut } from 'next-auth/react';
+import Link from 'next/link';
+
 export default function Home() {
-  return <div className="bg-primary-900">test</div>;
+  const { data: sessionData, status, update } = useSession();
+
+  return (
+    <main className="p-8">
+      {sessionData?.user?.name ? (
+        <Button onClick={() => signOut()}>Signout</Button>
+      ) : (
+        <Link href="/login">Login</Link>
+      )}
+    </main>
+  );
 }
