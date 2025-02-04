@@ -17,17 +17,17 @@ export const Brand = ({
       <div className="text-xl ">
         {shortForm ? (
           <div className="flex gap-1">
-            <BrandIcon /> A.
+            <BrandIcon /> M.
           </div>
         ) : (
           <div className="flex items-center gap-2 font-medium tracking-tighter font-playfair">
             <BrandIcon />
             <div>
               <div className="flex gap-1">
-                <div>Autospace</div>
+                <div>Mockp</div>
                 {type ? <span className="text-xs">{type}</span> : null}
               </div>
-              <div className="text-xs text-gray">Karthick Ragavendran</div>
+              <div className="text-xs text-gray">Matheus Depolito</div>
             </div>
           </div>
         )}

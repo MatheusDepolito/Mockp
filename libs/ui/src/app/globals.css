@@ -1,3 +1,4 @@
+@import '../components/organisms/map/map.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
