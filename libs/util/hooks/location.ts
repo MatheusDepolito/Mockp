@@ -21,7 +21,7 @@ export const useSearchLocation = () => {
           placeName: x.place_name,
           latLng: [x.center[1], x.center[0]],
         }));
-
+        console.log(filtered);
         setLocationInfo(filtered);
       })
       .finally(() => setLoading(false));

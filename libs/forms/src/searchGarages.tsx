@@ -1,3 +1,4 @@
+'use client';
 import { SlotType } from '@mockp/network/src/gql/generated';
 import { z } from 'zod';
 import { toLocalISOString } from '@mockp/util/date';

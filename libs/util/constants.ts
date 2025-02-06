@@ -1,51 +1,43 @@
 import { LocationInfo } from './types';
 
 export const initialViewState = {
-  latitude: 40.7128,
-  longitude: -74.006,
+  latitude: -22.1256,
+  longitude: -51.3889,
   zoom: 11.5,
 };
 
 export const majorCitiesLocationInfo: LocationInfo[] = [
   {
-    placeName: 'Chennai, Tamil Nadu, India',
-    latLng: [13.0827, 80.2707],
-  },
-  {
-    placeName: 'New York, New York, United States',
-    latLng: [40.7128, -74.006],
-  },
-  {
-    placeName: 'London, Greater London, England, United Kingdom',
-    latLng: [51.5074, -0.1278],
-  },
-  {
-    placeName: 'Paris, France',
-    latLng: [48.8566, 2.3522],
-  },
-  {
-    placeName: 'Berlin, Germany',
-    latLng: [52.52, 13.405],
-  },
-  {
-    placeName: 'Sydney, New South Wales, Australia',
-    latLng: [-33.8688, 151.2093],
-  },
-  {
     placeName: 'Rio de Janeiro, Brazil',
     latLng: [-22.9068, -43.1729],
   },
   {
-    placeName: 'Cape Town, Western Cape, South Africa',
-    latLng: [-33.9249, 18.4241],
+    placeName: 'São Paulo, Brazil',
+    latLng: [-23.5505, -46.6333],
   },
   {
-    placeName: 'Moscow, Russia',
-    latLng: [55.7558, 37.6176],
+    placeName: 'Belo Horizonte, Brazil',
+    latLng: [-19.9167, -43.9345],
   },
   {
-    placeName: 'Beijing, China',
-    latLng: [39.9042, 116.4074],
+    placeName: 'Curitiba, Brazil',
+    latLng: [-25.4284, -49.2733],
+  },
+  {
+    placeName: 'Porto Alegre, Brazil',
+    latLng: [-30.0346, -51.2177],
+  },
+  {
+    placeName: 'Salvador, Brazil',
+    latLng: [-12.9714, -38.5014],
+  },
+  {
+    placeName: 'Fortaleza, Brazil',
+    latLng: [-3.7172, -38.5433],
+  },
+  {
+    placeName: 'Brasília, Brazil',
+    latLng: [-15.8267, -47.9218],
   },
 ];
 
