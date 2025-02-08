@@ -1,6 +1,6 @@
 import colors from 'tailwindcss/colors';
 
-const brandHue = 52;
+const brandHue = 210;
 
 // #ffdd00 for brandHue 52
 const primaryPallete = {
@@ -59,6 +59,20 @@ const redPallete = {
   700: 'hsl(10, 94%, 22%)',
   800: 'hsl(10, 94%, 10%)',
   900: 'hsl(10, 94%, 04%)',
+  hex: {
+    DEFAULT: '#1b1f23',
+    25: '#f0f0f0',
+    50: '#d1d1d1',
+    100: '#a1a1a1',
+    200: '#787878',
+    300: '#4f4f4f',
+    400: '#363636',
+    500: '#1b1f23',
+    600: '#121416',
+    700: '#0a0b0d',
+    800: '#050607',
+    900: '#030304',
+  }
 };
 
 export const animationConfig = {

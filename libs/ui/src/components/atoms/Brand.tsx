@@ -21,7 +21,7 @@ export const Brand = ({
           </div>
         ) : (
           <div className="flex items-center gap-2 font-medium tracking-tighter font-playfair">
-            <BrandIcon />
+            {/* <BrandIcon /> */}
             <div>
               <div className="flex gap-1">
                 <div>Mockp</div>
