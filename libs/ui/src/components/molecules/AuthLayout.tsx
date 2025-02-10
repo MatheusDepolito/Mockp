@@ -2,7 +2,6 @@
 import { IconArrowBack } from '@tabler/icons-react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { BrandIcon } from '../atoms/BrandIcon';
 
 export interface IAuthLayoutProps {
   children: ReactNode;
@@ -16,7 +15,7 @@ export const AuthLayout = ({ title, children }: IAuthLayoutProps) => {
         <div className="p-4 text-black ">
           <div className="w-full max-w-lg mx-auto ">
             <h1 className="flex items-center gap-2 mb-2 text-2xl">
-              <BrandIcon /> <div>{title}</div>
+              <div>{title}</div>
             </h1>
             {children}
             <div className="mt-4 text-sm text-gray-300">

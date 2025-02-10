@@ -1,19 +1,19 @@
-'use client'
-import { useCallback } from 'react'
-import { Map } from '../organisms/map/Map'
-import { Panel } from '../organisms/map/Panel'
-import { DefaultZoomControls } from '../organisms/map/ZoomControls'
-import { ViewStateChangeEvent } from 'react-map-gl'
-import { initialViewState } from '@mockp/util/constants'
-import { SearchPlaceBox } from '../organisms/map/SearchPlacesBox'
-import { useFormContext } from 'react-hook-form'
-import { FormTypeSearchGarage } from '@mockp/forms/src/searchGarages'
-import { IconType } from '../molecules/IconTypes'
-import { IconArrowDown } from '@tabler/icons-react'
-import { HtmlInput } from '../atoms/HtmlInput'
-import { toLocalISOString } from '@mockp/util/date'
-import { ShowGarages } from '../organisms/search/ShowGarages'
-import { FilterSidebar } from '../organisms/search/FilterSidebar'
+'use client';
+import { useCallback } from 'react';
+import { Map } from '../organisms/map/Map';
+import { Panel } from '../organisms/map/Panel';
+import { DefaultZoomControls } from '../organisms/map/ZoomControls';
+import { ViewStateChangeEvent } from 'react-map-gl';
+import { initialViewState } from '@mockp/util/constants';
+import { SearchPlaceBox } from '../organisms/map/SearchPlacesBox';
+import { useFormContext } from 'react-hook-form';
+import { FormTypeSearchGarage } from '@mockp/forms/src/searchGarages';
+import { IconType } from '../molecules/IconTypes';
+import { IconArrowDown } from '@tabler/icons-react';
+import { HtmlInput } from '../atoms/HtmlInput';
+import { toLocalISOString } from '@mockp/util/date';
+import { ShowGarages } from '../organisms/search/ShowGarages';
+import { FilterSidebar } from '../organisms/search/FilterSidebar';
 
 export const SearchPage = () => {
   const {
@@ -22,23 +22,23 @@ export const SearchPage = () => {
     watch,
     formState: { errors },
     trigger,
-  } = useFormContext<FormTypeSearchGarage>()
-  console.log('errors ', errors)
-  const formData = watch()
+  } = useFormContext<FormTypeSearchGarage>();
+  console.log('errors ', errors);
+  const formData = watch();
 
   const handleMapChange = useCallback(
     (target: ViewStateChangeEvent['target']) => {
-      const bounds = target.getBounds()
+      const bounds = target.getBounds();
       const locationFilter = {
         ne_lat: bounds?.getNorthEast().lat || 0,
         ne_lng: bounds?.getNorthEast().lng || 0,
         sw_lat: bounds?.getSouthWest().lat || 0,
         sw_lng: bounds?.getSouthWest().lng || 0,
-      }
-      setValue('locationFilter', locationFilter)
+      };
+      setValue('locationFilter', locationFilter);
     },
     [setValue],
-  )
+  );
 
   return (
     <Map
@@ -63,8 +63,8 @@ export const SearchPage = () => {
                 min={toLocalISOString(new Date()).slice(0, 16)}
                 {...register('startTime', {
                   onChange(event) {
-                    trigger('startTime')
-                    trigger('endTime')
+                    trigger('startTime');
+                    trigger('endTime');
                   },
                 })}
               />
@@ -77,7 +77,7 @@ export const SearchPage = () => {
                 className="w-full p-2 text-lg font-light border-0"
                 {...register('endTime', {
                   onChange(event) {
-                    trigger('endTime')
+                    trigger('endTime');
                   },
                 })}
               />
@@ -95,7 +95,7 @@ export const SearchPage = () => {
               <div className="text-red-800 p-2 shadow bg-white" key={key}>
                 {key}: {value.message}
               </div>
-            )
+            );
           })}
         </Panel>
       ) : null}
@@ -103,5 +103,5 @@ export const SearchPage = () => {
         <FilterSidebar />
       </Panel>
     </Map>
-  )
-}
+  );
+};

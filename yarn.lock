@@ -2703,6 +2703,13 @@
   dependencies:
     undici-types "~6.20.0"
 
+"@types/node@>=8.1.0":
+  version "22.13.1"
+  resolved "https://registry.npmjs.org/@types/node/-/node-22.13.1.tgz#a2a3fefbdeb7ba6b89f40371842162fac0934f33"
+  integrity sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==
+  dependencies:
+    undici-types "~6.20.0"
+
 "@types/node@^20":
   version "20.17.16"
   resolved "https://registry.npmjs.org/@types/node/-/node-20.17.16.tgz#b33b0edc1bf925b27349e494b871ca4451fabab4"
@@ -7598,6 +7605,13 @@ qs@6.13.0:
   dependencies:
     side-channel "^1.0.6"
 
+qs@^6.11.0:
+  version "6.14.0"
+  resolved "https://registry.npmjs.org/qs/-/qs-6.14.0.tgz#c63fa40680d2c5c941412a0e899c89af60c0a930"
+  integrity sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==
+  dependencies:
+    side-channel "^1.1.0"
+
 queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
@@ -8562,6 +8576,14 @@ strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+
+stripe@^17.6.0:
+  version "17.6.0"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-17.6.0.tgz#6495a42b7a20066e0d96068c362da793d684e79c"
+  integrity sha512-+HB6+SManp0gSRB0dlPmXO+io18krlAe0uimXhhIkL/RG/VIRigkfoM3QDJPkqbuSW0XsA6uzsivNCJU1ELEDA==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.11.0"
 
 styled-jsx@5.1.1:
   version "5.1.1"

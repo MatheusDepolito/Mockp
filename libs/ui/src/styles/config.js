@@ -72,7 +72,7 @@ const redPallete = {
     700: '#0a0b0d',
     800: '#050607',
     900: '#030304',
-  }
+  },
 };
 
 export const animationConfig = {

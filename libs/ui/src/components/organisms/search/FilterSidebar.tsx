@@ -1,29 +1,29 @@
 import {
   FormTypeSearchGarage,
   formDefaultValuesSearchGarages,
-} from '@mockp/forms/src/searchGarages'
-import { useState } from 'react'
-import { useFormContext, Controller } from 'react-hook-form'
-import { Button } from '../../atoms/Button'
-import { IconFilter } from '@tabler/icons-react'
-import { PulsingDot } from '../../atoms/Dot'
-import { Sidebar } from '../Sidebar'
-import { RangeSlider } from '../../molecules/RangeSlider'
+} from '@mockp/forms/src/searchGarages';
+import { useState } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
+import { Button } from '../../atoms/Button';
+import { IconFilter } from '@tabler/icons-react';
+import { PulsingDot } from '../../atoms/Dot';
+import { Sidebar } from '../Sidebar';
+import { RangeSlider } from '../../molecules/RangeSlider';
 import {
   ToggleButtonGroup,
   ToggleButton,
-} from '../../molecules/ToggleButtonGroup'
-import { FilterHeading } from '../../molecules/FilterHeading'
-import { IconTypes } from '../../molecules/IconTypes'
+} from '../../molecules/ToggleButtonGroup';
+import { FilterHeading } from '../../molecules/FilterHeading';
+import { IconTypes } from '../../molecules/IconTypes';
 
 export const FilterSidebar = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const {
     control,
     reset,
     getValues,
     formState: { dirtyFields },
-  } = useFormContext<FormTypeSearchGarage>()
+  } = useFormContext<FormTypeSearchGarage>();
 
   return (
     <>
@@ -52,12 +52,12 @@ export const FilterSidebar = () => {
                   <ToggleButtonGroup
                     value={value}
                     onChange={(_, value) => {
-                      onChange(value.sort())
+                      onChange(value.sort());
                     }}
                     aria-label="text formatting"
                   >
                     {defaultValues?.types?.map((val) => {
-                      if (!val) return null
+                      if (!val) return null;
                       return (
                         <ToggleButton
                           key={val}
@@ -66,11 +66,11 @@ export const FilterSidebar = () => {
                         >
                           {IconTypes[val]}
                         </ToggleButton>
-                      )
+                      );
                     })}
                   </ToggleButtonGroup>
                 </div>
-              )
+              );
             }}
           />
           <Controller
@@ -96,7 +96,7 @@ export const FilterSidebar = () => {
                     step={1}
                   />
                 </div>
-              )
+              );
             }}
           />
           <Controller
@@ -121,7 +121,7 @@ export const FilterSidebar = () => {
                     step={2}
                   />
                 </div>
-              )
+              );
             }}
           />
           <Controller
@@ -146,7 +146,7 @@ export const FilterSidebar = () => {
                     step={2}
                   />
                 </div>
-              )
+              );
             }}
           />
           <Controller
@@ -171,7 +171,7 @@ export const FilterSidebar = () => {
                     step={5}
                   />
                 </div>
-              )
+              );
             }}
           />
           <Button
@@ -185,5 +185,5 @@ export const FilterSidebar = () => {
         </div>
       </Sidebar>
     </>
-  )
-}
+  );
+};

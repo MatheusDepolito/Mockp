@@ -1,4 +1,4 @@
-import Slider, { SliderProps } from '@mui/material/Slider'
+import Slider, { SliderProps } from '@mui/material/Slider';
 
 export const RangeSlider = (props: SliderProps) => (
   <div className="w-full pt-6 pl-2 pr-4">
@@ -16,4 +16,4 @@ export const RangeSlider = (props: SliderProps) => (
       {...props}
     />
   </div>
-)
+);
