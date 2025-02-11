@@ -17,8 +17,8 @@ query Companies(
   $orderBy: [CompanyOrderByWithRelationInput!]
   $where: CompanyWhereInput
   $cursor: CompanyWhereUniqueInput
-  $skip: Int
-  $take: Int
+  $skip: Float
+  $take: Float
 ) {
   companies(
     distinct: $distinct
@@ -96,5 +96,80 @@ query SearchGarages(
     verification {
       verified
     }
+  }
+}
+
+query myCompany {
+  myCompany {
+    id
+    garages {
+      displayName
+      id
+      description
+      address {
+        id
+        address
+        lat
+        lng
+      }
+    }
+    createdAt
+    displayName
+  }
+}
+
+mutation CreateCompany($createCompanyInput: CreateCompanyInput!) {
+  createCompany(createCompanyInput: $createCompanyInput) {
+    id
+  }
+}
+
+query Garages(
+  $skip: Float
+  $take: Float
+  $cursor: GarageWhereUniqueInput
+  $orderBy: [GarageOrderByWithRelationInput!]
+  $where: GarageWhereInput
+) {
+  garages(
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
+    where: $where
+  ) {
+    id
+    displayName
+    description
+    images
+    verification {
+      verified
+    }
+    address {
+      id
+      lat
+      lng
+      address
+    }
+    slotCounts {
+      type
+      count
+    }
+  }
+
+  garagesCount(where: $where) {
+    count
+  }
+}
+
+mutation CreateGarage($createGarageInput: CreateGarageInput!) {
+  createGarage(createGarageInput: $createGarageInput) {
+    id
+  }
+}
+
+mutation CreateManySlots($createSlotInput: CreateSlotInput!, $count: Float!) {
+  createManySlots(createSlotInput: $createSlotInput, count: $count) {
+    count
   }
 }

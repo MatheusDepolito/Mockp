@@ -11,6 +11,7 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@mockp/network": "*",
     "@headlessui/react": "^2.2.0",
     "@mockp/sample-lib": "*",
     "@mockp/ui": "*",
@@ -22,8 +23,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@mockp/network": "*",
-    "@mockp/sample-lib": "*",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -32,8 +31,5 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  },
-  "peerDependencies": {
-    "@apollo/client": "^3.12.8"
   }
 }

@@ -1,9 +1,6 @@
 'use client';
 
-import { Button } from '@mockp/ui/src/components/atoms/Button';
 import { useSession, signOut } from 'next-auth/react';
-import Link from 'next/link';
-import { Sidebar } from '@mockp/ui/src/components/organisms/Sidebar';
 import { useQuery } from '@apollo/client';
 import { SearchGaragesDocument } from '@mockp/network/src/gql/generated';
 

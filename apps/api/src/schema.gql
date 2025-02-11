@@ -584,6 +584,10 @@ type Slot {
   bookings: [Booking!]!
 }
 
+type ReturnCount {
+  count: Float!
+}
+
 type MinimalSlotGroupBy {
   type: SlotType!
   pricePerHour: Float!
@@ -1111,6 +1115,7 @@ type Mutation {
   updateAddress(updateAddressInput: UpdateAddressInput!): Address!
   removeAddress(where: AddressWhereUniqueInput!): Address!
   createSlot(createSlotInput: CreateSlotInput!): Slot!
+  createManySlots(createSlotInput: CreateSlotInput!, count: Float!): ReturnCount!
   updateSlot(updateSlotInput: UpdateSlotInput!): Slot!
   removeSlot(where: SlotWhereUniqueInput!): Slot!
   createBooking(createBookingInput: CreateBookingInput!): Booking!

@@ -18,12 +18,12 @@ export const ApolloProvider = ({ children }: IApolloProviderProps) => {
   });
 
   const authLink = setContext(async (_, { headers }) => {
-    const token = await fetch('/api/auth/token').then((res) => res.json);
+    const token = await fetch('/api/auth/token').then((res) => res.json());
 
     return {
       headers: {
         ...headers,
-        ...(token ? { authorization: `Bearer ${token}` } : null),
+        authorization: token ? `Bearer ${token}` : '',
       },
     };
   });

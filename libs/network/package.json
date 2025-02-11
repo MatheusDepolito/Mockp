@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "react": "^19.0.0",
+    "next-auth": "^4.24.11"
   }
 }
