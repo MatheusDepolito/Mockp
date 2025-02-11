@@ -1,4 +1,4 @@
-import { IconBox } from '@tabler/icons-react'
+import { IconBox } from '@tabler/icons-react';
 
 export const NoResults = () => {
   return (
@@ -6,5 +6,5 @@ export const NoResults = () => {
       <IconBox className="w-10 h-10" />
       <div className="text-sm">No results</div>
     </div>
-  )
-}
+  );
+};

@@ -1,29 +1,29 @@
 import {
   GaragesDocument,
   MyCompanyQuery,
-} from '@mockp/network/src/gql/generated'
-import { useTakeSkip } from '@mockp/util/hooks/pagination'
-import { useQuery } from '@apollo/client'
-import {} from '@mockp/network/src/gql/generated'
-import { ShowData } from './ShowData'
-import { dividerClasses } from '@mui/material'
-import { IconPlus } from '@tabler/icons-react'
-import Link from 'next/link'
-import { GarageCard } from './GarageCard'
+} from '@mockp/network/src/gql/generated';
+import { useTakeSkip } from '@mockp/util/hooks/pagination';
+import { useQuery } from '@apollo/client';
+import {} from '@mockp/network/src/gql/generated';
+import { ShowData } from './ShowData';
+import { dividerClasses } from '@mui/material';
+import { IconPlus } from '@tabler/icons-react';
+import Link from 'next/link';
+import { GarageCard } from './GarageCard';
 
 export const ListGarages = ({
   companyId,
 }: {
-  companyId: MyCompanyQuery['myCompany']['id']
+  companyId: MyCompanyQuery['myCompany']['id'];
 }) => {
-  const { setSkip, setTake, skip, take } = useTakeSkip()
+  const { setSkip, setTake, skip, take } = useTakeSkip();
   const { data, loading, error } = useQuery(GaragesDocument, {
     variables: {
       skip,
       take,
       where: { companyId: { equals: companyId } },
     },
-  })
+  });
   return (
     <ShowData
       error={error?.message}
@@ -53,5 +53,5 @@ export const ListGarages = ({
         <GarageCard key={garage.id} garage={garage} />
       ))}
     </ShowData>
-  )
-}
+  );
+};

@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import {
   IconPhotoCancel,
   IconChevronLeft,
   IconChevronRight,
-} from '@tabler/icons-react'
+} from '@tabler/icons-react';
 
 export interface IAutoImageChangerProps {
-  images: string[]
-  durationPerImage?: number
-  aspectRatio?: 'aspect-square' | 'aspect-video' | 'aspect-auto'
-  noAutoChange?: boolean
+  images: string[];
+  durationPerImage?: number;
+  aspectRatio?: 'aspect-square' | 'aspect-video' | 'aspect-auto';
+  noAutoChange?: boolean;
 }
 
 export const AutoImageChanger = ({
@@ -18,24 +18,24 @@ export const AutoImageChanger = ({
   aspectRatio = 'aspect-square',
   noAutoChange = false,
 }: IAutoImageChangerProps) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    if (noAutoChange) return
+    if (noAutoChange) return;
 
     const interval = setInterval(() => {
-      setCurrentImageIndex((oldIndex) => (oldIndex + 1) % images.length)
-    }, durationPerImage)
+      setCurrentImageIndex((oldIndex) => (oldIndex + 1) % images.length);
+    }, durationPerImage);
 
-    return () => clearInterval(interval)
-  }, [durationPerImage, images])
+    return () => clearInterval(interval);
+  }, [durationPerImage, images]);
 
   if (images.length === 0)
     return (
       <div className="flex items-center justify-center w-full h-48 gap-2 text-sm bg-white border select-none border-gray-50 text-gray">
         <IconPhotoCancel /> No images.
       </div>
-    )
+    );
 
   return (
     <div className={`relative w-full overflow-hidden ${aspectRatio}`}>
@@ -81,5 +81,5 @@ export const AutoImageChanger = ({
         </>
       )}
     </div>
-  )
-}
+  );
+};

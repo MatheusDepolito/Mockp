@@ -70,23 +70,23 @@ export class SlotsResolver {
           include: { Managers: true },
         },
       },
-    })
+    });
 
     checkRowLevelPermission(
       user,
       garage.Company.Managers.map((manager) => manager.uid),
-    )
+    );
 
     const typeCount = await this.prisma.slot.count({
       where: { garageId: args.garageId, type: args.type },
-    })
+    });
 
     const slots = Array.from({ length: count }).map((num, index) => ({
       ...args,
       displayName: `${args.type} ${typeCount + index + 1}`,
-    }))
+    }));
 
-    return this.prisma.slot.createMany({ data: slots })
+    return this.prisma.slot.createMany({ data: slots });
   }
 
   @AllowAuthenticated()

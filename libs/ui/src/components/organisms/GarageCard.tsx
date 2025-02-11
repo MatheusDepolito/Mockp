@@ -1,11 +1,11 @@
-import { GaragesQuery } from '@mockp/network/src/gql/generated'
-import { AutoImageChanger } from './AutoImageChanger'
-import Link from 'next/link'
-import { IconTypes } from '../molecules/IconTypes'
-import { CreateManySlotsDialog } from './CreateManySlotsDialog'
+import { GaragesQuery } from '@mockp/network/src/gql/generated';
+import { AutoImageChanger } from './AutoImageChanger';
+import Link from 'next/link';
+import { IconTypes } from '../molecules/IconTypes';
+import { CreateManySlotsDialog } from './CreateManySlotsDialog';
 
 export interface IGarageCardProps {
-  garage: GaragesQuery['garages'][number]
+  garage: GaragesQuery['garages'][number];
 }
 
 export const GarageCard = ({ garage }: IGarageCardProps) => {
@@ -47,5 +47,5 @@ export const GarageCard = ({ garage }: IGarageCardProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

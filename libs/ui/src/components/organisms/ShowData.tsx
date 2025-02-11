@@ -1,22 +1,22 @@
-import { AlertSection } from '../molecules/AlertSection'
-import { LoaderPanel } from '../molecules/Loader'
-import { NoResults } from '../molecules/NoResults'
-import { Pagination } from '@mui/material'
+import { AlertSection } from '../molecules/AlertSection';
+import { LoaderPanel } from '../molecules/Loader';
+import { NoResults } from '../molecules/NoResults';
+import { Pagination } from '@mui/material';
 
 interface ShowDataProps {
-  error?: string
-  loading?: boolean
+  error?: string;
+  loading?: boolean;
   pagination: {
-    setSkip: (skip: number) => void
-    setTake: (take: number) => void
-    skip: number
-    take: number
-    resultCount?: number
-    totalCount?: number
-  }
-  title?: React.ReactNode
-  children: React.ReactNode
-  childrenClassName?: string
+    setSkip: (skip: number) => void;
+    setTake: (take: number) => void;
+    skip: number;
+    take: number;
+    resultCount?: number;
+    totalCount?: number;
+  };
+  title?: React.ReactNode;
+  children: React.ReactNode;
+  childrenClassName?: string;
 }
 
 export const ShowData = ({
@@ -27,16 +27,16 @@ export const ShowData = ({
   children,
   childrenClassName = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3',
 }: ShowDataProps) => {
-  const { setSkip, setTake, skip, take, resultCount, totalCount } = pagination
+  const { setSkip, setTake, skip, take, resultCount, totalCount } = pagination;
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     page: number,
   ) => {
-    setSkip((page - 1) * take)
-  }
+    setSkip((page - 1) * take);
+  };
 
-  const totalPages = Math.ceil((totalCount || 0) / take)
+  const totalPages = Math.ceil((totalCount || 0) / take);
 
   return (
     <div>
@@ -62,5 +62,5 @@ export const ShowData = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};

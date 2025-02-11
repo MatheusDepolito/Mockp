@@ -22,12 +22,10 @@ export const IsManager = ({
   if (!data?.myCompany) {
     return (
       <AlertSection>
-        <div>
-          You don&apos;t have a company yet.
-        </div>
+        <div>You don&apos;t have a company yet.</div>
         <CreateCompany />
       </AlertSection>
-    ); 
+    );
   }
   return (
     <>

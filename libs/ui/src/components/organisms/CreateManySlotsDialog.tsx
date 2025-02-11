@@ -1,27 +1,27 @@
-import { useFormCreateManySlots } from '@mockp/forms/src/createSlots'
-import { useMutation } from '@apollo/client'
+import { useFormCreateManySlots } from '@mockp/forms/src/createSlots';
+import { useMutation } from '@apollo/client';
 import {
   CreateManySlotsDocument,
   SlotType,
   namedOperations,
-} from '@mockp/network/src/gql/generated'
-import { useState } from 'react'
-import { Button } from '../atoms/Button'
-import { Dialog } from '../atoms/Dialog'
-import { HtmlLabel } from '../atoms/HtmlLabel'
-import { HtmlSelect } from '../atoms/HtmlSelect'
-import { HtmlInput } from '../atoms/HtmlInput'
-import { Form } from '../atoms/Form'
-import { toast } from '../molecules/Toast'
+} from '@mockp/network/src/gql/generated';
+import { useState } from 'react';
+import { Button } from '../atoms/Button';
+import { Dialog } from '../atoms/Dialog';
+import { HtmlLabel } from '../atoms/HtmlLabel';
+import { HtmlSelect } from '../atoms/HtmlSelect';
+import { HtmlInput } from '../atoms/HtmlInput';
+import { Form } from '../atoms/Form';
+import { toast } from '../molecules/Toast';
 
 export const CreateManySlotsDialog = ({ garageId }: { garageId: number }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useFormCreateManySlots()
+  } = useFormCreateManySlots();
 
   const [createManySlots, { loading, data, error }] = useMutation(
     CreateManySlotsDocument,
@@ -29,14 +29,14 @@ export const CreateManySlotsDialog = ({ garageId }: { garageId: number }) => {
       awaitRefetchQueries: true,
       refetchQueries: [namedOperations.Query.Garages],
       onCompleted(data, clientOptions) {
-        setOpen(false)
-        toast('Slots created successfully.')
+        setOpen(false);
+        toast('Slots created successfully.');
       },
       onError(error, clientOptions) {
-        toast('Action failed.')
+        toast('Action failed.');
       },
     },
-  )
+  );
 
   return (
     <>
@@ -55,7 +55,7 @@ export const CreateManySlotsDialog = ({ garageId }: { garageId: number }) => {
           onSubmit={handleSubmit(async ({ count, ...data }) => {
             await createManySlots({
               variables: { count, createSlotInput: { ...data, garageId } },
-            })
+            });
           })}
         >
           <div className="grid grid-cols-2 gap-2">
@@ -120,5 +120,5 @@ export const CreateManySlotsDialog = ({ garageId }: { garageId: number }) => {
         </Form>
       </Dialog>
     </>
-  )
-}
+  );
+};
