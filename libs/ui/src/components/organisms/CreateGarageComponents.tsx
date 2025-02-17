@@ -1,23 +1,16 @@
 import { FormTypeCreateGarage } from '@mockp/forms/src/createGarage';
-import { ViewState } from '@mockp/util/types';
-import { useEffect } from 'react';
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { useWatch, useFormContext, useFieldArray } from 'react-hook-form';
 import { Marker } from '../organisms/map/MapMarker';
 import { MockpIcon } from '../atoms/MockpIcon';
-import { initialViewState } from '@mockp/util/constants';
-import { Accordion } from '@mockp/ui/src/components/atoms/Accordion';
+import { Accordion } from '../atoms/Accordion';
 import { Button } from '../atoms/Button';
+import { IconPlus } from '@tabler/icons-react';
+import { SlotType } from '@mockp/network/src/gql/generated';
 import { HtmlLabel } from '../atoms/HtmlLabel';
 import { HtmlSelect } from '../atoms/HtmlSelect';
-import { SlotType } from '@mockp/network/src/gql/generated';
 import { HtmlInput } from '../atoms/HtmlInput';
-import { IconPlus } from '@tabler/icons-react';
 
-export const GarageMapMarker = ({
-  initialLocation,
-}: {
-  initialLocation?: ViewState;
-}) => {
+export const GarageMapMarker = () => {
   const { location } = useWatch<FormTypeCreateGarage>();
   const { setValue } = useFormContext<FormTypeCreateGarage>();
 
@@ -29,7 +22,6 @@ export const GarageMapMarker = ({
       draggable
       onDragEnd={({ lngLat }) => {
         const { lat, lng } = lngLat;
-
         setValue('location.lat', lat || 0);
         setValue('location.lng', lng || 0);
       }}
@@ -48,11 +40,10 @@ export const AddSlots = () => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'slotTypes',
+    name: `slotTypes`,
   });
 
   const { slotTypes } = useWatch<FormTypeCreateGarage>();
-
   return (
     <div>
       {fields.map((item, slotIndex) => (
@@ -68,7 +59,7 @@ export const AddSlots = () => {
             </div>
           }
         >
-          <div className={'flex justify-end my-2'}>
+          <div className={`flex justify-end my-2`}>
             <Button
               variant="text"
               size="none"
@@ -137,7 +128,19 @@ export const AddSlots = () => {
                 })}
               />
             </HtmlLabel>
-
+            <HtmlLabel
+              title="Width"
+              optional
+              error={errors.slotTypes?.[slotIndex]?.width?.message}
+            >
+              <HtmlInput
+                type="number"
+                placeholder="Enter the description"
+                {...register(`slotTypes.${slotIndex}.width`, {
+                  valueAsNumber: true,
+                })}
+              />
+            </HtmlLabel>
             <HtmlLabel
               title="Height"
               optional

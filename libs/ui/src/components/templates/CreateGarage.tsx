@@ -1,6 +1,11 @@
 'use client';
-import { useFormCreateGarage } from '@mockp/forms/src/createGarage';
+import {
+  FormProviderCreateGarage,
+  FormTypeCreateGarage,
+  useFormCreateGarage,
+} from '@mockp/forms/src/createGarage';
 import { useMutation } from '@apollo/client';
+import { useCloudinaryUpload } from '@mockp/util/hooks/cloudinary';
 import {
   CreateGarageDocument,
   namedOperations,
@@ -11,10 +16,9 @@ import { HtmlInput } from '../atoms/HtmlInput';
 import { Button } from '../atoms/Button';
 import { HtmlTextArea } from '../atoms/HtmlTextArea';
 import { ImagePreview } from '../organisms/ImagePreview';
-import { Controller, useFormContext } from 'react-hook-form';
-import { useCloudinaryUpload } from '@mockp/util/hooks/cloudinary';
-import { initialViewState } from '@mockp/util/constants';
+import { Controller } from 'react-hook-form';
 import { Map } from '../organisms/map/Map';
+import { initialViewState } from '@mockp/util/constants';
 import { Panel } from '../organisms/map/Panel';
 import { SearchPlaceBox } from '../organisms/map/SearchPlacesBox';
 import { ViewState } from '@mockp/util/types';
@@ -22,10 +26,10 @@ import {
   CenterOfMap,
   DefaultZoomControls,
 } from '../organisms/map/ZoomControls';
-import { FormProviderCreateGarage } from '@mockp/forms/src/createGarage';
-import { FormTypeCreateGarage } from '@mockp/forms/src/createGarage';
-import { toast, ToastContainer } from '../molecules/Toast';
-import { GarageMapMarker } from '../organisms/CreateGarageComponents';
+import { useFormContext } from 'react-hook-form';
+import { AddSlots, GarageMapMarker } from '../organisms/CreateGarageComponents';
+import { ToastContainer, toast } from '../molecules/Toast';
+
 const CreateGarageContent = () => {
   const {
     register,
@@ -48,7 +52,7 @@ const CreateGarageContent = () => {
       refetchQueries: [namedOperations.Query.Garages],
       onCompleted: () => {
         reset();
-        toast('Garage created successfully');
+        toast('Garage created successfully.');
       },
       onError(error, clientOptions) {
         toast('Action failed.');
@@ -57,48 +61,71 @@ const CreateGarageContent = () => {
   );
 
   return (
-    <div className="grid md:grid-cols-2 gap-2 mt-2">
-      <Form
-        onSubmit={handleSubmit((data) => {
-          console.log('data', data);
-        })}
-      >
-        <HtmlLabel error={errors.displayName?.message} title="Display Name">
-          <HtmlInput {...register('displayName')} placeholder="Garage name" />
-        </HtmlLabel>
-        <HtmlLabel title="Description" error={errors.description?.message}>
-          <HtmlTextArea
-            cols={5}
-            {...register('description')}
-            placeholder="Describe..."
-          />
-        </HtmlLabel>
-        <HtmlLabel title="Address" error={errors.location?.address?.message}>
-          <HtmlTextArea
-            cols={5}
-            {...register('location.address')}
-            placeholder="123, street name"
-          />
-        </HtmlLabel>
-        <ImagePreview srcs={images} clearImage={() => resetField('images')}>
-          <Controller
-            control={control}
-            name={'images'}
-            render={({ field }) => (
-              <HtmlInput
-                type="file"
-                accept="image/*"
-                multiple={true}
-                onChange={(e) => field.onChange(e?.target?.files)}
-              />
-            )}
-          />
-        </ImagePreview>
-        <Button loading={uploading || loading} type="submit">
-          Submit
-        </Button>
-      </Form>
+    <div className="grid md:grid-cols-2 gap-2 mt-2 ">
+      <div>
+        <Form
+          onSubmit={handleSubmit(
+            async ({
+              images,
+              description,
+              displayName,
+              location,
+              slotTypes,
+            }) => {
+              const uploadedImages = await upload(images);
 
+              const result = await createGarage({
+                variables: {
+                  createGarageInput: {
+                    Address: location,
+                    images: uploadedImages,
+                    Slots: slotTypes,
+                    description,
+                    displayName,
+                  },
+                },
+              });
+            },
+          )}
+        >
+          <HtmlLabel error={errors.displayName?.message} title="Display Name">
+            <HtmlInput {...register('displayName')} placeholder="Garage name" />
+          </HtmlLabel>
+          <HtmlLabel title="Description" error={errors.description?.message}>
+            <HtmlTextArea
+              cols={5}
+              {...register('description')}
+              placeholder="Describe..."
+            />
+          </HtmlLabel>
+          <HtmlLabel title="Address" error={errors.location?.address?.message}>
+            <HtmlTextArea
+              cols={5}
+              {...register('location.address')}
+              placeholder="123, street name"
+            />
+          </HtmlLabel>
+          <ImagePreview srcs={images} clearImage={() => resetField('images')}>
+            <Controller
+              control={control}
+              name={`images`}
+              render={({ field }) => (
+                <HtmlInput
+                  type="file"
+                  accept="image/*"
+                  multiple={true}
+                  onChange={(e) => field.onChange(e?.target?.files)}
+                  className="border-0"
+                />
+              )}
+            />
+          </ImagePreview>
+          <AddSlots />
+          <Button loading={uploading || loading} type="submit">
+            Submit
+          </Button>
+        </Form>
+      </div>
       <Map
         initialViewState={initialViewState}
         onLoad={(e) => {
@@ -118,8 +145,8 @@ const CreateGarageContent = () => {
           <DefaultZoomControls>
             <CenterOfMap
               onClick={(latLng) => {
-                const lat = parseFloat(latLng.lat.toFixed(6));
-                const lng = parseFloat(latLng.lng.toFixed(6));
+                const lat = parseFloat(latLng.lat.toFixed(8));
+                const lng = parseFloat(latLng.lng.toFixed(8));
 
                 setValue('location.lat', lat, {
                   shouldValidate: true,

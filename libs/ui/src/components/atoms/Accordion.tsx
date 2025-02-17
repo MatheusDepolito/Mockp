@@ -21,7 +21,7 @@ export const Accordion = ({
 }: IAccordionProps) => (
   <Disclosure defaultOpen={defaultOpen}>
     {({ open }) => (
-      <>
+      <div>
         <DisclosureButton
           className={`flex justify-between items-center w-full py-2 font-medium ${className}`}
         >
@@ -39,7 +39,7 @@ export const Accordion = ({
         <DisclosurePanel className="w-full px-2 pb-4 text-gray-600">
           {children}
         </DisclosurePanel>
-      </>
+      </div>
     )}
   </Disclosure>
 );

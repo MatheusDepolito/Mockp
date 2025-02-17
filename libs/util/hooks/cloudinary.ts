@@ -24,12 +24,14 @@ export const useCloudinaryUpload = () => {
           },
         );
 
-        if (!response.ok) {
-          throw new Error('Upload failed');
-        }
-
         const data = await response.json();
+        console.log('Cloudinary Response:', data);
 
+        if (!response.ok) {
+          throw new Error(
+            `Upload failed: ${data.error?.message || 'Unknown error'}`,
+          );
+        }
         const imageUrl = data.secure_url as string;
 
         return imageUrl;
@@ -37,8 +39,8 @@ export const useCloudinaryUpload = () => {
 
       const uploadedImages = await Promise.all(uploadPromises);
       return uploadedImages;
-    } catch (error) {
-      throw new Error('Upload failed');
+    } catch (error: any) {
+      throw new Error('Upload failed', error);
     } finally {
       setUploading(false);
     }
