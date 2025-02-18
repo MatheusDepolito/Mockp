@@ -1,3 +1,4 @@
+'use client';
 import { MyCompanyDocument } from '@mockp/network/src/gql/generated';
 import { BaseComponent } from '@mockp/util/types';
 import { useLazyQuery, useQuery } from '@apollo/client';
@@ -28,10 +29,10 @@ export const IsManager = ({
     );
   }
   return (
-    <>
+    <div>
       {typeof children === 'function'
         ? (children as RenderPropChild)(data.myCompany.id)
         : children}
-    </>
+    </div>
   );
 };

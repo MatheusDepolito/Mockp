@@ -4,9 +4,7 @@ import {
 } from '@mockp/network/src/gql/generated';
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { useQuery } from '@apollo/client';
-import {} from '@mockp/network/src/gql/generated';
 import { ShowData } from './ShowData';
-import { dividerClasses } from '@mui/material';
 import { IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
 import { GarageCard } from './GarageCard';
@@ -24,6 +22,7 @@ export const ListGarages = ({
       where: { companyId: { equals: companyId } },
     },
   });
+
   return (
     <ShowData
       error={error?.message}

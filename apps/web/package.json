@@ -12,24 +12,23 @@
   },
   "dependencies": {
     "@mockp/network": "*",
-    "@headlessui/react": "^2.2.0",
     "@mockp/sample-lib": "*",
     "@mockp/ui": "*",
-    "@tabler/icons-react": "^3.29.0",
-    "next": "15.1.6",
-    "next-auth": "^4.24.11",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@tabler/icons-react": "^3.3.0",
+    "next": "14.1.4",
+    "next-auth": "^4.24.7",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.6",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
 }

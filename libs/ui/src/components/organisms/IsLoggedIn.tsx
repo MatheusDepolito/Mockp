@@ -22,7 +22,7 @@ export const IsLoggedIn = ({
 
   if (!data?.user?.uid) {
     if (notLoggedIn) {
-      return <>{notLoggedIn}</>;
+      return <div>{notLoggedIn}</div>;
     } else {
       return (
         <AlertSection title="You are not logged in.">
@@ -33,10 +33,10 @@ export const IsLoggedIn = ({
   }
 
   return (
-    <>
+    <div>
       {typeof children === 'function'
         ? (children as RenderPropChild)(data.user.uid)
         : children}
-    </>
+    </div>
   );
 };
