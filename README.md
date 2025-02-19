@@ -18,7 +18,11 @@ API: Apollo GraphQL e Swagger para documentação
 
 Containerização: Docker
 
-Nx: Para 
+Pagamentos: Integração com Stripe
+
+Mapas: Integração com MapGL
+
+Gerenciamento de Mídia: Integração com Cloudinary
 
 Estrutura do Projeto
 
