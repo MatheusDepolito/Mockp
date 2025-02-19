@@ -1,6 +1,6 @@
 Mockp
 
-Mockp é um sistema de gerenciamento de garagens para carros, motos, bicicletas e caminhões, permitindo que clientes possam alugar vagas e utilizar serviços adicionais de valet. O projeto está estruturado como um monorepositório e conta com diversas tecnologias modernas para garantir escalabilidade e flexibilidade.
+Mockp é um sistema de gerenciamento de garagens para carros, motos, bicicletas e caminhões, permitindo que clientes possam alugar vagas e utilizar serviços adicionais de manobristas ou motoristas. O projeto está estruturado como um monorepositório e conta com diversas tecnologias modernas para garantir escalabilidade e flexibilidade.
 
 Tecnologias Utilizadas
 
