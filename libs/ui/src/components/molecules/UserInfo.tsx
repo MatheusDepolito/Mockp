@@ -10,7 +10,7 @@ export const UserInfo = ({ children, className }: BaseComponent) => {
   return (
     <div className={`flex gap-2 ${className}`}>
       <Image
-        src={'/user.png'}
+        src={image || '/user.png'}
         alt=""
         width={300}
         height={300}

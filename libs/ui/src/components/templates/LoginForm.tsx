@@ -7,11 +7,11 @@ import { Button } from '../atoms/Button';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export interface ILoginFormProps {
   className?: string;
 }
-
 export const LoginForm = ({ className }: ILoginFormProps) => {
   const {
     register,
@@ -19,42 +19,48 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
     formState: { errors },
   } = useFormLogin();
 
-  console.log('errors', errors);
-
   const { replace } = useRouter();
+  const [loading, setLoading] = useState(false);
 
   return (
     <Form
       onSubmit={handleSubmit(async (data) => {
-        console.log('data: ', data);
         const { email, password } = data;
+        setLoading(true);
+
         const result = await signIn('credentials', {
           email,
           password,
           redirect: false,
         });
+        setLoading(false);
 
         if (result?.ok) {
           replace('/');
         }
-
         if (result?.error) {
-          alert('Login failed. Try again');
+          alert('Login failed. Try again.');
         }
       })}
     >
       <HtmlLabel title="Email" error={errors.email?.message}>
-        <HtmlInput {...register('email')} placeholder="email@email.com" />
+        <HtmlInput
+          className="text-black"
+          {...register('email')}
+          placeholder="email"
+        />
       </HtmlLabel>
-
       <HtmlLabel title="Password" error={errors.password?.message}>
         <HtmlInput
+          className="text-black"
           type="password"
           {...register('password')}
           placeholder="******"
         />
       </HtmlLabel>
-      <Button type="submit">Submit</Button>
+      <Button type="submit" loading={loading}>
+        Submit
+      </Button>
       <div className="mt-4 text-sm">
         Do not have an mockp account?
         <br />
@@ -62,7 +68,7 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
           href="/register"
           className="font-bold underline underline-offset-4"
         >
-          Create One
+          Create one
         </Link>{' '}
         now.
       </div>
