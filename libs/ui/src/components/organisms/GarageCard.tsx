@@ -11,7 +11,7 @@ export interface IGarageCardProps {
 export const GarageCard = ({ garage }: IGarageCardProps) => {
   return (
     <div className="overflow-hidden bg-white shadow-lg flex flex-col">
-      <AutoImageChanger images={garage.images || []} durationPerImage={5000} />
+      <AutoImageChanger images={garage.images} durationPerImage={5000} />
 
       <div className="p-2 flex-grow flex flex-col gap-4">
         <div>

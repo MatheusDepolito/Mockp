@@ -23,7 +23,6 @@ export const SearchPage = () => {
     formState: { errors },
     trigger,
   } = useFormContext<FormTypeSearchGarage>();
-  console.log('errors ', errors);
   const formData = watch();
 
   const handleMapChange = useCallback(

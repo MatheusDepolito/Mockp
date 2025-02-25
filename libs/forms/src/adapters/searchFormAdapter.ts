@@ -35,7 +35,7 @@ export const useConvertSearchFormToVariables = () => {
 
   const formData = useWatch<FormTypeSearchGarage>();
 
-  const [debouncedFormData, { debouncing }] = useDebounce(formData, 400);
+  const [debouncedFormData, { debouncing }] = useDebounce(formData, 300);
 
   const hasErrors = Object.keys(errors).length !== 0;
 

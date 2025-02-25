@@ -7,6 +7,10 @@ export const useCloudinaryUpload = () => {
     setUploading(true);
 
     try {
+      if (!fileList) {
+        return [];
+      }
+
       const uploadPromises = Array.from(fileList).map(async (file) => {
         const formData = new FormData();
 
@@ -25,7 +29,6 @@ export const useCloudinaryUpload = () => {
         );
 
         const data = await response.json();
-        console.log('Cloudinary Response:', data);
 
         if (!response.ok) {
           throw new Error(
