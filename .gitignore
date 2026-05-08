@@ -18,5 +18,6 @@ dist
 # Generated Prisma client
 apps/api/prisma/generated
 
-# Local Obsidian workspace settings
-docs/.wiki/
+# Local documentation workspace
+docs/wiki/
+DEVELOPMENT_PLAYBOOK.md
