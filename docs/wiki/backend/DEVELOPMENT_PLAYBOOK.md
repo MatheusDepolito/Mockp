@@ -1,111 +1,99 @@
 # Backend Development Playbook (NestJS) — `apps/api`
 
-Este documento é um checklist operacional para implementar mudanças no **backend** seguindo os padrões descritos em:
-- [`docs/wiki/ARCHITECTURE.md`](../ARCHITECTURE.md)
-- [`docs/wiki/START_HERE.md`](../START_HERE.md)
-- [`AUTHORIZATION_GUIDE.md`](./AUTHORIZATION_GUIDE.md)
+> Status: Current project state
 
-> Padrão real do projeto: `apps/api/src/models/<domain>/{graphql,rest}`.
+Operational checklist for backend work. Canonical architecture: [[../ARCHITECTURE|Architecture]] and [[../START_HERE|Start Here]]. Authorization details: [[../security/AUTHORIZATION_GUIDE|Authorization Guide]].
 
----
-
-## Antes de implementar
-
-- [ ] Identificar o domínio (`apps/api/src/models/<domain>`).
-- [ ] Procurar operação parecida em outro domínio (resolver/service/dtos).
-- [ ] Mapear arquivos que serão alterados antes de editar.
-- [ ] Classificar mudança:
-  - [ ] bugfix
-  - [ ] feature
-  - [ ] refatoração
-  - [ ] ajuste de contrato GraphQL
+**Observed layout:** `apps/api/src/models/<domain>/{graphql,rest}`.
 
 ---
 
-## Onde colocar a mudança (decisão rápida)
+## Before Implementing
 
-- [ ] **Resolver** (`graphql/*.resolver.ts`): auth + args + delega.
-- [ ] **Service** (`graphql/*.service.ts`): regra de negócio + orquestração.
-- [ ] **DTO/Input/Args** (`graphql/dtos/*`): contrato GraphQL do domínio.
-- [ ] **Entity** (`graphql/entity/*`): types GraphQL do domínio.
-- [ ] **Controller REST** (`rest/*.controller.ts`): endpoint REST fino chamando o service.
-- [ ] **Prisma**: acesso via `PrismaService` (`apps/api/src/common/prisma/prisma.service.ts`).
+- [ ] Identify target domain under `apps/api/src/models/<domain>`.
+- [ ] Find an analogous resolver/service/DTO set in another domain to mimic structure.
+- [ ] List impacted files before editing.
+- [ ] Classify the task: bugfix vs feature vs refactor vs contract change.
 
 ---
 
-## Entities + Prisma types + `RestrictProperties` (padrão do projeto)
+## Where Work Belongs
 
-O projeto usa o helper `RestrictProperties` para **forçar alinhamento** entre:
-- a classe (Entity/DTO/Input) e
-- o tipo do Prisma (`@prisma/client`).
+- [ ] **Resolver** (`graphql/*.resolver.ts`): authenticate, shape args, delegate.
+- [ ] **Service** (`graphql/*.service.ts`): domain rules and orchestration live here.
+- [ ] **Inputs/args** (`graphql/dtos/*`): GraphQL-facing DTO types.
+- [ ] **Entities** (`graphql/entity/*`): GraphQL object types.
+- [ ] **REST controller** (`rest/*.controller.ts`): HTTP adapter layer over services.
+- [ ] **Persistence**: always through injected `PrismaService` (`apps/api/src/common/prisma/prisma.service.ts`).
 
-### Onde está o helper (real)
+---
 
-- `apps/api/src/common/dtos/common.input.ts`:
-  - `export type RestrictProperties<T, U> = ...`
+## Entities, Prisma Types, and `RestrictProperties`
 
-### Padrão para Entities GraphQL (exemplos reais)
+Mockp uses `RestrictProperties` to align class fields with Prisma model types.
 
-- GraphQL entities são `@ObjectType()` e normalmente fazem:
-  - `implements RestrictProperties<ThisClass, PrismaModelType>`
+### Helper Location
 
-Exemplos no repo:
+- `apps/api/src/common/dtos/common.input.ts` exports `RestrictProperties<T, U>`.
+
+### GraphQL Entity Pattern
+
+Entities are `@ObjectType()` classes that `implements RestrictProperties<ThisClass, PrismaModel>`.
+
+Verified examples:
+
 - `apps/api/src/models/admins/graphql/entity/admin.entity.ts`
-  - `export class Admin implements RestrictProperties<Admin, AdminType>`
 - `apps/api/src/models/bookings/graphql/entity/booking.entity.ts`
-  - `export class Booking implements RestrictProperties<Booking, BookingType>`
 
-Regras (MUST):
-- [ ] Entity GraphQL deve refletir o shape do Prisma model **com o mesmo naming de campos**.
-- [ ] Campos opcionais no Prisma devem ser expostos como `@Field({ nullable: true })` quando fizer sentido no contrato.
-- [ ] Enums do Prisma usados no GraphQL devem ser registrados via `registerEnumType` (ex.: `$Enums.BookingStatus`).
+Rules (must):
 
-### Padrão para Entities REST (exemplos reais)
+- [ ] Mirror Prisma field naming in GraphQL entities whenever they represent the same model.
+- [ ] Mark nullable DB fields with `@Field({ nullable: true })` when the contract should expose them.
+- [ ] Register `$Enums.*` through `registerEnumType` when enums cross the GraphQL boundary.
 
-- REST entities são classes usadas para Swagger/DTOs e também fazem:
-  - `implements RestrictProperties<ThisClass, PrismaModelType>`
-  - validação com `class-validator` quando aplicável
+### REST Entity Pattern
 
-Exemplo no repo:
-- `apps/api/src/models/bookings/rest/entity/booking.entity.ts`
+REST entities also implement `RestrictProperties` and usually add `class-validator` decorators where appropriate.
 
-Regras (MUST):
-- [ ] Validadores (`class-validator`) devem ficar na Entity/DTO REST (ex.: `@IsOptional()`, `@IsString()`, etc.).
-- [ ] DTOs REST devem ser derivados via `OmitType/PickType` a partir da Entity (ver seção abaixo).
+Example reference: `apps/api/src/models/bookings/rest/entity/booking.entity.ts`.
+
+Rules (must):
+
+- [ ] Validation decorators belong on REST DTO/entity classes (`@IsOptional`, `@IsString`, etc.).
+- [ ] Derive Swagger DTO layers from those entities using `@nestjs/swagger` helpers.
 
 ---
 
-## Como criar DTOs no backend (GraphQL vs REST)
+## Designing DTO Layers (GraphQL vs REST)
 
-### DTOs GraphQL (inputs/args/filters)
+### GraphQL inputs/args/filters
 
-Padrões reais:
-- Inputs e args ficam em `apps/api/src/models/<domain>/graphql/dtos/*`.
-- Usam utilitários do `@nestjs/graphql` como `PickType`, `PartialType`, `ArgsType`, `InputType`.
+Patterns:
 
-Exemplos no repo:
-- `CreateAdminInput` em `apps/api/src/models/admins/graphql/dtos/create-admin.input.ts`
-  - `extends PickType(Admin, ['uid'], InputType)`
-- `AdminWhereInputStrict` em `apps/api/src/models/admins/graphql/dtos/where.args.ts`
-  - `implements RestrictProperties<..., Prisma.AdminWhereInput>`
-  - e `AdminWhereInput extends PartialType(AdminWhereInputStrict)`
+- Inputs and args live beside the domain under `graphql/dtos/*`.
+- Use `@nestjs/graphql` helpers such as `PickType`, `PartialType`, `ArgsType`, `InputType`.
 
-Checklist (MUST):
-- [ ] Para `Create*Input`, preferir `PickType(Entity, [...], InputType)`.
-- [ ] Para `Update*Input`, preferir `PartialType(StrictInput)` + incluir `id`/chave quando necessário.
-- [ ] Para filtros `Where*Input`, seguir padrão `Strict implements RestrictProperties<..., Prisma.<Model>WhereInput>` + `PartialType`.
-- [ ] Reutilizar filtros comuns do `common.input.ts` (`StringFilter`, `DateTimeFilter`, etc.) ao invés de recriar.
+Verified examples:
 
-#### Templates (copiar e adaptar)
+- `CreateAdminInput` in `apps/api/src/models/admins/graphql/dtos/create-admin.input.ts` (`extends PickType(Admin, ['uid'], InputType)`).
+- Filtering helpers such as `AdminWhereInputStrict` aligning with Prisma filters.
 
-Entity GraphQL (Prisma model → GraphQL):
+Mandatory checklist:
+
+- [ ] Prefer `PickType(Entity, [...], InputType)` for creates.
+- [ ] Prefer `PartialType(StrictInput)` patterns for partial updates (+ explicit ids when necessary).
+- [ ] Compose `Where*InputStrict` structs implementing `RestrictProperties<..., Prisma.<Model>WhereInput>` followed by partial wrappers.
+- [ ] Reuse shared filter primitives (`StringFilter`, `DateTimeFilter`, etc.) from `common.input.ts`.
+
+#### Starter Templates
+
+GraphQL entity:
 
 ```ts
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 import { $Enums, MyModel as MyModelType } from '@prisma/client';
 
-// Se houver enum:
 registerEnumType($Enums.MyEnum, { name: 'MyEnum' });
 
 @ObjectType()
@@ -122,7 +110,7 @@ export class MyModel implements RestrictProperties<MyModel, MyModelType> {
 }
 ```
 
-Create Input (derivado da Entity):
+Create input derived from entity:
 
 ```ts
 import { InputType, PickType } from '@nestjs/graphql';
@@ -136,7 +124,7 @@ export class CreateMyModelInput extends PickType(
 ) {}
 ```
 
-Where Input (Strict + Partial):
+Where input (Strict + Partial):
 
 ```ts
 import { InputType, PartialType } from '@nestjs/graphql';
@@ -163,23 +151,19 @@ export class MyModelWhereInputStrict
 export class MyModelWhereInput extends PartialType(MyModelWhereInputStrict) {}
 ```
 
-### DTOs REST (body/query/params)
+### REST DTO layering
 
-Padrões reais:
-- REST DTOs ficam em `apps/api/src/models/<domain>/rest/dtos/*`.
-- Derivam de `*Entity` usando `OmitType` / `PickType` do `@nestjs/swagger`.
+- REST DTOs reside under `rest/dtos/*`.
+- Compose them via `OmitType`/`PickType` from REST entities (`@nestjs/swagger`).
 
-Exemplo no repo:
-- `CreateBooking` em `apps/api/src/models/bookings/rest/dtos/create.dto.ts`
-  - `extends OmitType(BookingEntity, ['createdAt','updatedAt','id'])`
+Example trace: `CreateBooking` derives from booking REST entity omitting auditing fields (`apps/api/src/models/bookings/rest/dtos/create.dto.ts`).
 
-Checklist (MUST):
-- [ ] Derivar DTOs REST a partir da Entity REST (evita drift).
-- [ ] Separar `Create*`, `Update*`, `QueryDto` (quando houver paginação/ordenção).
+Rules (must):
 
-#### Templates (copiar e adaptar)
+- [ ] Anchor REST DTOs to REST entities to avoid drift.
+- [ ] Separate `Create*`, `Update*`, paginated queries when pagination exists.
 
-Entity REST (Prisma model → REST/Swagger DTO base):
+REST entity scaffold:
 
 ```ts
 import { MyModel as MyModelType } from '@prisma/client';
@@ -197,7 +181,7 @@ export class MyModelEntity implements RestrictProperties<MyModelEntity, MyModelT
 }
 ```
 
-Create DTO REST (derivado da Entity):
+Create DTO scaffold:
 
 ```ts
 import { OmitType } from '@nestjs/swagger';
@@ -212,124 +196,95 @@ export class CreateMyModelDto extends OmitType(MyModelEntity, [
 
 ---
 
-## Checklist obrigatório (MUST)
+## Mandatory Quality Checklist
 
-- [ ] **Resolver/Controller finos**:
-  - [ ] sem regra de negócio grande
-  - [ ] sem duplicar queries complexas
-- [ ] **Regra de negócio no service** (ou funções auxiliares do domínio quando necessário).
-- [ ] **Acesso a dados via `PrismaService` injetado** (não criar client por fora).
-- [ ] **Permissões/roles**:
-  - [ ] usar `@AllowAuthenticated(...)` (`apps/api/src/common/auth/auth.decorator.ts`)
-  - [ ] revisar impactos de row-level permission (`checkRowLevelPermission` em `apps/api/src/common/auth/util.ts`)
-- [ ] Se houver REST + GraphQL para o mesmo caso:
-  - [ ] preferir que ambos chamem o **mesmo service** quando houver regra de negócio compartilhada (evitar divergência)
+- [ ] **Thin resolvers/controllers**—no sprawling business logic.
+- [ ] **Services own orchestration** (or dedicated helpers colocated with the domain).
+- [ ] **Always inject `PrismaService`**; never spin up ad-hoc Prisma clients.
+- [ ] **Authorization**:
+  - [ ] Declare `@AllowAuthenticated(...)` where appropriate (`apps/api/src/common/auth/auth.decorator.ts`).
+  - [ ] Apply `checkRowLevelPermission` (`apps/api/src/common/auth/util.ts`) before mutating user-owned resources.
+- [ ] When GraphQL and REST expose the same behavior, **reuse the same service** to prevent divergence.
 
-Ponto de atenção real:
-- [ ] O código atual tem resolvers/controllers que usam `PrismaService` diretamente para CRUD simples, contadores e `ResolveField`. Não é preciso refatorar tudo antes de implementar; apenas não aumentar complexidade no controller/resolver quando a regra pertencer ao service.
+**Reality note:** some existing resolvers/controllers still query Prisma directly for simple CRUD, counts, or `@ResolveField` hooks. You do not need to refactor everything immediately—just avoid growing resolver/controller complexity when the rule belongs in a service.
 
-Stop conditions:
-- [ ] Se a mudança alterar roles, guards ou row-level permission, leia [`AUTHORIZATION_GUIDE.md`](./AUTHORIZATION_GUIDE.md) antes de editar.
-- [ ] Se a mudança alterar schema Prisma, leia [`../database/PRISMA_MIGRATION_SAFETY.md`](../database/PRISMA_MIGRATION_SAFETY.md).
-- [ ] Se a mudança alterar contrato GraphQL, leia [`../graphql/CONTRACT_CHANGE_GUIDE.md`](../graphql/CONTRACT_CHANGE_GUIDE.md).
+### Stop Triggers
+
+- [ ] Role/guard/row-level changes → read [[../security/AUTHORIZATION_GUIDE|Authorization Guide]] first.
+- [ ] Prisma schema changes → follow [[../database/PRISMA_MIGRATION_SAFETY|Prisma Migration Safety]].
+- [ ] GraphQL contract changes → follow [[../graphql/CONTRACT_CHANGE_GUIDE|GraphQL Contract Change Guide]].
 
 ---
 
-## Fluxo prático para criar/alterar REST (passo a passo)
+## Practical REST Flow
 
-> Estrutura real do projeto (exemplo): `apps/api/src/models/bookings/rest/bookings.controller.ts`.
+> Example reference: `apps/api/src/models/bookings/rest/bookings.controller.ts`.
 
-### Quando criar REST (SHOULD)
+### When to Add REST
 
-- [ ] Webhooks (ex.: Stripe)
-- [ ] Callbacks/integrações que exigem endpoint HTTP
-- [ ] Upload/download/streaming (quando GraphQL não for adequado)
-- [ ] Endpoints públicos simples (health/status) e/ou caching HTTP
+- [ ] Webhooks / provider callbacks
+- [ ] Integrations that demand plain HTTP endpoints
+- [ ] Large file streaming if GraphQL is awkward
+- [ ] Health/status style routes
 
-Regra do projeto:
+Project rule (repeat):
 
-> Use GraphQL para dados da aplicação e telas. Use REST para integrações, webhooks, arquivos, redirects e endpoints HTTP específicos.  
-> Só gere contratos REST tipados quando o frontend realmente consumir esses endpoints.
+> GraphQL for screens; REST for integrations, webhooks, files, redirects, or HTTP-native behavior.
 
-### Passo a passo (MUST)
+### Implementation Checklist
 
-1) **Escolher o domínio**
-- [ ] criar/usar `apps/api/src/models/<domain>/rest/`
+1. **Pick domain folder** `apps/api/src/models/<domain>/rest/`.
+2. **Author controller** with Nest routing decorators and narrow responsibilities.
+3. **Align DTO/entity files** with existing domain conventions.
+4. **Apply auth + Swagger metadata** (`@ApiBearerAuth`, tags, response DTOs).
+5. **Share services** with GraphQL wherever business rules overlap (ideal state even if legacy code still hits Prisma in controllers).
+6. **Register controller** inside `<domain>.module.ts`.
+7. **If the browser calls the route**, plan consumption through `libs/network` per [[../rest/REAL_REST_PATTERNS|Real REST Patterns]] / future OpenAPI guide.
 
-2) **Criar/alterar o controller**
-- [ ] criar `<domain>.controller.ts` em `rest/`
-- [ ] manter controller fino: `@Controller(...)` + handlers + delegação
+### Anti-Patterns
 
-3) **DTOs e entidade REST (Swagger)**
-- [ ] seguir o padrão do domínio (ex.: `rest/dtos/*.dto.ts` e `rest/entity/*.entity.ts`, quando existirem)
-- [ ] manter DTOs REST separados de inputs GraphQL quando fizer sentido (contratos diferentes)
-
-4) **Autenticação/Permissões**
-- [ ] aplicar `@AllowAuthenticated(...)` quando necessário
-- [ ] usar `checkRowLevelPermission(...)` quando a operação for por recurso
-- [ ] documentar auth no Swagger quando aplicável (ex.: `@ApiBearerAuth()`)
-
-5) **Compartilhar regra de negócio com GraphQL**
-- [ ] preferir que REST e GraphQL chamem o **mesmo service do domínio**
-  - recomendação: evitar controller/resolver acessando o Prisma diretamente para a “regra principal”
-  - observação: controllers REST existentes ainda usam `PrismaService` diretamente em alguns CRUDs; trate isso como estado atual, não como padrão ideal para lógica nova complexa
-
-6) **Registrar no module**
-- [ ] confirmar que `<domain>.module.ts` inclui o controller em `controllers: [...]`
-
-7) **Se o frontend consumir o endpoint**
-- [ ] seguir o playbook de REST tipado: [`../rest/DEVELOPMENT_PLAYBOOK.md`](../rest/DEVELOPMENT_PLAYBOOK.md)
-
-### Anti-padrões (AVOID)
-
-- [ ] Duplicar a mesma regra de negócio em `rest/controller` e `graphql/resolver`.
-- [ ] Controller “gordo” (montando regra, validando invariantes complexas, e persistindo tudo ali).
-- [ ] Criar REST por conveniência quando a API principal do app é GraphQL (use REST com motivo claro).
+- [ ] Duplicating domain logic between REST and GraphQL entrypoints.
+- [ ] “Fat” controllers that persist, validate, and orchestrate everything inline.
+- [ ] Creating REST routes for ordinary screen queries without a strong reason.
 
 ---
 
-## GraphQL no backend (quando mexer)
+## GraphQL Changes
 
-- [ ] Se mudar schema/types/inputs:
-  - [ ] mapear impacto em `libs/network/src/gql/queries.graphql`
-  - [ ] garantir que o frontend conseguirá migrar sem quebra desnecessária
-- [ ] Evitar expor detalhes internos (tabelas/joins) no contrato.
-- [ ] Preferir evolução compatível (adicionar campo em vez de remover/renomear).
+- [ ] Any schema/type/input change must consider `libs/network/src/gql/queries.graphql` + consumers.
+- [ ] Avoid leaking persistence joins into the contract.
+- [ ] Prefer additive changes before destructive ones.
 
 ---
 
-## Database/Prisma (quando mexer)
+## Database / Prisma Touchpoints
 
-- [ ] Alterações de modelo devem refletir em:
-  - [ ] `apps/api/prisma/schema.prisma`
-  - [ ] `apps/api/prisma.config.ts` quando envolver datasource/migrations
-  - [ ] migrations em `apps/api/prisma/migrations/*`
-- [ ] Depois de alterar schema ou instalar dependências, rodar `yarn workspace @mockp/api prisma:generate` antes de `tsc`/`build`.
-- [ ] Usar o Prisma via `PrismaService`; não instanciar outro `PrismaClient` fora de `apps/api/src/common/prisma`.
-- [ ] Evitar “mudança silenciosa” de dados:
-  - [ ] revisar migration SQL quando necessário
-  - [ ] confirmar compatibilidade com dados existentes
+- [ ] Model edits require `apps/api/prisma/schema.prisma` + migrations + `prisma.config.ts` updates when URLs/config shift.
+- [ ] After schema changes or installs: `yarn workspace @mockp/api prisma:generate`.
+- [ ] Always use `PrismaService`; do not spawn stray `PrismaClient` instances.
+- [ ] Review SQL for data loss risk.
 
 ---
 
-## Validação antes de finalizar
+## Before You Finish
 
-No root:
+From repo root:
+
 - [ ] `yarn tsc`
 - [ ] `yarn lint`
 - [ ] `yarn build`
 
-Quando a mudança impactar contrato:
-- [ ] revisar schema/operations e consumidores (`libs/network` + apps)
+If contracts moved:
+
+- [ ] Re-read generated schema + `libs/network` consumers.
 
 ---
 
-## Checklist de encerramento (resposta do agente/dev)
+## Wrap-Up Template
 
-- **Resumo**:
-- **Arquivos alterados**:
-- **Padrões seguidos**:
-- **Validações executadas**:
-- **Riscos conhecidos**:
-- **Próximos passos**:
-
+- **Summary**:
+- **Files touched**:
+- **Patterns followed**:
+- **Validations run**:
+- **Known risks**:
+- **Next steps**:

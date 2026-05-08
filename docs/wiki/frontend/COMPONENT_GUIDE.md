@@ -1,126 +1,169 @@
 # Frontend Component Guide
 
-Este guia ajuda a decidir onde criar componentes, hooks, forms e lógica de UI no frontend do Mockp.
+> Status: Current project state
 
-Leia junto com:
-- [`DEVELOPMENT_PLAYBOOK.md`](./DEVELOPMENT_PLAYBOOK.md)
-- [`../graphql/CONTRACT_CHANGE_GUIDE.md`](../graphql/CONTRACT_CHANGE_GUIDE.md)
+Use this guide before creating, extracting, or changing frontend components. It documents the component organization currently visible in the repository.
 
----
+Read with:
 
-## Estado real do projeto
+- [[DEVELOPMENT_PLAYBOOK]]
+- [[WEB_APPS_GUIDE]]
+- [[SHARED_UI_GUIDE]]
+- [[FORMS_GUIDE]]
+- [[NETWORK_USAGE_GUIDE]]
+- [[FRONTEND_FEATURE_FLOW]]
+- [[../agents/STOP_CONDITIONS|Stop Conditions]]
 
-- Apps usam Next.js App Router em `apps/web*/src/app/*`.
-- `page.tsx` costuma montar providers/templates.
-- `libs/ui` contém:
-  - atoms/molecules genéricos
-  - organisms/templates reutilizados
-  - feature UI que consome GraphQL, sessão e permissões
-- `libs/forms` centraliza `react-hook-form`, `zod`, providers e schemas.
-- `libs/network` centraliza GraphQL codegen/Apollo/fetch.
-- `libs/util` contém hooks/utilitários compartilhados.
+## Verified Structure
 
----
+Frontend apps use Next.js App Router:
 
-## Onde criar uma nova tela
+```text
+apps/web/src/app/*
+apps/web-admin/src/app/*
+apps/web-manager/src/app/*
+apps/web-valet/src/app/*
+```
 
-1. [ ] Criar rota em `apps/<web-app>/src/app/<route>/page.tsx`.
-2. [ ] Manter `page.tsx` pequeno.
-3. [ ] Se precisar de provider de form, usar/criar em `libs/forms`.
-4. [ ] Se a tela é reutilizável entre apps, criar template em `libs/ui/src/components/templates`.
-5. [ ] Se a tela é específica de um app e não há reuso, manter composição local.
+Verified app-local files are mostly:
 
----
+- `layout.tsx`
+- `page.tsx`
+- `api/auth/[...nextauth]/route.ts`
+- `api/auth/token/route.ts`
 
-## Component local vs `libs/ui`
+No broad app-local component folders were verified in the current apps. Current routes mostly compose shared components/templates from `libs/ui`.
 
-### Manter local quando
+Shared UI lives under:
 
-- [ ] só é usado em uma rota/app
-- [ ] depende de regra específica daquela tela
-- [ ] está em descoberta/refatoração
-- [ ] usa GraphQL muito específico e não há reuso
+```text
+libs/ui/src/components
+```
 
-### Mover para `libs/ui` quando
+Verified categories:
 
-- [ ] é usado por mais de uma tela/app
-- [ ] tem API de props clara
-- [ ] não depende de `apps/*`
-- [ ] é um building block visual ou feature UI compartilhada
+- `atoms`
+- `molecules`
+- `organisms`
+- `organisms/admin`
+- `organisms/map`
+- `organisms/search`
+- `templates`
 
-### Atom/Molecule genérico
+This is an Atomic Design-like structure, but the current project also contains product/domain UI inside organisms and templates.
 
-Use para componentes visuais puros:
+## Naming Patterns
 
-- `Button`
-- `Container`
-- input/label/error
-- badge/switch/dialog genérico
+Verified component file naming:
 
-Regras:
+- PascalCase for component files: `Button.tsx`, `Header.tsx`, `LoginForm.tsx`, `CreateGarage.tsx`.
+- Route files follow Next.js App Router naming: `page.tsx`, `layout.tsx`, `route.ts`.
+- Domain-specific components use domain names: `GarageCard`, `ValetTripCard`, `ManageAdmins`, `BookSlotPopup`.
+- Role/persona gates use names like `IsAdmin`, `IsManager`, `IsValet`, `IsLoggedIn`.
 
-- [ ] sem GraphQL
-- [ ] sem regra de negócio
-- [ ] sem permissão
-- [ ] props simples
+Use PascalCase for new component files.
 
-### Organism/Template de produto
+## Existing Component Patterns
 
-Pode conter GraphQL/sessão/permissão quando for feature UI compartilhada.
+Verified examples:
 
-Regras:
+- Layouts: `Container`, `Header`, `AuthLayout`, app `layout.tsx` files.
+- Cards: `GarageCard`, `CustomerBookingCard`, `ValetCard`, `AdminCard`, `ManageBookingCard`.
+- Dialogs: `Dialog`, `CreateManySlotsDialog`, `BookSlotPopup`.
+- Filters/search: `FilterSidebar`, `ShowGarages`, `SearchPage`.
+- Tables/lists: list-style components such as `ListGarages`, `ListValets`, `ListCustomerBookings`, `ListGarageBookings`.
+- Actions: `AssignValetButton`, `CheckInOutButtons`, admin create/remove buttons.
+- Maps: `Map`, `StaticMapSimple`, `StaticMapDirections`, `SearchPlacesBox`, `MapMarker`.
 
-- [ ] nome deve refletir domínio/uso
-- [ ] imports de `@mockp/network/src/gql/generated` são aceitáveis quando o componente realmente orquestra dados
-- [ ] não promover para atom/molecule genérico
+## Local vs Shared Component Decision
 
----
+Keep a component local when:
 
-## Hooks/services no frontend
+- It is used by one route or one app.
+- It depends on a specific persona/app.
+- It encodes domain workflow rules.
+- Its props are still unstable.
+- It directly mirrors one page's GraphQL data shape.
+- The feature is still being discovered.
 
-Estado atual:
+Use `libs/ui` when:
 
-- Hooks utilitários vivem em `libs/util/hooks/*`.
-- Form hooks/providers vivem em `libs/forms/*`.
-- GraphQL client/documents vivem em `libs/network`.
-- Muitos componentes usam `useQuery`/`useMutation` diretamente em `libs/ui`.
+- The component is reused across apps/routes.
+- It has a clear props API.
+- It does not depend on app-local imports.
+- It is a reusable visual building block.
+- It is an established product template intentionally shared by apps.
 
-Recomendação:
+Use [[SHARED_UI_GUIDE]] before adding to `libs/ui`.
 
-- [ ] Hook genérico sem domínio → `libs/util/hooks`
-- [ ] Hook/form schema de formulário → `libs/forms`
-- [ ] Operação de rede/GraphQL → `libs/network` para contract; consumo pode ficar no componente/template
-- [ ] Não criar “service” frontend por padrão se o padrão local usa Apollo hooks diretamente
+## When to Extract a Component
 
----
+Extract from a large file when:
 
-## Forms
+- A section has a clear name and responsibility.
+- It can be tested or reasoned about separately.
+- It has a stable props boundary.
+- It reduces local complexity without changing behavior.
+- It does not force unrelated refactors.
 
-Padrão real:
+Do not extract during a bugfix unless it is needed to make the fix safe.
 
-- `react-hook-form`
-- `zod`
-- `zodResolver`
-- providers em `libs/forms`
+## Domain Logic vs Presentation
 
-Checklist:
+Presentational components should receive data and callbacks through props.
 
-- [ ] criar schema com `zod`
-- [ ] exportar `FormType*` com `z.infer`
-- [ ] criar hook `useForm*`
-- [ ] criar provider se a tela precisa compartilhar estado entre componentes
-- [ ] alinhar payload final com GraphQL input gerado em `libs/network`
+Domain-specific UI may live in organisms/templates when current project patterns already do this, but do not pretend those components are generic.
 
----
+Red flags for a supposedly generic component:
 
-## Stop conditions
+- Imports GraphQL generated documents/types.
+- Calls `useQuery` or `useMutation`.
+- Reads `useSession`.
+- Checks role/persona behavior.
+- Knows booking, garage, valet, admin, manager, or customer rules.
+- Builds GraphQL variables.
 
-Pare e revise se:
+If any red flag exists, keep the name/domain placement explicit.
 
-- [ ] um componente “genérico” precisa importar GraphQL
-- [ ] um componente local começou a ser usado em 2+ apps
-- [ ] um template ficou com múltiplas responsabilidades
-- [ ] há duplicação de form schema/filtro/action
-- [ ] uma mudança visual altera comportamento funcional
-- [ ] uma mudança em `libs/ui` afeta vários apps
+## Before Creating a Component
+
+Check:
+
+- Which app/persona owns the behavior with [[WEB_APPS_GUIDE]].
+- Whether a similar component exists in `libs/ui/src/components`.
+- Whether the component is presentation-only or domain-specific.
+- Whether a form helper belongs in `libs/forms`.
+- Whether GraphQL/network behavior should use generated operations.
+- Whether changing shared UI affects multiple apps.
+
+## Avoid Broad UI Refactors
+
+Do not:
+
+- Reorganize component folders during feature work.
+- Rename shared components without checking all imports.
+- Move app-specific behavior into shared UI.
+- Change styling conventions across unrelated components.
+- Replace current Apollo/form/toast patterns with new libraries.
+
+## Stop Conditions
+
+Stop before:
+
+- Moving a component to shared UI when it contains business/domain logic.
+- Changing a shared component used by multiple apps without validating consumers.
+- Reworking Atomic Design boundaries.
+- Introducing a new UI library.
+- Changing visual behavior when expected UX is unclear.
+- Refactoring components broadly during a bugfix.
+
+Use [[../agents/STOP_CONDITIONS|Stop Conditions]].
+
+## Needs Verification
+
+> Needs verification
+
+- Whether the team wants more app-local component folders in future.
+- Whether all current organisms/templates should remain in `libs/ui`.
+- Whether there is a formal design-system API beyond the current folder names.
 

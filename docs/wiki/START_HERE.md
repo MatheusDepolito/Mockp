@@ -1,48 +1,177 @@
-# START HERE — Mockp Technical Wiki
+# Start Here
 
-Este é o ponto de entrada da wiki técnica do Mockp.
+> Status: Current project state
 
-## Como usar esta wiki
+This wiki is the shared technical context for Mockp. It is meant to help humans and AI agents understand the repository, follow existing patterns, and avoid changing architecture or contracts by accident.
 
-- **Antes de implementar qualquer mudança**, leia:
-  - [`ARCHITECTURE.md`](./ARCHITECTURE.md)
-  - Playbooks (checklists) por área:
-    - Backend: [`backend/DEVELOPMENT_PLAYBOOK.md`](./backend/DEVELOPMENT_PLAYBOOK.md)
-    - Frontend: [`frontend/DEVELOPMENT_PLAYBOOK.md`](./frontend/DEVELOPMENT_PLAYBOOK.md)
-    - GraphQL: [`graphql/DEVELOPMENT_PLAYBOOK.md`](./graphql/DEVELOPMENT_PLAYBOOK.md)
-    - REST/OpenAPI: [`rest/DEVELOPMENT_PLAYBOOK.md`](./rest/DEVELOPMENT_PLAYBOOK.md)
-    - Database/Prisma: [`database/DEVELOPMENT_PLAYBOOK.md`](./database/DEVELOPMENT_PLAYBOOK.md)
-    - Nx: [`nx/DEVELOPMENT_PLAYBOOK.md`](./nx/DEVELOPMENT_PLAYBOOK.md)
-    - Testing: [`testing/TESTING_GUIDE.md`](./testing/TESTING_GUIDE.md)
+The wiki is versioned in Git under `docs/wiki`. Treat it as the source of truth for project guidance, but always verify the current code before implementing.
 
-## Guias específicos
+## Recommended Reading Order
 
-- Mudanças de contrato GraphQL: [`graphql/CONTRACT_CHANGE_GUIDE.md`](./graphql/CONTRACT_CHANGE_GUIDE.md)
-- Autorização/permissões backend: [`backend/AUTHORIZATION_GUIDE.md`](./backend/AUTHORIZATION_GUIDE.md)
-- Componentes frontend/shared UI: [`frontend/COMPONENT_GUIDE.md`](./frontend/COMPONENT_GUIDE.md)
-- Segurança de migrations Prisma: [`database/PRISMA_MIGRATION_SAFETY.md`](./database/PRISMA_MIGRATION_SAFETY.md)
+1. [[START_HERE]] - this entry point.
+2. [[CONTEXT_MAP]] - the navigation map for the wiki.
+3. [[ARCHITECTURE]] - the current architecture and layer responsibilities.
+4. [[setup/LOCAL_DEVELOPMENT|Local Development]] - how to run the project locally.
+5. [[setup/ENVIRONMENT_VARIABLES|Environment Variables]] - required env vars by app/package.
+6. The operational flow for your task:
+   - [[features/NEW_FEATURE_FLOW|New Feature Flow]]
+   - [[debugging/BUGFIX_PLAYBOOK|Bugfix Playbook]]
+   - [[operations/VALIDATION_CHECKLIST|Validation Checklist]]
+   - [[agents/STOP_CONDITIONS|Stop Conditions]]
+   - [[agents/WIKI_REVIEW_CHECKLIST|Wiki Review Checklist]]
+7. Repository examples (real patterns):
+   - [[examples/BACKEND_FEATURE_EXAMPLE|Backend Feature Example]]
+   - [[examples/FRONTEND_FEATURE_EXAMPLE|Frontend Feature Example]]
+   - [[examples/GRAPHQL_CHANGE_EXAMPLE|GraphQL Change Example]]
+   - [[examples/REST_ENDPOINT_EXAMPLE|REST Endpoint Example]]
+   - [[examples/PRISMA_RELATION_EXAMPLE|Prisma Relation Example]]
+   - [[examples/BUGFIX_EXAMPLE|Bugfix Example]]
+   - [[examples/SHARED_UI_DECISION_EXAMPLE|Shared UI Decision Example]]
+   - [[examples/VALIDATION_EXAMPLE|Validation Example]]
+8. The area-specific playbook for your task:
+   - [[backend/DEVELOPMENT_PLAYBOOK|Backend NestJS]]
+   - [[security/AUTHORIZATION_GUIDE|Authorization Guide]]
+   - [[security/AUTH_SESSION_GUIDE|Auth Session Guide]]
+   - [[security/ROLE_PERSONA_MATRIX|Role Persona Matrix]]
+   - [[frontend/DEVELOPMENT_PLAYBOOK|Frontend Next.js]]
+   - [[frontend/FRONTEND_FEATURE_FLOW|Frontend Feature Flow]]
+   - [[frontend/WEB_APPS_GUIDE|Web Apps Guide]]
+   - [[frontend/COMPONENT_GUIDE|Component Guide]]
+   - [[frontend/SHARED_UI_GUIDE|Shared UI Guide]]
+   - [[frontend/FORMS_GUIDE|Forms Guide]]
+   - [[frontend/NETWORK_USAGE_GUIDE|Network Usage Guide]]
+   - [[graphql/DEVELOPMENT_PLAYBOOK|GraphQL]]
+   - [[graphql/CONTRACT_CHANGE_GUIDE|GraphQL Contract Change Guide]]
+   - [[rest/DEVELOPMENT_PLAYBOOK|REST]]
+   - [[rest/REAL_REST_PATTERNS|Real REST Patterns]]
+   - [[rest/FUTURE_TYPED_REST_OPENAPI|Future Typed REST OpenAPI]]
+   - [[database/DEVELOPMENT_PLAYBOOK|Database and Prisma]]
+   - [[database/PRISMA_MIGRATION_SAFETY|Prisma Migration Safety]]
+   - [[nx/DEVELOPMENT_PLAYBOOK|Nx and scripts]]
+   - [[operations/NX_COMMANDS|Nx Commands]]
+   - [[testing/TEST_STRATEGY|Test Strategy]]
+   - [[testing/MANUAL_QA_GUIDE|Manual QA Guide]]
+   - [[operations/CI_AND_NX_CLOUD|CI and Nx Cloud]]
+   - [[operations/PRE_COMMIT_CHECKLIST|Pre-Commit Checklist]]
+   - [[operations/RELEASE_READINESS|Release Readiness]]
+   - [[operations/DEPLOYMENT_ARCHITECTURE|Deployment Architecture]]
+   - [[operations/ENVIRONMENT_MATRIX|Environment Matrix]]
+   - [[operations/SECRETS_MANAGEMENT|Secrets Management]]
+   - [[operations/PRODUCTION_MIGRATION_FLOW|Production Migration Flow]]
+   - [[operations/ROLLBACK_STRATEGY|Rollback Strategy]]
+   - [[operations/OBSERVABILITY_AND_INCIDENTS|Observability and Incidents]]
 
-## Mapa rápido do monorepo (real)
+## Where To Go
 
-- **Apps**
-  - `apps/api`: NestJS (GraphQL + REST), Prisma, schema GraphQL em `apps/api/src/schema.gql`
-  - `apps/web`: Next.js App Router (cliente)
-  - `apps/web-admin`, `apps/web-manager`, `apps/web-valet`: apps Next.js adicionais
-- **Libs**
-  - `libs/network`: GraphQL operations + codegen + Apollo + `fetchGraphQL`
-  - `libs/ui`: UI compartilhada e componentes/templates de produto (Atomic Design: atoms/molecules/organisms/templates)
-  - `libs/forms`: providers/schemas de formulários
-  - `libs/util`: utilitários e tipos compartilhados
-- **Infra local**
-  - `apps/api/docker-compose.yml`: sobe apenas PostgreSQL local (`mockp_db`) na porta `2000:5432`
-- **Orquestração**
-  - `nx.json` define cache/targets padrão; os targets vêm dos scripts dos `package.json` dos apps/libs
+- Setup and local environment:
+  - [[setup/LOCAL_DEVELOPMENT]]
+  - [[setup/ENVIRONMENT_VARIABLES]]
+  - [[operations/DOCKER_AND_DATABASE]]
+- Repository examples (verified code paths):
+  - [[examples/BACKEND_FEATURE_EXAMPLE]]
+  - [[examples/FRONTEND_FEATURE_EXAMPLE]]
+  - [[examples/GRAPHQL_CHANGE_EXAMPLE]]
+  - [[examples/REST_ENDPOINT_EXAMPLE]]
+  - [[examples/PRISMA_RELATION_EXAMPLE]]
+  - [[examples/BUGFIX_EXAMPLE]]
+  - [[examples/SHARED_UI_DECISION_EXAMPLE]]
+  - [[examples/VALIDATION_EXAMPLE]]
+  - [[CONTEXT_MAP]] → **Examples** section
+- Operational flows:
+  - [[features/NEW_FEATURE_FLOW]]
+  - [[debugging/BUGFIX_PLAYBOOK]]
+  - [[operations/VALIDATION_CHECKLIST]]
+  - [[agents/STOP_CONDITIONS]]
+  - [[agents/WIKI_REVIEW_CHECKLIST]]
+- Architecture:
+  - [[ARCHITECTURE]]
+- Backend implementation:
+  - [[backend/DEVELOPMENT_PLAYBOOK]]
+- Security and auth:
+  - [[security/AUTHORIZATION_GUIDE]]
+  - [[security/AUTH_SESSION_GUIDE]]
+  - [[security/ROLE_PERSONA_MATRIX]]
+  - [[security/AUDIT_LOGGING_GUIDE]]
+- Frontend and shared UI:
+  - [[frontend/DEVELOPMENT_PLAYBOOK]]
+  - [[frontend/FRONTEND_FEATURE_FLOW]]
+  - [[frontend/WEB_APPS_GUIDE]]
+  - [[frontend/COMPONENT_GUIDE]]
+  - [[frontend/SHARED_UI_GUIDE]]
+  - [[frontend/FORMS_GUIDE]]
+  - [[frontend/NETWORK_USAGE_GUIDE]]
+- GraphQL contract:
+  - [[graphql/DEVELOPMENT_PLAYBOOK]]
+  - [[graphql/CONTRACT_CHANGE_GUIDE]]
+- REST:
+  - [[rest/DEVELOPMENT_PLAYBOOK]]
+  - [[rest/REAL_REST_PATTERNS]]
+  - [[rest/FUTURE_TYPED_REST_OPENAPI]]
+- Database and migrations:
+  - [[database/DEVELOPMENT_PLAYBOOK]]
+  - [[database/PRISMA_MIGRATION_SAFETY]]
+- Nx and validation:
+  - [[nx/DEVELOPMENT_PLAYBOOK]]
+  - [[operations/NX_COMMANDS]]
+  - [[testing/TEST_STRATEGY]]
+  - [[testing/MANUAL_QA_GUIDE]]
+  - [[operations/VALIDATION_CHECKLIST]]
+  - [[operations/CI_AND_NX_CLOUD]]
+  - [[operations/PRE_COMMIT_CHECKLIST]]
+  - [[operations/RELEASE_READINESS]]
+  - [[operations/DEPLOYMENT_ARCHITECTURE]]
+  - [[operations/ENVIRONMENT_MATRIX]]
+  - [[operations/SECRETS_MANAGEMENT]]
+  - [[operations/PRODUCTION_MIGRATION_FLOW]]
+  - [[operations/ROLLBACK_STRATEGY]]
+  - [[operations/OBSERVABILITY_AND_INCIDENTS]]
+- Not implemented cross-cutting areas:
+  - [[security/AUDIT_LOGGING_GUIDE]]
+  - [[notifications/NOTIFICATIONS_GUIDE]]
+  - [[i18n/I18N_GUIDE]]
 
-## Regras de ouro (resumo)
+## Future Guides
 
-- **Contrato principal**: o frontend depende do backend **via GraphQL** (schema + operations), não de detalhes internos.
-- **REST**: use para integrações, webhooks, arquivos, redirects e endpoints HTTP específicos. Gere contrato REST tipado só quando o frontend realmente consumir o endpoint.
-- **Backend**: resolver/controller finos; regra de negócio no service; dados via `PrismaService`.
-- **Frontend**: page monta; templates/UI em `libs/ui`; forms em `libs/forms`; GraphQL em `libs/network`.
-- **Single Source of Truth**: a documentação oficial vive em `docs/wiki`.
+> Status: Future recommendation
+
+Suggested runbooks not yet written:
+
+- `operations/PRODUCTION_DEPLOYMENT_RUNBOOK.md`
+- `operations/INCIDENT_RUNBOOKS.md`
+
+For keeping the wiki consistent after edits, see [[agents/WIKI_REVIEW_CHECKLIST|Wiki Review Checklist]].
+
+## Agent Rules
+
+- Verify the current code before implementing. Documentation may lag behind code.
+- Do not treat future recommendations as implemented behavior.
+- Keep current-state documentation and future recommendations clearly labeled:
+  - `Status: Current project state`
+  - `Status: Future recommendation`
+  - `Status: Not implemented`
+  - `Status: Needs verification`
+  - `Status: Deprecated`
+- Use GraphQL as the primary contract for application screens.
+- Use REST for integrations, webhooks, files, redirects, Stripe-like flows, or HTTP-specific endpoints.
+- Stop and ask for human review when a change requires audit logging, notifications, i18n, destructive migrations, new authorization rules, or a new architectural pattern.
+
+## Quick Monorepo Map
+
+- `apps/api`: NestJS API with GraphQL, REST, Prisma, PostgreSQL, Swagger.
+- `apps/web`: main customer-facing Next.js app on port `3001`.
+- `apps/web-manager`: manager Next.js app on port `3002`.
+- `apps/web-valet`: valet Next.js app on port `3003`.
+- `apps/web-admin`: admin Next.js app on port `3004`.
+- `libs/network`: GraphQL documents, generated types, Apollo config, `fetchGraphQL`, NextAuth config.
+- `libs/ui`: shared UI components and templates.
+- `libs/forms`: form providers and schemas.
+- `libs/util`: shared utilities and hooks.
+
+## Setup First
+
+If you are starting from a fresh clone or a new machine, start here:
+
+1. [[setup/LOCAL_DEVELOPMENT]]
+2. [[setup/ENVIRONMENT_VARIABLES]]
+3. [[operations/DOCKER_AND_DATABASE]]
 

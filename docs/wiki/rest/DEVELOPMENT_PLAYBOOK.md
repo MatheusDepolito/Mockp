@@ -1,157 +1,128 @@
-# REST Development Playbook (OpenAPI + Typed REST)
+# REST Development Playbook
 
-Este documento define a estratégia e o passo a passo para endpoints REST no Mockp.
+> Status: Current project state
 
-Regra principal:
+How to add **REST** endpoints in Mockp, and how **typed OpenAPI** might work **in the future**.
 
-> Use GraphQL para dados da aplicação e telas. Use REST para integrações, webhooks, arquivos, redirects e endpoints HTTP específicos.  
-> Só gere contratos REST tipados quando o frontend realmente consumir esses endpoints.
+- **What exists today:** see [[REAL_REST_PATTERNS|Real REST Patterns]].
+- **Typed OpenAPI client generation:** [[FUTURE_TYPED_REST_OPENAPI|Future Typed REST OpenAPI]] (**Status: Future recommendation** — not implemented).
 
-Este playbook complementa:
-- [`../ARCHITECTURE.md`](../ARCHITECTURE.md)
-- [`../backend/DEVELOPMENT_PLAYBOOK.md`](../backend/DEVELOPMENT_PLAYBOOK.md)
-- [`../frontend/DEVELOPMENT_PLAYBOOK.md`](../frontend/DEVELOPMENT_PLAYBOOK.md)
+Companion docs: [[../ARCHITECTURE|Architecture]], [[../backend/DEVELOPMENT_PLAYBOOK|Backend Development Playbook]], [[../frontend/DEVELOPMENT_PLAYBOOK|Frontend Development Playbook]].
 
----
+## Project Rule
 
-## Quando usar REST
-
-Use REST quando o endpoint for mais adequado ao protocolo HTTP do que ao contrato GraphQL:
-
-- [ ] webhooks e callbacks externos (Stripe, provedores externos)
-- [ ] redirects e fluxos que dependem de resposta HTTP específica
-- [ ] upload/download/streaming de arquivos
-- [ ] healthchecks/status
-- [ ] integrações que exigem endpoint REST
-- [ ] casos em que cache HTTP/CDN é parte importante da solução
-
-Evite REST para dados normais de tela quando GraphQL já atende bem.
+> Use GraphQL for application screens and typical app data. Use REST for integrations, webhooks, files, redirects, and other HTTP-specific endpoints.  
+> Only invest in generated REST clients when a frontend actually consumes the endpoint.
 
 ---
 
-## Quando gerar contrato REST tipado
+## When REST Fits
 
-Não gerar contrato REST tipado para todo controller automaticamente só porque ele existe.
+Use REST when HTTP semantics matter more than GraphQL flexibility:
 
-Gerar contrato tipado quando:
+- [ ] Webhooks and third-party callbacks (for example Stripe-like flows)
+- [ ] Redirect-based flows with specific status codes
+- [ ] Large uploads/downloads/streaming that do not map cleanly to GraphQL
+- [ ] Health/status probes
+- [ ] Integrations requiring raw HTTP endpoints
+- [ ] Scenarios where CDN/HTTP caching dominates the design
 
-- [ ] o frontend consome o endpoint REST diretamente
-- [ ] há risco de payload/response divergir entre backend e frontend
-- [ ] o endpoint tem DTO de entrada/saída estável
-- [ ] o endpoint será reutilizado por mais de um app/lib
-
-Exemplo candidato atual:
-- `POST /stripe`, consumido por `libs/ui/src/components/organisms/BookSlotPopup.tsx`
+Avoid REST for standard screen data if GraphQL already models it well.
 
 ---
 
-## Fonte de verdade para REST tipado
+## When to Generate Typed REST Contracts
 
-Fluxo recomendado:
+Do **not** auto-generate typed clients for every controller.
+
+Generate types when:
+
+- [ ] A Next.js app/lib calls the REST route directly
+- [ ] Payload mismatches would be costly or security-sensitive
+- [ ] DTOs are stable enough to version
+- [ ] Multiple consumers reuse the same endpoint surface
+
+Example referenced in prior notes: `POST /stripe` consumed from `libs/ui` (verify current code before relying on path names).
+
+---
+
+## Future Source-of-Truth Pipeline (Not Implemented)
+
+> Status: Future recommendation
+
+Intended flow:
 
 ```txt
-NestJS Controller/DTOs REST
-        ↓
-Swagger/OpenAPI (`@nestjs/swagger`)
-        ↓
-openapi.json
-        ↓
-openapi-typescript
-        ↓
+Nest REST controllers/DTOs
+    ↓
+Swagger/OpenAPI emitted from Nest
+    ↓
+openapi.json artifact
+    ↓
+openapi-typescript (or similar)
+    ↓
 libs/network/src/rest/generated/schema.ts
-        ↓
-fetchREST/client tipado em libs/network
-        ↓
-apps/libs frontend consomem sem types manuais
+    ↓
+Centralized fetchREST helper
+    ↓
+Apps import generated types instead of hand-written interfaces
 ```
 
-Regras:
+Rules when adopted:
 
-- [ ] DTOs REST do backend continuam sendo a origem do contrato.
-- [ ] `openapi.json` é o contrato publicado/gerado.
-- [ ] Types gerados em `libs/network` são o contrato consumido pelo frontend.
-- [ ] Não criar types REST manuais no frontend quando houver contrato gerado.
+- [ ] Backend DTO classes remain canonical.
+- [ ] Generated TypeScript is treated as contract output, not hand-edited.
 
 ---
 
-## Passo a passo para criar endpoint REST
+## Step-by-Step — Create or Change a REST Endpoint
 
-### 1) Backend: controller e service
+### 1. Controller + service
 
-- [ ] Escolher o domínio em `apps/api/src/models/<domain>/rest/`.
-- [ ] Criar/alterar `<domain>.controller.ts`.
-- [ ] Manter controller fino:
-  - [ ] recebe `@Body`, `@Query`, `@Param`
-  - [ ] aplica auth/permissão quando necessário
-  - [ ] delega para service
-- [ ] Preferir o mesmo service usado pelo GraphQL quando a regra de negócio for a mesma.
+- [ ] Locate the domain folder `apps/api/src/models/<domain>/rest/`.
+- [ ] Implement `*.controller.ts` with thin handlers.
+- [ ] Apply auth/decorators consistent with GraphQL (`@AllowAuthenticated`, row-level checks via `checkRowLevelPermission`—see [[../security/AUTHORIZATION_GUIDE|Authorization Guide]]).
+- [ ] Prefer reusing the GraphQL domain service for business rules.
 
-### 2) Backend: DTOs e Swagger
+### 2. DTOs + Swagger decorators
 
-- [ ] Criar/ajustar DTOs em `rest/dtos/*`.
-- [ ] Derivar DTOs REST a partir de `rest/entity/*` quando fizer sentido.
-- [ ] Usar decorators do `@nestjs/swagger` nos controllers:
-  - [ ] `@ApiTags(...)`
-  - [ ] `@ApiBearerAuth()` quando autenticado
-  - [ ] `@ApiOkResponse(...)`, `@ApiCreatedResponse(...)`, etc.
-- [ ] Criar DTO/entity de response se o retorno não estiver claro no OpenAPI.
+- [ ] Place DTO variants under `rest/dtos/*` when the domain already uses that layout.
+- [ ] Derive DTOs from REST entities with `OmitType` / `PickType` (`@nestjs/swagger`) to avoid drift.
+- [ ] Decorate controllers with `@ApiTags`, `@ApiBearerAuth()`, `ApiOkResponse`, etc., so OpenAPI output matches reality.
 
-### 3) Gerar/atualizar OpenAPI
+### 3. Produce OpenAPI snapshot (future tooling)
 
-Recomendação para implementação futura:
+> Status: Future recommendation
 
-- [ ] criar um script no backend para gerar `apps/api/openapi.json` sem depender de servidor rodando
-- [ ] usar a mesma configuração de Swagger que hoje está em `apps/api/src/main.ts`
-- [ ] versionar ou validar o output conforme decisão do time
+- [ ] Provide a deterministic script to emit `openapi.json` without a manual server babysitting step.
+- [ ] Reuse the same Swagger bootstrap as `apps/api/src/main.ts`.
 
-### 4) Gerar types REST para frontend
+### 4. Generate frontend types (future)
 
-Recomendação de tooling:
+> Status: Future recommendation
 
-- [ ] usar `openapi-typescript`
-- [ ] gerar output em `libs/network/src/rest/generated/schema.ts`
+- [ ] Use `openapi-typescript` (or equivalent) writing into `libs/network/src/rest/generated/schema.ts`.
+- [ ] Add cohesive directory layout such as `libs/network/src/rest/{fetchREST.ts,endpoints/*.ts}`.
 
-Estrutura sugerida:
+### 5. Centralize clients in `libs/network`
 
-```txt
-libs/network/
-  src/
-    rest/
-      generated/
-        schema.ts
-      fetchREST.ts
-      endpoints/
-        stripe.ts
-```
+- [ ] Create a small wrapper (for example `fetchREST`) that mirrors `fetchGraphQL` responsibilities: base URL (`NEXT_PUBLIC_API_URL`), headers/auth, error normalization.
 
-### 5) Criar consumo tipado em `libs/network`
+### 6. Update frontend consumers
 
-- [ ] Centralizar chamadas REST internas em `libs/network`.
-- [ ] Criar wrapper/helper tipado (ex.: `fetchREST`) ou endpoint helper específico.
-- [ ] Padronizar:
-  - [ ] base URL (`NEXT_PUBLIC_API_URL`)
-  - [ ] headers
-  - [ ] auth token quando necessário
-  - [ ] tratamento de erro
+- [ ] Replace ad-hoc component-level `fetch` with the shared helper.
+- [ ] Do not maintain parallel hand-written interfaces if generated types exist.
 
-### 6) Migrar o frontend
+### 7. Validate
 
-- [ ] Remover `fetch` direto do componente/app quando for endpoint interno.
-- [ ] Consumir helper tipado de `libs/network`.
-- [ ] Não criar `interface`/`type` manual do payload ou response se existir type gerado.
-
-### 7) Validar
-
-- [ ] `yarn tsc`
-- [ ] `yarn lint`
-- [ ] `yarn build`
-- [ ] conferir se OpenAPI/types gerados estão atualizados
+- [ ] `yarn tsc`, `yarn lint`, `yarn build`
+- [ ] Confirm OpenAPI artifact + generated TS files are in sync when that pipeline exists.
 
 ---
 
-## Scripts sugeridos (quando implementar)
+## Example Script Block (Illustrative Only)
 
-Exemplo de intenção, não implementado ainda:
+> Status: Future recommendation — not present in the repository today.
 
 ```json
 {
@@ -167,25 +138,22 @@ Exemplo de intenção, não implementado ainda:
 
 ---
 
-## Anti-padrões
+## Anti-Patterns
 
-- [ ] Usar REST para contornar um contrato GraphQL que deveria ser evoluído.
-- [ ] Criar types manuais no frontend para endpoint REST já tipado por OpenAPI.
-- [ ] Gerar client/types REST para controllers que o frontend não usa.
-- [ ] Duplicar regra de negócio entre resolver GraphQL e controller REST.
-- [ ] Deixar Swagger incompleto e assumir que types gerados serão confiáveis.
+- [ ] Using REST to bypass a GraphQL contract that should evolve in place.
+- [ ] Duplicating business rules between REST controllers and GraphQL resolvers instead of services.
+- [ ] Hand-writing DTO types in the frontend when OpenAPI generation is available.
+- [ ] Generating clients for controllers no consumer calls.
+- [ ] Shipping incomplete Swagger metadata while assuming generated clients are trustworthy.
 
 ---
 
-## Checklist de encerramento
+## Wrap-Up Template
 
-Ao finalizar uma mudança REST:
-
-- **Endpoint REST criado/alterado**:
-- **Motivo para usar REST**:
-- **OpenAPI atualizado?**:
-- **Types REST gerados?**:
-- **Frontend usa helper tipado em `libs/network`?**:
-- **Validações executadas**:
-- **Riscos conhecidos**:
-
+- **Endpoint added/updated**:
+- **Reason REST is appropriate**:
+- **OpenAPI updated?** *(when applicable)*
+- **Generated types present?** *(when applicable)*
+- **Frontend helper location**:
+- **Validations run**:
+- **Known risks**:

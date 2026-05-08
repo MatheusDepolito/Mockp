@@ -1,69 +1,61 @@
 # Nx Development Playbook
 
-Este documento descreve o uso real do Nx no Mockp.
+> Status: Current project state
 
-> Estado atual: o projeto usa `nx` no root para orquestrar targets (`build`, `lint`, `tsc`) e cache. Não há `project.json` por app/lib no repositório hoje; os targets são inferidos principalmente pelos scripts dos `package.json`.
+This document describes how Nx is used in Mockp today.
 
----
+**Current repository state:** the root `nx` binary orchestrates targets (`build`, `lint`, `tsc`) and caching. No per-app/per-lib `project.json` files exist; targets are inferred from each package’s `package.json`.
 
-## Arquivos reais
+## Verified Files
 
 - `nx.json`
 - `package.json` (root)
 - `apps/*/package.json`
 - `libs/*/package.json`
 
----
+## Root Scripts
 
-## Scripts reais no root
-
-No `package.json` raiz:
+From root `package.json`:
 
 - `yarn tsc` → `yarn nx run-many -t tsc`
 - `yarn lint` → `yarn nx run-many -t lint`
 - `yarn build` → `yarn nx run-many -t build`
 - `yarn validate` → `yarn format:write && yarn tsc && yarn lint && yarn build`
 
----
+## Verified `nx.json` Settings
 
-## Configuração real em `nx.json`
-
-Targets com cache:
+Cached targets:
 
 - `build`
 - `lint`
 - `tsc`
 
-Relações configuradas:
+Configured relationships:
 
-- `build`, `lint` e `tsc` usam `dependsOn` para rodar dependências (`^build`, `^lint`, `^tsc`).
-- `build` declara outputs como `.next`, `build` e `dist`.
-- `defaultBase` é `main`.
-- Nx Cloud está configurado por `nxCloudId`.
+- `build`, `lint`, and `tsc` use `dependsOn` for dependency projects (`^build`, `^lint`, `^tsc`).
+- `build` declares outputs such as `.next`, `build`, and `dist`.
+- `defaultBase` is `main`.
+- Nx Cloud is referenced via `nxCloudId`.
 
----
+## How to Validate During Changes
 
-## Como usar em mudanças
-
-- [ ] Ao alterar app/lib, preferir rodar validação via scripts do root:
+- [ ] Prefer root scripts when validating after app/lib edits:
   - [ ] `yarn tsc`
   - [ ] `yarn lint`
   - [ ] `yarn build`
-- [ ] Se estiver mexendo em uma área específica, é aceitável rodar o script do package afetado primeiro (ex.: `apps/api` ou `apps/web`), e depois validar no root.
-- [ ] Não adicionar `project.json` ou targets Nx customizados sem necessidade clara.
+- [ ] For a narrowly scoped change you may run the affected package scripts first (`apps/api`, `apps/web`, etc.), then run root validation.
+- [ ] Avoid adding `project.json` files or bespoke Nx targets without a clear reason.
 
----
+## Future Recommendations (Not Implemented)
 
-## Recomendações (não implementadas hoje)
+> Status: Future recommendation
 
-- [ ] Adicionar scripts `affected` se o projeto passar a precisar de validação incremental mais formal em CI.
-- [ ] Criar configuração explícita de projects somente se os inferred targets não forem suficientes.
-- [ ] Adicionar target de `test` quando houver infraestrutura real de testes.
+- [ ] Consider `nx affected` workflows if incremental CI validation becomes important.
+- [ ] Add explicit Nx projects only if inferred targets are insufficient.
 
----
+## Operational Notes
 
-## Pontos de atenção
+- No test tooling was verified (`jest.config.*`, `*.spec.ts`, `*.test.ts`) for the baseline described in [[../testing/TEST_STRATEGY|Test Strategy]].
+- Some libs may not expose `build`/`lint`/`tsc`; `run-many` behavior depends on what Nx infers.
 
-- Não há configuração de testes encontrada (`jest.config.*`, `*.spec.ts`, `*.test.ts`) no estado atual.
-- Nem todas as libs têm scripts `build/lint/tsc`; validar run-many pode depender do que o Nx infere de cada package.
-
+For commands and uncertainties, prefer [[../operations/NX_COMMANDS|Nx Commands]] and [[../operations/VALIDATION_CHECKLIST|Validation Checklist]].

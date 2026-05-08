@@ -1,126 +1,115 @@
 # Database Development Playbook (Postgres + Prisma)
 
-Este documento é um checklist operacional para mudanças de **banco de dados** via Prisma, seguindo:
-- [`docs/wiki/ARCHITECTURE.md`](../ARCHITECTURE.md)
-- [`docs/wiki/START_HERE.md`](../START_HERE.md)
-- [`PRISMA_MIGRATION_SAFETY.md`](./PRISMA_MIGRATION_SAFETY.md)
+> Status: Current project state
 
-> Padrões reais do projeto:
-> - Prisma schema: `apps/api/prisma/schema.prisma`
-> - Prisma CLI config: `apps/api/prisma.config.ts`
-> - Migrations: `apps/api/prisma/migrations/*`
-> - Prisma client gerado: `apps/api/prisma/generated/*` (não versionado; gerar explicitamente)
-> - Prisma client é usado via `PrismaService`: `apps/api/src/common/prisma/prisma.service.ts`
-> - Banco configurado no Prisma: PostgreSQL (`provider = "postgresql"`)
-> - Docker Compose local: `apps/api/docker-compose.yml`
+Operational checklist for **database** changes via Prisma. Deep safety notes: [[PRISMA_MIGRATION_SAFETY|Prisma Migration Safety]]. Docker/local DB details: [[../operations/DOCKER_AND_DATABASE|Docker and Database]].
 
----
+Aligned with [[../ARCHITECTURE|Architecture]] and [[../START_HERE|Start Here]].
 
-## Antes de mudar o banco
+### Verified Paths
 
-- [ ] Ler [`PRISMA_MIGRATION_SAFETY.md`](./PRISMA_MIGRATION_SAFETY.md) antes de qualquer migration não trivial.
-- [ ] Identificar o motivo:
-  - [ ] bugfix (dados/modelo incorreto)
-  - [ ] feature (novo modelo/campo)
-  - [ ] refatoração (renomear, normalizar, etc.)
-- [ ] Mapear impacto no contrato:
-  - [ ] GraphQL types/inputs/resolvers/services
-  - [ ] frontend (operations/codegen/consumidores)
-- [ ] Mapear impacto em dados existentes:
-  - [ ] há dados em produção? há necessidade de migração cuidadosa?
-- [ ] Verificar ambiente local:
-  - [ ] Postgres local sobe via `apps/api/docker-compose.yml`
-  - [ ] porta local mapeada: `2000:5432`
-  - [ ] database/user/password default no compose: `mockp_db` / `mockp` / `mockp`
+- Prisma schema: `apps/api/prisma/schema.prisma`
+- CLI config (`DATABASE_URL`, migrate config): `apps/api/prisma.config.ts`
+- Migrations directory: `apps/api/prisma/migrations/*`
+- Generated client output: `apps/api/prisma/generated/*` (regenerate explicitly; normally gitignored artifacts)
+- Access path: inject `PrismaService` (`apps/api/src/common/prisma/prisma.service.ts`)
+- Local PostgreSQL Compose: `apps/api/docker-compose.yml` (see Docker guide for pinned image/port)
+
+Database provider string in schema: PostgreSQL (`provider = "postgresql"`).
 
 ---
 
-## Checklist obrigatório (MUST)
+## Before Touching the Database
 
-- [ ] Alterações devem ser feitas no `apps/api/prisma/schema.prisma`.
-- [ ] Configuração de URL/migrations deve ficar em `apps/api/prisma.config.ts` (Prisma 7 não usa `url` no datasource do schema).
-- [ ] Criar/atualizar migrations em `apps/api/prisma/migrations/*` (evitar mudanças “sem histórico”).
-- [ ] Revisar migrations SQL quando a mudança for sensível (drop/rename/data migration).
-- [ ] Garantir que o backend usa o Prisma via `PrismaService` (não bypass).
-- [ ] Rodar `yarn workspace @mockp/api prisma:generate` depois de instalar dependências ou alterar schema.
-- [ ] Se alterar modelo usado por GraphQL, revisar entities/inputs/filters e `apps/api/src/schema.gql`.
+- [ ] Read [[PRISMA_MIGRATION_SAFETY]] before non-trivial migrations.
+- [ ] Decide why you are changing the model:
+  - [ ] Bugfix vs feature vs refactor
+- [ ] Map contract impact:
+  - [ ] GraphQL entities/inputs/services/resolvers
+  - [ ] Frontend operations/codegen/clients (`libs/network`)
+- [ ] Map data impact:
+  - [ ] Do existing environments hold data needing backfills?
+- [ ] Local prerequisites:
+  - [ ] Postgres through `docker compose` under `apps/api`
+  - [ ] Typical host mapping `2000:5432`
+  - [ ] Default credentials from Compose (`mockp_db` / `mockp` / `mockp`)
 
 ---
 
-## Docker/PostgreSQL local
+## Mandatory Checklist
 
-Estado real:
+- [ ] Change models in `apps/api/prisma/schema.prisma`.
+- [ ] Keep datasource URL and migration tooling in `prisma.config.ts` (Prisma 7 does **not** place `url` on the datasource block inside `schema.prisma`).
+- [ ] Maintain migration history (`apps/api/prisma/migrations/*`); avoid “schema-only” edits without migrations for shared environments.
+- [ ] Inspect generated SQL whenever the migration could drop/rename/default sensitive columns.
+- [ ] Backend must keep using injected `PrismaService` rather than bespoke `PrismaClient` constructors.
+- [ ] Run `yarn workspace @mockp/api prisma:generate` whenever schema or toolchain expectations shift.
+- [ ] Whenever Graph-facing models shift, reconcile entities/inputs and regenerate `apps/api/src/schema.gql`.
 
-- [ ] Existe `apps/api/docker-compose.yml`.
-- [ ] Ele sobe apenas o serviço `db` com imagem `postgres:17`.
-- [ ] Não há `Dockerfile` encontrado no repositório no estado atual.
-- [ ] Não há compose de produção documentado no estado atual.
+---
 
-Comando usual (a partir de `apps/api`):
+## Local Docker PostgreSQL Snapshot
 
-```sh
+Facts worth repeating (see Docker guide for full detail):
+
+- [ ] Compose file targets local dev only—not a production blueprint by itself.
+
+From `apps/api`:
+
+```powershell
 docker compose up -d
 ```
 
-Ponto de atenção:
-- [ ] O compose é infraestrutura local para PostgreSQL; não documente como estratégia de deploy/produção sem decisão explícita.
+---
+
+## Seeds and Fixtures
+
+Verified:
+
+- [ ] Seed entry: `apps/api/prisma/seed.ts`
+- [ ] Categorical seeds live under `apps/api/prisma/seeds/*` (for example users).
+- [ ] Command: `yarn workspace @mockp/api prisma:seed`
+- [ ] Automated DB test harness not verified (`[[../testing/TEST_STRATEGY|Test Strategy]]`).
+
+Suggestions:
+
+- [ ] Document whenever new seeds alter login expectations or shared fixtures.
+- [ ] Prisma migrations do **not** automatically invoke seeds—run seeding explicitly after migrations when needed (`prisma db seed`).
 
 ---
 
-## Seeds e testes de dados
+## Safe Evolution
 
-Estado real:
-
-- [ ] Existe seed de desenvolvimento em `apps/api/prisma/seed.ts`.
-- [ ] Seeds por categoria ficam em `apps/api/prisma/seeds/*` (ex.: `apps/api/prisma/seeds/users.ts`).
-- [ ] O comando de seed é `yarn workspace @mockp/api prisma:seed`.
-- [ ] Não foi encontrada infraestrutura de testes automatizados para banco no estado atual.
-
-Recomendação:
-- [ ] Se seeds forem adicionadas, documentar comando, escopo (dev/test) e se podem rodar em produção.
-- [ ] No Prisma 7, seeds não rodam automaticamente em `migrate dev`; se existir seed, rodar `prisma db seed` explicitamente.
+- [ ] Prefer multi-step migrations: nullable columns → backfill → tighten constraints.
+- [ ] Avoid rename/remove churn without validating backend GraphQL surfaces and frontend operations.
 
 ---
 
-## Evolução segura (SHOULD)
+## Anti-Patterns
 
-- [ ] Preferir migrações compatíveis quando possível:
-  - [ ] adicionar colunas nullable antes de torná-las obrigatórias
-  - [ ] introduzir novo campo + backfill + migrar consumidores + remover antigo depois
-- [ ] Evitar renomear/remover campo sem mapear:
-  - [ ] uso no backend (services/resolvers)
-  - [ ] uso no GraphQL schema/operations
+- [ ] Editing schema without migrations for shared databases.
+- [ ] Destructive SQL without stakeholder review.
+- [ ] Runtime backfills sprinkled through hot paths unless justified.
 
 ---
 
-## Anti-padrões (AVOID)
+## Before You Finish
 
-- [ ] Alterar schema sem migration.
-- [ ] Migration destrutiva sem plano (drop table/column) ou sem confirmar uso.
-- [ ] Backfill ad-hoc no runtime do app sem necessidade.
+- [ ] `schema.prisma`, `prisma.config.ts`, services, GraphQL artifacts stay aligned conceptually.
 
----
+From repo root:
 
-## Validação antes de finalizar
-
-- [ ] Garantir consistência entre:
-  - [ ] Prisma schema (`apps/api/prisma/schema.prisma`)
-  - [ ] Prisma config (`apps/api/prisma.config.ts`)
-  - [ ] Prisma client usado no backend
-  - [ ] GraphQL schema/inputs/outputs
-- [ ] Rodar no root:
-  - [ ] `yarn tsc`
-  - [ ] `yarn lint`
-  - [ ] `yarn build`
+- [ ] `yarn tsc`
+- [ ] `yarn lint`
+- [ ] `yarn build`
 
 ---
 
-## Checklist de encerramento
+## Wrap-Up Template
 
-- **Resumo**:
-- **Schema Prisma mudou?**:
-- **Migrations criadas/alteradas?**:
-- **Impacto no GraphQL/Frontend mapeado?**:
-- **Validações executadas**:
-- **Riscos conhecidos**:
-
+- **Summary**:
+- **Prisma schema changed?**:
+- **Migrations created/updated?**:
+- **GraphQL/frontend fallout mapped?**:
+- **Validations run**:
+- **Known risks**:

@@ -1,100 +1,99 @@
 # GraphQL Development Playbook (Contracts + Codegen)
 
-Este documento é um checklist operacional para mudanças em **GraphQL** (contrato) e no fluxo de **codegen**, seguindo:
-- [`docs/wiki/ARCHITECTURE.md`](../ARCHITECTURE.md)
-- [`docs/wiki/START_HERE.md`](../START_HERE.md)
-- [`CONTRACT_CHANGE_GUIDE.md`](./CONTRACT_CHANGE_GUIDE.md)
+> Status: Current project state
 
-> Padrões reais do projeto:
-> - Schema gerado: `apps/api/src/schema.gql`
-> - Operations/fragments: `libs/network/src/gql/queries.graphql`
-> - Tipos/documents gerados: `libs/network/src/gql/generated.tsx`
-> - Config do codegen: `libs/network/codegen.ts` (schema aponta para `../../apps/api/src/schema.gql`)
-> - Script real: `yarn workspace @mockp/network codegen` (executa `graphql-codegen --config codegen.ts`)
+Operational checklist for **GraphQL** contract and **codegen** work. Canonical deep-dive: [[CONTRACT_CHANGE_GUIDE|GraphQL Contract Change Guide]].
 
----
+Also aligned with [[../ARCHITECTURE|Architecture]], [[../START_HERE|Start Here]], [[../agents/STOP_CONDITIONS|Stop Conditions]].
 
-## Antes de mudar qualquer coisa
+### Verified Paths
 
-- [ ] Se a mudança altera schema/input/output/query/mutation, leia [`CONTRACT_CHANGE_GUIDE.md`](./CONTRACT_CHANGE_GUIDE.md).
-- [ ] Identificar se é:
-  - [ ] mudança de schema (backend)
-  - [ ] mudança de operations/fragments (frontend/libs)
-  - [ ] ambos
-- [ ] Mapear consumidores no frontend:
-  - [ ] uso de fragments/queries no `libs/network/src/gql/queries.graphql`
-  - [ ] uso de `*Document` (documents tipados) em apps/libs
+- Generated schema reference: `apps/api/src/schema.gql`
+- Operations/fragments: `libs/network/src/gql/queries.graphql`
+- Generated types/documents: `libs/network/src/gql/generated.tsx`
+- Codegen config: `libs/network/codegen.ts` (schema path `../../apps/api/src/schema.gql`)
+- Command: `yarn workspace @mockp/network codegen` (runs `graphql-codegen --config codegen.ts`)
 
 ---
 
-## Como o contrato vira tipos compartilhados (padrão do projeto)
+## Before You Change Anything
 
-No Mockp, o “compartilhamento de tipos” backend → frontend é feito via **GraphQL codegen**:
-
-- **Schema source**: `apps/api/src/schema.gql`
-- **Operations source**: `libs/network/src/gql/queries.graphql`
-- **Output (SSOT para consumo)**: `libs/network/src/gql/generated.tsx`
-
-Regras (MUST):
-- [ ] `generated.tsx` é artefato gerado — não editar manualmente.
-- [ ] Apps e libs devem importar **types e documents** do `generated.tsx`.
-- [ ] Não “replicar” types do backend no frontend; a fonte é o contrato GraphQL.
-
-Ponto de atenção real:
-- [ ] O `codegen.ts` está com `watch: true`; em automação/CI pode ser necessário ajustar o modo de execução para não ficar em watch, se essa etapa for formalizada.
-
-## Checklist obrigatório (MUST)
-
-- [ ] **Não remover/renomear campo** sem mapear consumidores e planejar migração.
-- [ ] **Evitar expor detalhes internos do backend** no schema (contrato deve ser estável).
-- [ ] **Manter nomes consistentes** entre:
-  - types
-  - inputs
-  - payloads
-  - operações no `queries.graphql`
-- [ ] Quando o schema mudar:
-  - [ ] atualizar operations/fragments se necessário
-  - [ ] regenerar/atualizar `libs/network/src/gql/generated.tsx`
-  - [ ] atualizar consumidores (apps/libs)
+- [ ] If you change schema, inputs, outputs, queries, or mutations, read [[CONTRACT_CHANGE_GUIDE]] first.
+- [ ] Classify the change:
+  - [ ] Backend schema/runtime only
+  - [ ] Frontend operations only
+  - [ ] Both
+- [ ] Map frontend consumers:
+  - [ ] `libs/network/src/gql/queries.graphql`
+  - [ ] Imports of typed `*Document` values across apps/libs
 
 ---
 
-## Evolução compatível (SHOULD)
+## Types Shared With the Frontend
 
-- [ ] Preferir:
-  - [ ] adicionar campos novos
-  - [ ] manter campos antigos por um período
-  - [ ] migrar consumidores
-  - [ ] remover campos só depois
+Mockp shares frontend types through **GraphQL + codegen**:
 
----
+- **Schema**: `apps/api/src/schema.gql`
+- **Operations**: `libs/network/src/gql/queries.graphql`
+- **Consumption**: `libs/network/src/gql/generated.tsx` (single generated surface)
 
-## Anti-padrões (AVOID)
+Rules (must):
 
-- [ ] Mudança “silenciosa” no schema que quebra várias telas.
-- [ ] Duplicar a mesma query/mutation fora de `libs/network/src/gql/queries.graphql`.
-- [ ] Editar manualmente `generated.tsx`.
+- [ ] Do **not** hand-edit `generated.tsx`.
+- [ ] Apps/libs import types and documents from `generated.tsx`.
+- [ ] Do **not** re-model backend Prisma/domain types manually in frontend code.
 
----
+**Needs verification:**
 
-## Validação antes de finalizar
-
-- [ ] Revisar `apps/api/src/schema.gql` (se foi regenerado/alterado).
-- [ ] Revisar `libs/network/src/gql/queries.graphql` e fragments.
-- [ ] Garantir coerência de tipos em `libs/network/src/gql/generated.tsx`.
-- [ ] Rodar no root:
-  - [ ] `yarn tsc`
-  - [ ] `yarn lint`
-  - [ ] `yarn build`
+- [ ] `codegen.ts` may use `watch: true`; CI/automation needs a deterministic non-watch invocation if codegen becomes a gated step.
 
 ---
 
-## Checklist de encerramento
+## Required Checklist (Must)
 
-- **Resumo**:
-- **Schema mudou?**:
-- **Operations/fragments mudaram?**:
-- **Consumidores atualizados?**:
-- **Validações executadas**:
-- **Riscos conhecidos**:
+- [ ] Do **not** remove/rename GraphQL fields without consumer mapping and a compatibility plan.
+- [ ] Avoid leaking internal persistence details through the schema.
+- [ ] Keep naming consistent across types, inputs, payloads, and `queries.graphql` operations.
+- [ ] Every schema update should:
+  - [ ] Refresh operations/fragments when needed.
+  - [ ] Regenerate `generated.tsx`.
+  - [ ] Update downstream consumers.
 
+---
+
+## Compatible Evolution (Should)
+
+- [ ] Prefer adding fields, deprecating thoughtfully, migrating clients, removing only after the migration window closes.
+
+---
+
+## Anti-Patterns
+
+- [ ] Silent schema edits that break many screens at once.
+- [ ] Duplicate queries/mutations outside `libs/network/src/gql/queries.graphql`.
+- [ ] Editing `generated.tsx`.
+
+---
+
+## Before You Finish
+
+- [ ] Sanity-check `apps/api/src/schema.gql` when regenerated.
+- [ ] Review fragments and documents in `libs/network/src/gql/queries.graphql`.
+- [ ] Confirm `generated.tsx` compiles cleanly with consumers.
+
+From repo root:
+
+- [ ] `yarn tsc`
+- [ ] `yarn lint`
+- [ ] `yarn build`
+
+---
+
+## Wrap-Up Template
+
+- **Summary**:
+- **Schema changed?**:
+- **Operations/fragments changed?**:
+- **Consumers updated?**:
+- **Validations run**:
+- **Known risks**:

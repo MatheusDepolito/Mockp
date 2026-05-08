@@ -1,95 +1,94 @@
 # Mockp Architecture & Project Guidelines
 
-Este documento é a **referência central** do monorepo **Mockp** para arquitetura, padrões técnicos e regras de organização.  
-Objetivo: manter consistência entre **backend (NestJS)**, **frontend (Next.js/React)** e **contratos GraphQL**, evitando refatorações desorganizadas e quebra de contratos.
+> Status: Current project state
 
-> Nota: quando algum ponto não estiver 100% explícito no repositório, este documento descreve como **recomendação**, não como fato.
+This document is the **central reference** for the **Mockp** monorepo: architecture, technical patterns, and organization rules. It keeps **backend (NestJS)**, **frontend (Next.js/React)**, and **GraphQL contracts** aligned, and helps avoid ad-hoc refactors and broken contracts.
 
----
-
-## Visão geral do projeto
-
-### Estrutura do monorepo
-
-- **Apps** (aplicações):
-  - `apps/api`: API NestJS (GraphQL + REST).
-  - `apps/web`: Web “cliente” (Next.js App Router).
-  - `apps/web-admin`, `apps/web-manager`, `apps/web-valet`: apps Next.js adicionais (painéis/áreas).
-- **Libs** (pacotes compartilhados):
-  - `libs/network`: camada de rede/GraphQL (Apollo client config, fetch util, codegen, tipos gerados).
-  - `libs/ui`: UI compartilhada e componentes/templates de produto (Atomic Design: `atoms/`, `molecules/`, `organisms/`, `templates/`).
-  - `libs/forms`: providers/abstrações de formulários (ex.: `FormProviderSearchGarage`).
-  - `libs/util`: utilitários e tipos compartilhados (ex.: `MenuItem`).
-  - `libs/sample-lib`: lib de exemplo.
-- **Orquestração/Build**:
-  - Yarn workspaces (monorepo) + Nx (`nx.json`).
-  - O Nx é usado para `run-many`/cache de `build`, `lint` e `tsc`; não há `project.json` por app/lib no estado atual.
-
-### Responsabilidades por camada
-
-- **Backend (`apps/api`)**:
-  - Expõe **GraphQL** (principal contrato com o frontend) e endpoints **REST** quando aplicável.
-  - Centraliza regras de negócio, autorização e acesso a dados (Prisma).
-  - Publica o schema GraphQL gerado em `apps/api/src/schema.gql`.
-
-- **Frontend (`apps/web*`)**:
-  - Implementa UI/UX, composição de páginas/rotas e estado de tela.
-  - Consome o backend **principalmente via GraphQL** (contrato).
-  - Pode consumir REST para integrações/endpoints HTTP específicos (ex.: `POST /stripe` no estado atual).
-  - Usa `libs/network` para operações GraphQL tipadas e `libs/ui` para UI compartilhada.
-
-- **Libs (`libs/*`)**:
-  - `libs/ui` hoje contém tanto componentes visuais compartilhados quanto componentes/templates de produto que usam GraphQL e regras de tela.
-  - Recomendação: novos componentes realmente genéricos devem ser desacoplados de regra de negócio; componentes com domínio/GraphQL devem ser tratados como feature UI, mesmo que fiquem em `libs/ui`.
-  - **Network** deve ser a “fonte” de operações GraphQL (documents) e tipos gerados, para reduzir divergência entre apps.
-
-### Fluxo geral (tela → GraphQL → service → banco)
-
-Fluxo esperado e recomendado:
-
-1. **UI (route/page)** em `apps/web/src/app/...`
-2. **Template/Component** em `libs/ui/...` (ou componente local do módulo)
-3. **Operação GraphQL tipada** (document) em `libs/network/src/gql/*.graphql` → gerado em `libs/network/src/gql/generated.tsx`
-4. **Client/fetch**:
-   - Client-side: `libs/network/src/config/apollo.tsx` (Apollo Client + auth header)
-   - Server-side/NextAuth: `libs/network/src/fetch/index.ts` (`fetchGraphQL`)
-5. **Resolver GraphQL** em `apps/api/src/models/<dominio>/graphql/*.resolver.ts`
-6. **Service** em `apps/api/src/models/<dominio>/graphql/*.service.ts`
-7. **Acesso a dados** via `PrismaService` (`apps/api/src/common/prisma/prisma.service.ts`) → banco (PostgreSQL)
-
-### Fluxo alternativo (quando usar REST)
-
-O backend também expõe REST em alguns domínios (estrutura `rest/*.controller.ts`). Use REST quando fizer sentido operacional (ex.: webhooks, callbacks externos, healthchecks, downloads/uploads, integrações que exigem endpoint HTTP).
-
-Regra do projeto:
-
-> Use GraphQL para dados da aplicação e telas. Use REST para integrações, webhooks, arquivos, redirects e endpoints HTTP específicos.  
-> Só gere contratos REST tipados quando o frontend realmente consumir esses endpoints.
-
-Fluxo recomendado para REST:
-
-1. **Cliente HTTP** → `apps/api/src/models/<dominio>/rest/*.controller.ts`
-2. **Controller REST (fino)** aplica auth/validação e delega
-3. **Service do domínio** (preferencialmente o mesmo usado pelo GraphQL)
-4. **PrismaService** → banco (PostgreSQL)
-
-Quando o frontend consumir REST interno, a estratégia recomendada é:
-
-1. **DTOs/Controllers REST** no NestJS (`@nestjs/swagger`)
-2. **OpenAPI** gerado a partir do backend
-3. **Types TypeScript gerados** em `libs/network/src/rest/generated/schema.ts` (recomendação futura)
-4. **Helper/client REST tipado** em `libs/network`
-5. **Frontend consome `libs/network`**, sem types REST manuais
-
-Detalhes operacionais: [`rest/DEVELOPMENT_PLAYBOOK.md`](./rest/DEVELOPMENT_PLAYBOOK.md).
+> **Note:** When something is not fully explicit in the repository, this document states it as **recommendation**, not as verified fact. Prefer the focused English guides in `docs/wiki` for operational detail (for example [[START_HERE]], [[graphql/CONTRACT_CHANGE_GUIDE]], [[rest/REAL_REST_PATTERNS]], [[database/PRISMA_MIGRATION_SAFETY]]).
 
 ---
 
-## Organização do backend (NestJS) — `apps/api`
+## Project Overview
 
-### Padrão atual encontrado no projeto
+### Monorepo layout
 
-O backend está organizado por **domínio/modelo** em `apps/api/src/models/*`, e cada domínio costuma separar interfaces GraphQL e REST:
+- **Apps**
+  - `apps/api`: NestJS API (GraphQL + REST).
+  - `apps/web`: primary customer-facing Next.js app (App Router).
+  - `apps/web-admin`, `apps/web-manager`, `apps/web-valet`: additional Next.js apps (panels or role-specific areas).
+- **Libs**
+  - `libs/network`: GraphQL/network layer (Apollo config, `fetchGraphQL`, codegen, generated types).
+  - `libs/ui`: shared UI and product templates (Atomic Design: `atoms/`, `molecules/`, `organisms/`, `templates/`).
+  - `libs/forms`: form providers and abstractions (for example `FormProviderSearchGarage`).
+  - `libs/util`: shared utilities and types (for example `MenuItem`).
+  - `libs/sample-lib`: sample library.
+- **Orchestration / build**
+  - Yarn workspaces + Nx (`nx.json`).
+  - Nx runs `run-many` with caching for `build`, `lint`, and `tsc`. There is no per-project `project.json` in the current repository state.
+
+### Layer responsibilities
+
+- **Backend (`apps/api`)**
+  - Exposes **GraphQL** as the main contract with the frontend and **REST** where HTTP-native behavior is needed.
+  - Centralizes business rules, authorization, and data access (Prisma).
+  - Publishes the generated GraphQL schema at `apps/api/src/schema.gql`.
+
+- **Frontend (`apps/web*`)**
+  - Owns UI/UX, page composition, and screen-level state.
+  - Consumes the backend **primarily through GraphQL**.
+  - May call REST for integrations or specific HTTP flows (for example Stripe-style `POST` routes when present).
+  - Uses `libs/network` for typed GraphQL operations and `libs/ui` for shared UI.
+
+- **Libs (`libs/*`)**
+  - `libs/ui` mixes generic visual components with product templates that already embed GraphQL and screen rules.
+  - **Recommendation:** keep new **generic** components free of domain rules; treat domain-heavy pieces as **feature UI** even if they live under `libs/ui`.
+  - **`libs/network`** should remain the single source for GraphQL documents and generated types across apps.
+
+### Default flow (screen → GraphQL → service → database)
+
+1. **Route/page** under `apps/web/src/app/...` (or another web app).
+2. **Template/component** in `libs/ui/...` or a local module component.
+3. **Typed GraphQL operation** in `libs/network/src/gql/*.graphql` → generated in `libs/network/src/gql/generated.tsx`.
+4. **Client / fetch**
+   - Browser: `libs/network/src/config/apollo.tsx` (Apollo + auth header).
+   - Server / NextAuth: `libs/network/src/fetch/index.ts` (`fetchGraphQL`).
+5. **GraphQL resolver** in `apps/api/src/models/<domain>/graphql/*.resolver.ts`.
+6. **Service** in `apps/api/src/models/<domain>/graphql/*.service.ts`.
+7. **Data access** via injected `PrismaService` (`apps/api/src/common/prisma/prisma.service.ts`) → PostgreSQL.
+
+### Alternative flow (when to use REST)
+
+The backend also exposes REST in some domains (`rest/*.controller.ts`). Use REST when HTTP semantics or integrations fit better than GraphQL (webhooks, external callbacks, health checks, uploads/downloads, or other HTTP-specific endpoints).
+
+Project rule:
+
+> Use GraphQL for application screens and typical app data. Use REST for integrations, webhooks, files, redirects, and HTTP-specific endpoints.  
+> Invest in typed REST generation only when a frontend actually consumes those endpoints.
+
+Recommended REST path:
+
+1. HTTP entry at `apps/api/src/models/<domain>/rest/*.controller.ts`.
+2. Thin REST controller for auth/validation and delegation.
+3. Domain service (ideally the same service GraphQL uses).
+4. `PrismaService` → PostgreSQL.
+
+When the frontend consumes internal REST, the **future** direction (not necessarily implemented) is:
+
+1. REST DTOs/controllers in Nest (`@nestjs/swagger`).
+2. OpenAPI emitted from the backend.
+3. Generated TypeScript in `libs/network/src/rest/generated/schema.ts` (**Status: Future recommendation** — see [[rest/FUTURE_TYPED_REST_OPENAPI]]).
+4. A typed REST helper in `libs/network`.
+5. Frontends consume `libs/network` without hand-written REST types.
+
+Operational detail: [[rest/DEVELOPMENT_PLAYBOOK]], current patterns: [[rest/REAL_REST_PATTERNS]].
+
+---
+
+## Backend Organization (NestJS) — `apps/api`
+
+### Current layout
+
+The backend is grouped by **domain/model** under `apps/api/src/models/*`. Each domain usually splits GraphQL and REST:
 
 ```
 apps/api/src/models/<domain>/
@@ -103,344 +102,323 @@ apps/api/src/models/<domain>/
     *.controller.ts
 ```
 
-Exemplo real:
-- `apps/api/src/models/bookings/` com `graphql/`, `rest/` e `bookings.module.ts`.
+Real example:
 
-### Onde fica cada tipo de lógica
+- `apps/api/src/models/bookings/` contains `graphql/`, `rest/`, and `bookings.module.ts`.
 
-- **Resolvers (`*.resolver.ts`)**:
-  - Devem ser “finos”: receber args, aplicar autorização/guards/decorators, delegar para service.
-  - É aceitável fazer **pequenas composições** de filtros/args quando necessário (ex.: enriquecer `where`), mas evitar “core business logic” aqui.
+### Where logic belongs
 
-- **Controllers REST (`*.controller.ts`)**:
-  - Mesmo princípio: “fino”, sem regra de negócio relevante.
+- **Resolvers (`*.resolver.ts`)**
+  - Keep them **thin**: parse args, apply auth/guards/decorators, delegate to services.
+  - Small argument/`where` shaping is acceptable; avoid core business logic in the resolver.
 
-- **Services (`*.service.ts`)**:
-  - **Regra de negócio** vive aqui (ou em funções auxiliares do domínio quando fizer sentido).
-  - Podem compor transações Prisma, validar invariantes do domínio e orquestrar escrita/leitura.
+- **REST controllers (`*.controller.ts`)**
+  - Same “thin adapter” principle—no heavyweight rules in the HTTP layer.
 
-- **Ponto de atenção no estado atual**:
-  - Alguns resolvers/controllers ainda fazem consultas diretas via `PrismaService` para CRUD simples, filtros, contadores ou `ResolveField`.
-  - Recomendação para novas mudanças: manter regra de negócio e orquestração no service; usar acesso direto no resolver/controller apenas para casos pequenos e bem localizados, ou refatorar gradualmente quando a lógica crescer.
+- **Services (`*.service.ts`)**
+  - Own **business rules** (plus domain helpers when that reads cleaner).
+  - May coordinate Prisma transactions, enforce invariants, and orchestrate reads/writes.
 
-- **Acesso a dados (Prisma)**:
-  - Uso do Prisma está centralizado via `PrismaService`:
-    - `apps/api/src/common/prisma/prisma.service.ts` (extende `PrismaClient`).
-  - O projeto usa Prisma 7:
-    - schema em `apps/api/prisma/schema.prisma`
-    - config de datasource/migrations em `apps/api/prisma.config.ts`
-    - client gerado em `apps/api/prisma/generated/*`
-  - O client gerado não deve ser editado manualmente; rode `yarn workspace @mockp/api prisma:generate`.
-  - Evitar acesso ao banco “por fora” (ex.: criar `new PrismaClient()` em qualquer outro lugar).
+- **Current caveat**
+  - Some resolvers/controllers still query Prisma directly for trivial CRUD, counters, or `@ResolveField`.
+  - For new work, keep orchestration and non-trivial rules in services; only keep Prisma usage in adapters when intentionally small or plan a gradual refactor as complexity grows.
 
-### Autenticação, permissões e segurança
+- **Data access (Prisma)**
+  - Prefer the injected extension of `PrismaClient` exposed as `PrismaService` (`apps/api/src/common/prisma/prisma.service.ts`).
+  - Repository uses Prisma **7**: schema in `apps/api/prisma/schema.prisma`; datasource/migrate configuration in `apps/api/prisma.config.ts`; generated client under `apps/api/prisma/generated/*`.
+  - Do **not** hand-edit generated Prisma artifacts; regenerate with `yarn workspace @mockp/api prisma:generate`.
+  - Do **not** instantiate stray `PrismaClient` instances outside `PrismaService`.
 
-Padrões existentes e que devem ser preservados:
+### Authentication, authorization, security
 
-- **Decorators/Guard**:
-  - `AllowAuthenticated(...roles)` em `apps/api/src/common/auth/auth.decorator.ts`
-  - Guard em `apps/api/src/common/auth/auth.guard.ts`
-- **Row-level permission**:
-  - `checkRowLevelPermission(...)` em `apps/api/src/common/auth/util.ts`
+Preserve existing primitives (see [[security/AUTHORIZATION_GUIDE]] for detail):
 
-Regras:
-- Preferir declarar **roles** no resolver/controller com `@AllowAuthenticated(...)`.
-- Para autorização por recurso (row-level), centralizar em util/service (ex.: `checkRowLevelPermission`) e **chamar antes** da ação.
-- Evitar lógica de permissão duplicada em múltiplos lugares; se um padrão se repetir, mover para util do `common/auth` ou para o service do domínio.
+- `AllowAuthenticated(...roles)` in `apps/api/src/common/auth/auth.decorator.ts`.
+- JWT guard wiring in `apps/api/src/common/auth/auth.guard.ts`.
+- Row checks via `checkRowLevelPermission(...)` in `apps/api/src/common/auth/util.ts`.
 
-### DTOs / Inputs / Entities
+Rules:
 
-Padrão observado:
-- Args/inputs tipados e organizados por domínio (ex.: `apps/api/src/models/bookings/graphql/dtos/*`).
-- Entities GraphQL por domínio (ex.: `apps/api/src/models/bookings/graphql/entity/*`).
-- DTOs comuns em `apps/api/src/common/dtos/*`.
-- Helper de tipagem para alinhar classes ao Prisma: `RestrictProperties` em `apps/api/src/common/dtos/common.input.ts`.
+- Prefer declaring **roles** on resolvers/controllers with `@AllowAuthenticated(...)`.
+- Execute **resource-level authorization** (`checkRowLevelPermission` or domain services) **before** mutating data.
+- If patterns repeat across modules, elevate them into `common/auth` utilities or dedicated domain services rather than copying logic.
 
-Regras:
-- **Inputs GraphQL** (Create/Update/Filter) devem ficar próximos do domínio (em `graphql/dtos`).
-- Reutilizar DTOs comuns apenas quando forem realmente genéricos.
-- Preferir que Entities/DTOs alinhem com tipos do Prisma (`@prisma/client`) usando `RestrictProperties` para reduzir drift entre DB ↔ código ↔ contrato.
+### DTOs, inputs, entities
 
-### Como criar um novo módulo/domínio no backend
+Patterns:
 
-Checklist recomendado (alinhado ao padrão atual):
+- Typed args/inputs grouped per domain (for example `apps/api/src/models/bookings/graphql/dtos/*`).
+- GraphQL entities per domain (`apps/api/src/models/bookings/graphql/entity/*`).
+- Shared primitives in `apps/api/src/common/dtos/*`.
+- `RestrictProperties` (`apps/api/src/common/dtos/common.input.ts`) keeps classes aligned with Prisma types.
 
-1. Criar `apps/api/src/models/<domain>/`
-2. Criar `<domain>.module.ts` registrando `Resolver`, `Service` e `Controller` (se existir REST).
-3. Implementar `graphql/`:
-   - `*.resolver.ts`
-   - `*.service.ts`
-   - `dtos/` (args/inputs)
-   - `entity/` (types GraphQL)
-4. (Opcional) Implementar `rest/` com controller.
-5. Registrar o module no `AppModule` (ver `apps/api/src/app.module.ts`).
+Rules:
 
-### O que evitar no backend
+- GraphQL inputs (Create/Update/Filter) live next to the domain (`graphql/dtos`).
+- Reuse common DTOs only when genuinely generic.
+- Align entities/DTO shapes with `@prisma/client` models through `RestrictProperties` to minimize drift across DB ↔ code ↔ contract.
 
-- **Regra de negócio grande** em resolver/controller.
-- **Acesso direto ao Prisma** fora do `PrismaService` injetado.
-- **Duplicação de validações/autorizações**: preferir util comum (`common/auth`) ou service do domínio.
-- **Misturar mudanças estruturais com regras** (refatoração e mudança de comportamento na mesma PR).
+### Adding a backend domain/module
+
+Recommended checklist aligned with existing code:
+
+1. Create `apps/api/src/models/<domain>/`.
+2. Add `<domain>.module.ts` wiring `Resolver`, `Service`, and `Controller` (if REST exists).
+3. Populate `graphql/` with resolver, service, `dtos/`, and `entity/`.
+4. Optionally add REST handlers under `rest/`.
+5. Register the module inside `apps/api/src/app.module.ts`.
+
+### Backend anti-patterns
+
+- Heavy business logic in resolvers/controllers.
+- Bypassing injected `PrismaService`.
+- Duplicated validations/authorization—centralize (`common/auth` or domain services).
+- Mixing **structural refactors** and **behavior changes** in one change set without a deliberate plan.
 
 ---
 
-## Organização do frontend (Next.js/React) — `apps/web*`
+## Frontend Organization (Next.js/React) — `apps/web*`
 
-### Padrão atual encontrado
+### Current patterns
 
-- Os apps web usam o **App Router**:
-  - Ex.: `apps/web/src/app/layout.tsx`, `apps/web/src/app/page.tsx`, rotas em `apps/web/src/app/<route>/page.tsx`.
-- Existe alias TS para código local do app:
-  - `@/*` → `apps/web/src/*` (ver `apps/web/tsconfig.json`).
-- Integrações e shared packages:
-  - `apps/web/src/app/layout.tsx` compõe providers e UI:
-    - `ApolloProvider` em `@mockp/network/src/config/apollo`
-    - `SessionProvider`, `Header`, `ToastContainer`, `Container` em `@mockp/ui/...`
-    - Tipos como `MenuItem` em `@mockp/util/types`
+- Web apps use the **App Router** (`layout.tsx`, `page.tsx`, nested routes).
+- Typical local alias (`@/*` → `apps/web/src/*` as defined in each app `tsconfig.json`).
+- Composition example (`apps/web/src/app/layout.tsx`):
+  - `ApolloProvider` from `@mockp/network/src/config/apollo`.
+  - `SessionProvider`, `Header`, toast + layout primitives from `@mockp/ui/...`.
+  - Shared structural types (`MenuItem`, etc.) from `@mockp/util`.
 
-### Onde deve ficar o quê (regra prática)
+### Placement rules
 
-- **Rota/página (page.tsx)**:
-  - Deve ser o “ponto de montagem”: selecionar template/página e providers locais.
-  - Exemplo real: `apps/web/src/app/search/page.tsx` envolve `SearchPage` com `FormProviderSearchGarage`.
+- **`page.tsx`**
+  - Treat as the assembly point: wire templates, localized providers, composition only.
+  - Example: `apps/web/src/app/search/page.tsx` wraps `SearchPage` with `FormProviderSearchGarage`.
 
-- **UI reutilizável**:
-  - Vai para `libs/ui/src/components/...` (Atomic Design).
-  - Templates prontos de página devem ficar em `libs/ui/src/components/templates/*` (como já existe: `SearchPage`).
+- **Reusable UI**
+  - Lives in `libs/ui/src/components/...` following Atomic Design folders.
+  - Page-level templates land in `libs/ui/src/components/templates/*` (for example `SearchPage`).
 
-- **Estado e regras de tela**:
-  - Preferir concentrar em:
-    - providers em `libs/forms` (quando for uma “feature” de formulário reutilizável), ou
-    - hooks/componentes locais da rota (quando for específico daquela rota).
+- **Screen state / behavior**
+  - Prefer `libs/forms` when a form feature is genuinely reusable.
+  - Otherwise keep hooks/components next to the route when behavior is app- or flow-specific.
 
-### Critérios: componente local vs shared UI
+### Local component vs shared `libs/ui`
 
-- Mantenha **local ao módulo/rota** quando:
-  - o componente é muito específico do fluxo (ex.: “BookingTimelineCard” só existe em uma tela),
-  - depende de comportamento/regra de negócio daquela rota,
-  - está em evolução rápida e não há reutilização comprovada.
+Stay **local** when:
 
-- Promova para **`libs/ui`** quando:
-  - o componente é puramente visual e reutilizável (botões, inputs, layout, cards genéricos),
-  - há pelo menos 2 usos reais em apps/rotas diferentes,
-  - não depende de detalhes de GraphQL nem do domínio (ex.: não “embutir” queries/mutations no componente shared).
+- The component is tied to a single flow.
+- It depends on domain behavior for that route.
+- It is still volatile and not reused elsewhere.
 
-### Evitar “arquivos gigantes”
+Promote to **`libs/ui`** when:
 
-Regras:
-- `page.tsx` deve ficar pequeno (montagem e composição).
-- Se uma tela crescer:
-  - mover “blocos” para um `template` em `libs/ui` (se reutilizável), ou
-  - criar componentes locais próximos à rota (se específicos).
-- Evitar múltiplos componentes aninhados dentro do mesmo arquivo sem necessidade.
+- Purely visual and reusable across apps/routes (buttons, primitives, layouts).
+- You have **two concrete consumers** unless there is strong design-system intent.
+- It does **not** embed bespoke GraphQL operations or authorization decisions (those belong in deliberate feature templates).
 
-### Formulários, filtros, tabelas, dialogs e ações
+### Avoid oversized route files
 
-Padrão existente:
-- Providers de formulário em `libs/forms` (ex.: `FormProviderSearchGarage`).
+- Keep `page.tsx` small—composition only.
+- When screens grow:
+  - factor reusable chunks into templates under `libs/ui`, **or**
+  - colocate local components beside the route for one-off UX.
 
-Regras recomendadas:
-- Formulário com lógica/validação reutilizável: encapsular em `libs/forms/src/<feature>` (provider + schemas).
-- Componentes de apresentação: `libs/ui` (atoms/molecules/organisms).
-- Operações de rede: `libs/network` (documents + fetch/client) — não espalhar `fetch` cru na UI.
+### Forms, filters, tables, dialogs, actions
 
-### O que evitar no frontend
+Existing pattern:
 
-- Duplicar lógica (ex.: transformar filtros/payloads em várias telas).
-- Criar componentes “genéricos demais” sem necessidade (abstração prematura).
-- Espalhar regra de negócio na UI (principalmente decisões de autorização/fluxo que deveriam vir do backend).
+- Form providers in `libs/forms` (for example `FormProviderSearchGarage`).
 
----
+Guidance:
 
-## Comunicação frontend/backend via GraphQL
+- Reusable validation + provider logic → `libs/forms/src/<feature>`.
+- Presentation-only pieces → `libs/ui`.
+- Networking → `libs/network` (documents, Apollo/`fetchGraphQL`), not ad-hoc `fetch` sprinkled through UI layers.
 
-### Onde o GraphQL vive no projeto
+See also [[frontend/FORMS_GUIDE]], [[frontend/SHARED_UI_GUIDE]], [[frontend/COMPONENT_GUIDE]].
 
-- **Schema** gerado pelo backend: `apps/api/src/schema.gql`
-- **Documents (queries/mutations/fragments)**:
-  - `libs/network/src/gql/queries.graphql`
-- **Tipos e documents gerados (codegen)**:
-  - `libs/network/src/gql/generated.tsx`
-- **Config do codegen**:
-  - `libs/network/codegen.ts` aponta para `../../apps/api/src/schema.gql` e gera em `libs/network/src/gql/generated.tsx`.
+### Frontend anti-patterns
 
-### Fluxo padrão (contrato)
-
-Fluxo esperado:
-
-UI → (template/component) → GraphQL hook/service → query/mutation → resolver → service → Prisma/banco
-
-No Mockp hoje, duas formas principais aparecem:
-
-- **Client-side Apollo**:
-  - `libs/network/src/config/apollo.tsx` cria o `ApolloClient` e injeta `authorization` via `/api/auth/token`.
-- **Server-side fetch util (NextAuth / Node)**:
-  - `libs/network/src/fetch/index.ts` (`fetchGraphQL`) executa requests tipadas usando `TypedDocumentNode` do codegen.
-
-### Regras para manter contratos estáveis
-
-- **O frontend só depende do contrato GraphQL**, não de detalhes internos do backend.
-  - Nada de “conhecer tabelas”, ids internos ou regras implícitas fora do schema.
-- Mudanças no schema GraphQL devem ser:
-  - **compatíveis** (de preferência) ou
-  - feitas com **migração controlada** (deprecar campo, lançar novo, remover depois).
-- Ao alterar:
-  - **Inputs** (ex.: `Create*Input`) → revisar todos os pontos que montam `variables`.
-  - **Campos de retorno** → revisar fragments e páginas que consomem.
-- Evitar mudanças “silenciosas”:
-  - Atualize `libs/network/src/gql/queries.graphql` (documents),
-  - Rode/atualize o codegen (gera `generated.tsx`),
-  - Atualize consumidores (apps e libs).
-
-### Cuidados práticos ao alterar campos GraphQL
-
-- Não renomear/remover campos sem:
-  - procurar uso no `libs/network/src/gql/queries.graphql` e no uso de `*Document` em apps/libs,
-  - ajustar fragments para reduzir repetição (o projeto já usa fragments, ex.: `BookingFields`).
-- Preferir adicionar novos campos mantendo os antigos, e remover em um passo posterior.
+- Duplicate filter/transform logic across screens.
+- Build “kitchen-sink” abstractions prematurely.
+- Encode authorization/product rules in UI that should remain backend-driven.
 
 ---
 
-## Shared UI e libs compartilhadas (`libs/*`)
+## Frontend/Backend Communication Through GraphQL
 
-### `libs/ui` (Shared UI)
+### Where GraphQL lives
 
-Estrutura existente:
+- Generated schema reference: `apps/api/src/schema.gql`
+- Documents: `libs/network/src/gql/queries.graphql`
+- Generated types + operation documents: `libs/network/src/gql/generated.tsx`
+- Codegen configuration: `libs/network/codegen.ts` (schema path `../../apps/api/src/schema.gql`, output `libs/network/src/gql/generated.tsx`)
+
+### Standard contract flow
+
+UI → template/component → typed GraphQL hook or helper → query/mutation → resolver → service → Prisma/database.
+
+Two primary execution paths today:
+
+- **Browser Apollo** (`libs/network/src/config/apollo.tsx`): injects `authorization` using `/api/auth/token`.
+- **Server `fetchGraphQL`** (`libs/network/src/fetch/index.ts`): executes `TypedDocumentNode` operations (for example NextAuth flows).
+
+### Rules for stable contracts
+
+- The frontend depends on the **published GraphQL schema**, not on backend implementation details.
+  - Do **not** bake table names or implicit server-only rules into UI code paths.
+- Favor **compatible** evolution (additive changes, deprecations) or staged migrations (add field → migrate clients → delete old field).
+- When inputs change (`Create*Input`, filters, etc.), update every place constructing `variables`.
+- When payloads change, update fragments/templates consuming those selections.
+- Never “silent change” contracts:
+  1. Update `queries.graphql` / fragments as needed.
+  2. Regenerate `generated.tsx`.
+  3. Update consumers across apps/libs.
+
+### Practical checklist for field churn
+
+- Search `libs/network/src/gql/queries.graphql` and usages of typed `*Document` exports across apps/libs before renaming/removing fields.
+- Reuse fragments (for example `BookingFields`) to reduce churn.
+- Prefer adding replacements before deleting old fields.
+
+Operational detail: [[graphql/CONTRACT_CHANGE_GUIDE]], [[agents/STOP_CONDITIONS]].
+
+---
+
+## Shared UI and Libraries (`libs/*`)
+
+### `libs/ui`
+
+Folders:
+
 - `libs/ui/src/components/atoms`
 - `libs/ui/src/components/molecules`
 - `libs/ui/src/components/organisms`
 - `libs/ui/src/components/templates`
 
-Regras:
-- Componentes **genéricos** shared devem ser:
-  - **previsíveis** (props claras),
-  - **sem side effects ocultos**,
-  - **sem regra de negócio do domínio** (ex.: não decidir permissão/fluxo crítico dentro do componente).
-- Templates podem compor atoms/molecules/organisms e receber dados/hook “de fora”.
-- Ponto de atenção real: muitos `organisms`/`templates` atuais em `libs/ui` já são feature UI e consomem GraphQL (`useQuery`, `useMutation`) via `@mockp/network/src/gql/generated`. Não trate todos os arquivos em `libs/ui` como componentes genéricos.
+Guidelines:
 
-### `libs/network` (GraphQL/network)
+- Generic shared components remain predictable, minimal side-effects, and free of privileged domain decisions inside the primitive itself.
+- Templates may orchestrate atoms/molecules and accept data/handlers injected by callers.
+- **Important:** many organisms/templates currently call Apollo hooks against `@mockp/network/src/gql/generated`; treat those files as shared **feature UI**, not as design-system primitives.
 
-Responsabilidades (observadas):
-- `src/gql/*`: documents + gerados (`generated.tsx`).
-- `src/fetch/index.ts`: `fetchGraphQL` para execução tipada via `fetch`.
-- `src/config/*`: configuração de Apollo e NextAuth:
-  - `src/config/apollo.tsx`
-  - `src/config/authOptions.ts`
+### `libs/network`
 
-Regras:
-- Centralizar documents GraphQL em `libs/network/src/gql/*.graphql`.
-- Gerados (`generated.tsx`) não devem ser editados manualmente.
-- Não duplicar “fetch GraphQL” em apps; reutilizar `fetchGraphQL` ou o client configurado.
+- `src/gql/*`: documents + codegen output (`generated.tsx`).
+- `src/fetch/index.ts`: typed `fetchGraphQL`.
+- `src/config/apollo.tsx` + `src/config/authOptions.ts`: Apollo + NextAuth bootstrap.
 
-### `libs/forms` e `libs/util`
+Rules:
 
-Regras:
-- `libs/forms`: providers/schemas de formulários quando houver padrão reutilizável.
-- `libs/util`: tipos e helpers sem dependência de UI/GraphQL.
+- Centralize GraphQL documents inside `libs/network/src/gql/*.graphql`.
+- Never hand-edit codegen output.
+- Reuse Apollo or `fetchGraphQL` helpers instead of one-off `/graphql` fetches sprinkled through apps.
 
-### Importação/Exportação e acoplamento
+### `libs/forms` and `libs/util`
 
-Regras:
-- Evitar dependências “cíclicas” entre libs (ex.: `ui` depender de app).
-- Evitar importar caminhos muito internos de libs se existir ponto estável; quando necessário, manter o padrão consistente.
-  - Ex.: hoje existe import direto `@mockp/ui/src/components/...` e `@mockp/network/src/...` (padrão existente, manter consistente).
+- `libs/forms`: schemas/providers for reusable flows.
+- `libs/util`: non-UI helpers/types without tying to GraphQL.
+
+### Imports and coupling
+
+- Avoid cyclic dependencies (UI must not depend on app-local modules).
+- Deep imports (`@mockp/ui/src/...`, `@mockp/network/src/...`) reflect today’s pragmatic pattern—stay consistent rather than introducing a second convention without a deliberate migration.
 
 ---
 
-## Padrões de nomenclatura (preservar o que já existe)
+## Naming Patterns (Preserve Existing Style)
 
 ### Backend
 
-- **Modules**: `<domain>.module.ts` (ex.: `bookings.module.ts`)
-- **GraphQL**:
-  - Resolver: `<domain>.resolver.ts`
-  - Service: `<domain>.service.ts`
-  - DTOs: `dtos/*.args.ts`, `dtos/*input.ts` (ex.: `CreateBookingInput`, `FindManyBookingArgs`)
-  - Entity: `entity/<domain>.entity.ts`
-- **REST**:
-  - Controller: `<domain>.controller.ts`
-- **Common**:
-  - Auth: `apps/api/src/common/auth/*`
-  - Prisma: `apps/api/src/common/prisma/*`
+- Modules: `<domain>.module.ts`
+- GraphQL resolver/service filenames follow domain (`bookings.resolver.ts`, etc.)
+- Inputs live under `dtos/` (`create-*.input.ts`, `*-args.ts`, etc.)
+- Entities under `graphql/entity/*`
+- REST controllers under `rest/*.controller.ts`
+- Shared auth + prisma utilities under `apps/api/src/common/{auth,prisma}`
 
 ### Frontend
 
-- **Routes**: `apps/<web-app>/src/app/<route>/page.tsx`
-- **Layout**: `apps/<web-app>/src/app/layout.tsx`
-- **Providers**:
-  - UI providers em `libs/ui/...`
-  - Forms providers em `libs/forms/...`
-- **GraphQL**:
-  - Documents em `libs/network/src/gql/*.graphql`
-  - Generated em `libs/network/src/gql/generated.tsx`
+- Routes: `apps/<web>/src/app/<route>/page.tsx`
+- Root layout per app at `apps/<web>/src/app/layout.tsx`
+- Providers split between `libs/ui` (visual shell) and `libs/forms` (form context)
+- GraphQL artifacts in `libs/network/src/gql/*`
 
 ---
 
-## Regras para refatoração (sem caos)
+## Refactoring Rules
 
-- Refatorar **de forma incremental**:
-  - pequenas PRs, cada uma com um objetivo claro.
-- Não misturar:
-  - **refatoração estrutural** (mover/renomear) com **mudança de regra de negócio**.
-- Não alterar comportamento visual/funcional sem necessidade.
-- Antes de mover algo para shared (`libs/ui`, `libs/forms`, `libs/util`):
-  - validar reutilização real,
-  - evitar “generalizar” cedo demais.
-- Antes de alterar contrato GraphQL:
-  - mapear consumers no frontend (`libs/network` + apps),
-  - preferir mudanças compatíveis e migração controlada.
-- Remover código morto:
-  - apenas quando houver segurança (uso mapeado, sem rotas “ocultas”, etc.).
+- Prefer **incremental** refactors—small, reviewable changes.
+- Do **not** mix large structural moves with opaque behavior changes unless coordinated.
+- Do not churn UX without product intent.
+- Before promoting code into shared libs (`libs/ui`, `libs/forms`, `libs/util`):
+  - confirm reuse,
+  - avoid premature abstraction.
+- Before altering GraphQL:
+  - map consumers under `libs/network` + apps,
+  - evolve contracts compatibly when possible.
+- Delete dead code only after confirming routing/navigation/import coverage—document residual risk.
 
 ---
 
-## Validação antes de finalizar alterações
+## Validation Before Handoff
 
-### Comandos do repo
+### Root scripts
 
-No root existem scripts Nx úteis:
+Typical orchestration targets:
+
 - `yarn tsc`
 - `yarn lint`
 - `yarn build`
-- `yarn validate` (formata + tsc + lint + build)
+- `yarn validate` (formats + runs the above checks)
 
 Checklist:
-- Rodar pelo menos **typecheck + lint + build** na(s) área(s) alterada(s).
-- Conferir:
-  - imports quebrados,
-  - exports das libs (`@mockp/*`),
-  - GraphQL types/documents (`libs/network/src/gql/generated.tsx` atualizado quando schema mudar),
-  - rotas do Next (App Router) após mover arquivos.
-- Se algum comando falhar por problema pré-existente:
-  - **documentar claramente** no PR/commit o erro já existente e o motivo de não ter sido corrigido.
 
-### Testes
+- Run at least typecheck/lint/build for affected surfaces.
+- Re-check `@mockp/*` import paths after moves.
+- Regenerate/sync `libs/network/src/gql/generated.tsx` whenever the backend schema diverges.
+- Re-test Next routes when App Router folders move.
+- If failures pre-existed, document explicitly (do not silently ignore).
 
-Estado real:
-- Não foram encontrados `*.spec.ts`, `*.test.ts` ou `jest.config.*` no estado atual.
+### Automated tests
 
-Recomendação:
-- Quando testes forem adicionados, documentar o padrão na wiki e incluir um target/script específico antes de tratar testes como etapa obrigatória.
-- Guia atual: [`testing/TESTING_GUIDE.md`](./testing/TESTING_GUIDE.md).
+**Current project state:** no `*.spec.ts`, `*.test.ts`, or Jest configs were verified baselines (`[[testing/TEST_STRATEGY|Test Strategy]]`).
+
+> **Status:** Future recommendation  
+> Introduce scripted tests deliberately (framework choice, CI wiring) before enforcing test gates.
+
+[[testing/TESTING_GUIDE|Testing Guide]] is **Deprecated** — use [[testing/TEST_STRATEGY]], [[testing/MANUAL_QA_GUIDE]], and [[operations/VALIDATION_CHECKLIST]] instead.
 
 ---
 
-## Recomendações para agentes/IA (e para contribuições em geral)
+## Guidance for Agents and Contributors
 
-- Antes de alterar código:
-  - entender a estrutura atual (apps vs libs; backend `models/*`; frontend `src/app/*`; GraphQL em `libs/network`).
-- Preservar padrões já existentes:
-  - backend por domínio com `graphql/` e `rest/`,
-  - frontend com App Router e providers no `layout.tsx`,
-  - GraphQL documents centralizados em `libs/network/src/gql`.
-- Preferir mudanças pequenas e revisáveis.
-- Explicar o motivo de alterações estruturais (ex.: por que mover algo para `libs/ui`).
-- Não criar abstrações prematuras.
-- Não mover arquivos sem atualizar todos os imports/exports.
-- Não alterar contratos GraphQL sem atualizar consumidores e regenerar types.
-- Ao final de uma mudança, sempre listar:
-  - arquivos alterados,
-  - validações executadas,
-  - riscos conhecidos (ex.: mudança de contrato, migração parcial).
+Before editing code:
+
+- Map apps vs libs, backend domains (`models/*`), frontend routes (`src/app/*`), and GraphQL artifacts (`libs/network`).
+
+Preserve established patterns:
+
+- Backend modules with parallel `graphql/` + optional `rest/`.
+- Frontend App Router + provider wiring in layouts.
+- Central GraphQL documents in `libs/network/src/gql`.
+
+Working style:
+
+- Keep diffs scoped and reversible.
+- Explain structural motivations (for example promotions into `libs/ui`).
+- Avoid premature frameworks or abstractions.
+- Update imports/exports whenever files move.
+
+GraphQL hygiene:
+
+- Never ship schema changes without updating documents and regenerating `generated.tsx`.
+
+Close-out expectations:
+
+- List touched files,
+- validations executed (`yarn validate`, prisma steps, codegen, etc.),
+- known risks (contract drift, unfinished migrations).
+
+Link hubs: [[START_HERE]], [[CONTEXT_MAP]], [[agents/STOP_CONDITIONS]], [[agents/WIKI_REVIEW_CHECKLIST]].
 
