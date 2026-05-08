@@ -18,6 +18,10 @@ dist
 # Generated Prisma client
 apps/api/prisma/generated
 
-# Local documentation workspace
-docs/wiki/
-DEVELOPMENT_PLAYBOOK.md
+# Local Obsidian workspace state. Keep docs/wiki markdown files versioned.
+docs/wiki/.obsidian/workspace.json
+docs/wiki/.obsidian/workspace-mobile.json
+docs/wiki/.obsidian/cache/
+docs/wiki/.obsidian/plugins/
+docs/wiki/.obsidian/themes/
+/DEVELOPMENT_PLAYBOOK.md
