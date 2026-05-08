@@ -1,6 +1,6 @@
 import { CreateCompanyInput } from './create-company.input';
 import { InputType, PartialType } from '@nestjs/graphql';
-import { Company } from '@prisma/client';
+import { Company } from 'src/common/prisma/client';
 
 @InputType()
 export class UpdateCompanyInput extends PartialType(CreateCompanyInput) {

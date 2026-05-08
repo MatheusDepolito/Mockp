@@ -10,11 +10,6 @@
       ],
       "cache": true
     },
-    "dev": {
-      "dependsOn": [
-        "^dev"
-      ]
-    },
     "lint": {
       "dependsOn": [
         "^lint"

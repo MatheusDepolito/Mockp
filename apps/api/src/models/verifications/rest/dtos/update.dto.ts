@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateVerification } from './create.dto';
-import { Verification } from '@prisma/client';
+import { Verification } from 'src/common/prisma/client';
 
 export class UpdateVerification extends PartialType(CreateVerification) {
   garageId: Verification['garageId'];

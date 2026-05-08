@@ -4,7 +4,7 @@ import {
   registerEnumType,
   PartialType,
 } from '@nestjs/graphql';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'src/common/prisma/client';
 import { CustomerOrderByWithRelationInput } from './order-by.args';
 import { CustomerWhereInput, CustomerWhereUniqueInput } from './where.args';
 import { RestrictProperties } from 'src/common/dtos/common.input';

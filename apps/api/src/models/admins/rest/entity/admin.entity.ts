@@ -1,4 +1,4 @@
-import { Admin } from '@prisma/client';
+import { Admin } from 'src/common/prisma/client';
 import { IsDate, IsString, IsInt } from 'class-validator';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 

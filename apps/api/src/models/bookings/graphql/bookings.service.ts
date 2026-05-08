@@ -4,7 +4,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { CreateBookingInput } from './dtos/create-booking.input';
 import { UpdateBookingInput } from './dtos/update-booking.input';
 import { generateSixDigitNumber } from 'src/common/util';
-import { SlotType } from '@prisma/client';
+import { SlotType } from 'src/common/prisma/client';
 
 @Injectable()
 export class BookingsService {

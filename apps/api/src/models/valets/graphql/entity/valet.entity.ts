@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Valet as ValetType } from '@prisma/client';
+import { Valet as ValetType } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 @ObjectType()

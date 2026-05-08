@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Company as CompanyType } from '@prisma/client';
+import { Company as CompanyType } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 @ObjectType()

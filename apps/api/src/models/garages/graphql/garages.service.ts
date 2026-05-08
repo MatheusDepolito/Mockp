@@ -4,7 +4,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { CreateGarageInput } from './dtos/create-garage.input';
 import { UpdateGarageInput } from './dtos/update-garage.input';
 import { CreateSlotInputWithoutGarageId } from 'src/models/slots/graphql/dtos/create-slot.input';
-import { Prisma, SlotType } from '@prisma/client';
+import { Prisma, SlotType } from 'src/common/prisma/client';
 
 @Injectable()
 export class GaragesService {

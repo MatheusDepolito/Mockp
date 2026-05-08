@@ -1,5 +1,5 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { $Enums, Booking as BookingType } from '@prisma/client';
+import { $Enums, Booking as BookingType } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 registerEnumType($Enums.BookingStatus, {

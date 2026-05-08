@@ -11,7 +11,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { ValetWhereInput } from './dtos/where.args';
 import { Booking } from 'src/models/bookings/graphql/entity/booking.entity';
 import { PaginationInput } from 'src/common/dtos/common.input';
-import { BookingStatus } from '@prisma/client';
+import { BookingStatus } from 'src/common/prisma/client';
 import { BadGatewayException } from '@nestjs/common';
 
 @Resolver(() => Valet)

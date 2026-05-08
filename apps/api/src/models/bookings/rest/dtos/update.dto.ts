@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateBooking } from './create.dto';
-import { Booking } from '@prisma/client';
+import { Booking } from 'src/common/prisma/client';
 
 export class UpdateBooking extends PartialType(CreateBooking) {
   id: Booking['id'];

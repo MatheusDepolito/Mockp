@@ -3,7 +3,7 @@ import {
   $Enums,
   BookingTimeline as BookingTimelineType,
   Prisma,
-} from '@prisma/client';
+} from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 @ObjectType()

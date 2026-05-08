@@ -1,4 +1,4 @@
-import { $Enums, Slot } from '@prisma/client';
+import { $Enums, Slot } from 'src/common/prisma/client';
 import { IsDate, IsString, IsInt, IsObject, IsOptional } from 'class-validator';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 

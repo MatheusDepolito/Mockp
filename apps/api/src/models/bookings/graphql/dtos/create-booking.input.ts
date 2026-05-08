@@ -1,6 +1,6 @@
 import { Field, Float, InputType, OmitType, PickType } from '@nestjs/graphql';
 import { Booking } from '../entity/booking.entity';
-import { Garage, SlotType } from '@prisma/client';
+import { Garage, SlotType } from 'src/common/prisma/client';
 import { CreateValetAssignmentInputWithoutBookingId } from 'src/models/valet-assignments/graphql/dtos/create-valet-assignment.input';
 
 @InputType()

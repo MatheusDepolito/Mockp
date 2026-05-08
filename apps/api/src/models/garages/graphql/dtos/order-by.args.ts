@@ -1,5 +1,5 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 import { AddressOrderByWithRelationInput } from 'src/models/addresses/graphql/dtos/order-by.args';
 import { CompanyOrderByWithRelationInput } from 'src/models/companies/graphql/dtos/order-by.args';

@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Review as ReviewType } from '@prisma/client';
+import { Review as ReviewType } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 @ObjectType()

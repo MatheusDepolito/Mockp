@@ -24,7 +24,7 @@ import { Admin } from 'src/models/admins/graphql/entity/admin.entity';
 import { Valet } from 'src/models/valets/graphql/entity/valet.entity';
 import { Customer } from 'src/models/customers/graphql/entity/customer.entity';
 import { Manager } from 'src/models/managers/graphql/entity/manager.entity';
-import { AuthProviderType } from '@prisma/client';
+import { AuthProviderType } from 'src/common/prisma/client';
 
 @Resolver(() => User)
 export class UsersResolver {

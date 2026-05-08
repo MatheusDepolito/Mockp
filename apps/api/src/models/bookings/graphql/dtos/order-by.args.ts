@@ -1,5 +1,5 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 import { BookingTimelineOrderByRelationAggregateInput } from 'src/models/booking-timelines/graphql/dtos/order-by.args';
 import { CustomerOrderByWithRelationInput } from 'src/models/customers/graphql/dtos/order-by.args';

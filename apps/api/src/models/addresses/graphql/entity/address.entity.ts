@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Address as AddressType } from '@prisma/client';
+import { Address as AddressType } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 
 @ObjectType()

@@ -1,4 +1,4 @@
-import { $Enums, BookingTimeline } from '@prisma/client';
+import { $Enums, BookingTimeline } from 'src/common/prisma/client';
 import { IsDate, IsString, IsInt, IsOptional } from 'class-validator';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 

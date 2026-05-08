@@ -1,4 +1,4 @@
-import { Review } from '@prisma/client';
+import { Review } from 'src/common/prisma/client';
 import { IsOptional } from 'class-validator';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 

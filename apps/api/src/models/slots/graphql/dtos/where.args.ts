@@ -4,7 +4,7 @@ import {
   PartialType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { $Enums, Prisma, SlotType } from '@prisma/client';
+import { $Enums, Prisma, SlotType } from 'src/common/prisma/client';
 import {
   DateTimeFilter,
   FloatFilter,

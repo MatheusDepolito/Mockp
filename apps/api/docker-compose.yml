@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   db:
     container_name: mockp_db
-    image: postgres
+    image: postgres:18
     restart: always
     ports:
       - 2000:5432
@@ -12,6 +10,6 @@ services:
       POSTGRES_DB: mockp_db
       POSTGRES_PASSWORD: mockp
     volumes:
-      - db_data_mockp:/var/lib/postgresql/data
+      - db_data_mockp:/var/lib/postgresql
 volumes:
   db_data_mockp:

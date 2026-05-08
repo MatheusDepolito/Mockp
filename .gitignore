@@ -1,10 +1,22 @@
-node_modules 
-build 
-dist 
-.next 
+node_modules
+build
+dist
+.next
+
+# Local environment files. Keep .env.example files versioned.
 .env
+.env.local
+.env.*.local
 
-
-
+# Nx local cache/state
 .nx/cache
 .nx/workspace-data
+
+# Yarn local install state
+.yarn/install-state.gz
+
+# Generated Prisma client
+apps/api/prisma/generated
+
+# Local Obsidian workspace settings
+docs/.wiki/

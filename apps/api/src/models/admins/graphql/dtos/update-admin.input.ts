@@ -1,6 +1,6 @@
 import { CreateAdminInput } from './create-admin.input';
 import { InputType, PartialType } from '@nestjs/graphql';
-import { Admin } from '@prisma/client';
+import { Admin } from 'src/common/prisma/client';
 
 @InputType()
 export class UpdateAdminInput extends PartialType(CreateAdminInput) {

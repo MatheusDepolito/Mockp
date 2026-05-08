@@ -1,6 +1,6 @@
 import { RegisterWithProviderInput } from './create-user.input';
 import { InputType, PartialType } from '@nestjs/graphql';
-import { User } from '@prisma/client';
+import { User } from 'src/common/prisma/client';
 
 @InputType()
 export class UpdateUserInput extends PartialType(RegisterWithProviderInput) {
