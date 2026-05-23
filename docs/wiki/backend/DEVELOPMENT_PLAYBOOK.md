@@ -4,6 +4,8 @@
 
 Operational checklist for backend work. Canonical architecture: [[../ARCHITECTURE|Architecture]] and [[../START_HERE|Start Here]]. Authorization details: [[../security/AUTHORIZATION_GUIDE|Authorization Guide]].
 
+Repository examples: [[../examples/BACKEND_FEATURE_EXAMPLE]], [[../examples/GRAPHQL_CHANGE_EXAMPLE]], [[../examples/REST_ENDPOINT_EXAMPLE]], [[../examples/VALIDATION_EXAMPLE]].
+
 **Observed layout:** `apps/api/src/models/<domain>/{graphql,rest}`.
 
 ---

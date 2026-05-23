@@ -6,6 +6,11 @@ This wiki is the shared technical context for Mockp. It is meant to help humans 
 
 The wiki is versioned in Git under `docs/wiki`. Treat it as the source of truth for project guidance, but always verify the current code before implementing.
 
+## Visão do produto (português)
+
+- [[PRODUCT_OVERVIEW_PT|Mockp — visão do produto (PT)]]
+- [[PRODUCT_OVERVIEW_IMOBILIARIO_PT|Mockp como produto imobiliário — visão (PT)]]
+
 ## Recommended Reading Order
 
 1. [[START_HERE]] - this entry point.
