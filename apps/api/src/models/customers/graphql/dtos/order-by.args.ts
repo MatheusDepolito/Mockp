@@ -1,7 +1,7 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
 import { Prisma } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
-import { BookingOrderByRelationAggregateInput } from 'src/models/bookings/graphql/dtos/order-by.args';
+import { InquiryOrderByRelationAggregateInput } from 'src/models/inquiries/graphql/dtos/order-by.args';
 import { ReviewOrderByRelationAggregateInput } from 'src/models/reviews/graphql/dtos/order-by.args';
 import { UserOrderByWithRelationInput } from 'src/models/users/graphql/dtos/order-by.args';
 
@@ -23,7 +23,7 @@ export class CustomerOrderByWithRelationInputStrict
   @Field(() => Prisma.SortOrder)
   displayName: Prisma.SortOrder;
 
-  Bookings: BookingOrderByRelationAggregateInput;
+  Inquiries: InquiryOrderByRelationAggregateInput;
   Reviews: ReviewOrderByRelationAggregateInput;
   // Todo: Add below field decorator to the SortOrder properties.
   // @Field(() => Prisma.SortOrder)

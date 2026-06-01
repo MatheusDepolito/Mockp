@@ -22,8 +22,8 @@ export class UserWhereInputStrict
         | 'AuthProvider'
         | 'Credentials'
         | 'image'
-        | 'Manager'
-        | 'Valet'
+        | 'BrokerageManager'
+        | 'Agent'
         | 'Customer'
       >
     >

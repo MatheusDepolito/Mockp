@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider     = "prisma-client"
   output       = "./generated/client"
@@ -23,8 +20,8 @@ model User {
   Credentials  Credentials?
   AuthProvider AuthProvider?
   Admin        Admin?
-  Manager      Manager?
-  Valet        Valet?
+  BrokerageManager BrokerageManager?
+  Agent        Agent?
   Customer     Customer?
 }
 
@@ -68,11 +65,11 @@ model Customer {
 
   displayName String?
 
-  Bookings Booking[]
-  Reviews  Review[]
+  Inquiries Inquiry[]
+  Reviews   Review[]
 }
 
-model Manager {
+model BrokerageManager {
   uid       String   @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,12 +77,12 @@ model Manager {
   displayName String?
   User        User    @relation(fields: [uid], references: [uid])
 
-  companyId       Int?              @unique
-  Company         Company?          @relation(fields: [companyId], references: [id])
-  BookingTimeline BookingTimeline[]
+  brokerageId     Int?              @unique
+  Brokerage       Brokerage?          @relation(fields: [brokerageId], references: [id])
+  InquiryTimeline InquiryTimeline[]
 }
 
-model Valet {
+model Agent {
   uid       String   @id
   createdAt DateTime @default(now())
   User      User     @relation(fields: [uid], references: [uid])
@@ -95,16 +92,16 @@ model Valet {
   image       String?
   licenseID   String  @default("")
 
-  companyId         Int?
-  Company           Company?          @relation(fields: [companyId], references: [id])
-  BookingTimeline   BookingTimeline[]
-  PickupAssignments ValetAssignment[] @relation("PickupValet")
-  ReturnAssignments ValetAssignment[] @relation("ReturnValet")
+  brokerageId           Int?
+  Brokerage             Brokerage?          @relation(fields: [brokerageId], references: [id])
+  ResponsibleProperties Property[]          @relation("ResponsibleAgent")
+  InquiryTimeline       InquiryTimeline[]
+  AgentAssignments      AgentAssignment[]
 
-  @@unique([companyId, uid])
+  @@unique([brokerageId, uid])
 }
 
-model Company {
+model Brokerage {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -112,12 +109,12 @@ model Company {
   displayName String?
   description String?
 
-  Garages  Garage[]
-  Managers Manager[]
-  Valets   Valet[]
+  Properties        Property[]
+  BrokerageManagers BrokerageManager[]
+  Agents            Agent[]
 }
 
-model Garage {
+model Property {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -126,12 +123,30 @@ model Garage {
   description String?
   images      String[]
 
-  companyId    Int
-  Company      Company       @relation(fields: [companyId], references: [id])
-  Address      Address?
-  Verification Verification?
-  Reviews      Review[]
-  Slots        Slot[]
+  propertyType PropertyType   @default(APARTMENT)
+  purpose      PropertyPurpose @default(RENT)
+  listPrice    Float?
+
+  brokerageId        Int?
+  responsibleAgentId String
+  Brokerage          Brokerage? @relation(fields: [brokerageId], references: [id])
+  ResponsibleAgent   Agent      @relation("ResponsibleAgent", fields: [responsibleAgentId], references: [uid])
+  Address            Address?
+  Verification       Verification?
+  Reviews            Review[]
+  PropertyFeatures   PropertyFeature[]
+  Inquiries          Inquiry[]
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+}
+
+enum PropertyPurpose {
+  RENT
+  SALE
+  RENT_AND_SALE
 }
 
 model Address {
@@ -143,91 +158,86 @@ model Address {
   lat     Float
   lng     Float
 
-  garageId Int    @unique
-  Garage   Garage @relation(fields: [garageId], references: [id])
+  propertyId Int      @unique
+  Property   Property @relation(fields: [propertyId], references: [id])
 }
 
-model Slot {
+model PropertyFeature {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  displayName  String?
-  pricePerHour Float
-  length       Int?
-  width        Int?
-  height       Int
-  type         SlotType @default(CAR)
+  displayName String?
+  type        PropertyFeatureType @default(OTHER)
+  quantity    Int                 @default(1)
 
-  garageId Int
-  Garage   Garage    @relation(fields: [garageId], references: [id])
-  Bookings Booking[]
+  propertyId Int
+  Property   Property @relation(fields: [propertyId], references: [id])
 }
 
-enum SlotType {
-  CAR
-  HEAVY
-  BIKE
-  BICYCLE
+enum PropertyFeatureType {
+  BEDROOM
+  BATHROOM
+  PARKING_SPOT
+  AIR_CONDITIONER
+  BUILT_IN_WARDROBE
+  FURNISHED_KITCHEN
+  OTHER
 }
 
-model Booking {
+model Inquiry {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  pricePerHour  Float?
-  totalPrice    Float?
-  startTime     DateTime
-  endTime       DateTime
-  vehicleNumber String
-  phoneNumber   String?
-  passcode      String?
-  status        BookingStatus @default(BOOKED)
+  listPriceAtInquiry Float?
+  totalPrice         Float?
+  startTime          DateTime
+  endTime            DateTime
+  contactNotes       String?
+  phoneNumber        String?
+  passcode           String?
+  status             InquiryStatus @default(INTERESTED)
 
-  slotId Int
-  Slot   Slot @relation(fields: [slotId], references: [id])
+  propertyId Int
+  Property   Property @relation(fields: [propertyId], references: [id])
 
   customerId String
   Customer   Customer @relation(fields: [customerId], references: [uid])
 
-  ValetAssignment ValetAssignment?
-  BookingTimeline BookingTimeline[]
+  AgentAssignment AgentAssignment?
+  InquiryTimeline InquiryTimeline[]
 
   @@index([startTime, endTime])
 }
 
-model ValetAssignment {
-  bookingId Int      @id
+model AgentAssignment {
+  inquiryId Int      @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  pickupLat Float?
-  pickupLng Float?
-  returnLat Float?
-  returnLng Float?
+  visitLat Float?
+  visitLng Float?
 
-  pickupValetId String?
-  returnValetId String?
-  PickupValet   Valet?  @relation("PickupValet", fields: [pickupValetId], references: [uid])
-  ReturnValet   Valet?  @relation("ReturnValet", fields: [returnValetId], references: [uid])
-  Booking       Booking @relation(fields: [bookingId], references: [id])
+  assignedAgentId String?
+  AssignedAgent   Agent?  @relation(fields: [assignedAgentId], references: [uid])
+  Inquiry         Inquiry @relation(fields: [inquiryId], references: [id])
 }
 
-model BookingTimeline {
+model InquiryTimeline {
   id Int @id @default(autoincrement())
 
   timestamp DateTime      @default(now())
-  status    BookingStatus
+  status    InquiryStatus
 
-  bookingId Int
-  valetId   String?
+  inquiryId Int
+  agentId   String?
   managerId String?
-  Booking   Booking  @relation(fields: [bookingId], references: [id])
-  Valet     Valet?   @relation(fields: [valetId], references: [uid])
-  Manager   Manager? @relation(fields: [managerId], references: [uid])
+  Inquiry   Inquiry  @relation(fields: [inquiryId], references: [id])
+  Agent     Agent?   @relation(fields: [agentId], references: [uid])
+  BrokerageManager BrokerageManager? @relation(fields: [managerId], references: [uid])
 
-  @@index([bookingId])
+  @@index([inquiryId])
 }
 
 model Review {
@@ -241,8 +251,8 @@ model Review {
   customerId String
   Customer   Customer @relation(fields: [customerId], references: [uid])
 
-  garageId Int
-  Garage   Garage @relation(fields: [garageId], references: [id])
+  propertyId Int
+  Property   Property @relation(fields: [propertyId], references: [id])
 }
 
 model Verification {
@@ -251,18 +261,15 @@ model Verification {
 
   verified Boolean @default(false)
 
-  adminId  String
-  garageId Int    @id
-  Admin    Admin  @relation(fields: [adminId], references: [uid])
-  Garage   Garage @relation(fields: [garageId], references: [id])
+  adminId    String
+  propertyId Int    @id
+  Admin      Admin  @relation(fields: [adminId], references: [uid])
+  Property   Property @relation(fields: [propertyId], references: [id])
 }
 
-enum BookingStatus {
-  BOOKED
-  VALET_ASSIGNED_FOR_CHECK_IN
-  VALET_PICKED_UP
-  CHECKED_IN
-  VALET_ASSIGNED_FOR_CHECK_OUT
-  CHECKED_OUT
-  VALET_RETURNED
+enum InquiryStatus {
+  INTERESTED
+  VISIT_SCHEDULED
+  PROPOSAL
+  CLOSED
 }

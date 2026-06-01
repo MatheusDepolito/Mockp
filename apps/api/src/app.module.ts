@@ -10,15 +10,15 @@ import { UsersModule } from './models/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminsModule } from './models/admins/admins.module';
 import { CustomersModule } from './models/customers/customers.module';
-import { ManagersModule } from './models/managers/managers.module';
-import { ValetsModule } from './models/valets/valets.module';
-import { CompaniesModule } from './models/companies/companies.module';
-import { GaragesModule } from './models/garages/garages.module';
+import { BrokerageManagersModule } from './models/brokerage-managers/brokerage-managers.module';
+import { AgentsModule } from './models/agents/agents.module';
+import { BrokeragesModule } from './models/brokerages/brokerages.module';
+import { PropertiesModule } from './models/properties/properties.module';
 import { AddressesModule } from './models/addresses/addresses.module';
-import { SlotsModule } from './models/slots/slots.module';
-import { BookingsModule } from './models/bookings/bookings.module';
-import { ValetAssignmentsModule } from './models/valet-assignments/valet-assignments.module';
-import { BookingTimelinesModule } from './models/booking-timelines/booking-timelines.module';
+import { PropertyFeaturesModule } from './models/property-features/property-features.module';
+import { InquiriesModule } from './models/inquiries/inquiries.module';
+import { AgentAssignmentsModule } from './models/agent-assignments/agent-assignments.module';
+import { InquiryTimelinesModule } from './models/inquiry-timelines/inquiry-timelines.module';
 import { ReviewsModule } from './models/reviews/reviews.module';
 import { VerificationsModule } from './models/verifications/verifications.module';
 import { StripeModule } from './models/stripe/stripe.module';
@@ -39,23 +39,20 @@ const MAX_AGE = 24 * 60 * 60;
       introspection: true,
       fieldResolverEnhancers: ['guards'],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      // buildSchemaOptions: {
-      //   numberScalarMode: 'integer',
-      // },
     }),
     PrismaModule,
     UsersModule,
     AdminsModule,
     CustomersModule,
-    ManagersModule,
-    ValetsModule,
-    CompaniesModule,
-    GaragesModule,
+    BrokerageManagersModule,
+    AgentsModule,
+    BrokeragesModule,
+    PropertiesModule,
     AddressesModule,
-    SlotsModule,
-    BookingsModule,
-    ValetAssignmentsModule,
-    BookingTimelinesModule,
+    PropertyFeaturesModule,
+    InquiriesModule,
+    AgentAssignmentsModule,
+    InquiryTimelinesModule,
     ReviewsModule,
     VerificationsModule,
     StripeModule,

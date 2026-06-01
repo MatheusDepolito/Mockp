@@ -11,7 +11,7 @@ export class Review implements RestrictProperties<Review, ReviewType> {
   @Field({ nullable: true })
   comment: string;
   customerId: string;
-  garageId: number;
+  propertyId: number;
   // Todo Add below to make optional fields optional.
   // @Field({ nullable: true })
 }

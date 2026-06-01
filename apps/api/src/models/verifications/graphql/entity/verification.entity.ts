@@ -10,7 +10,7 @@ export class Verification
   createdAt: Date;
   updatedAt: Date;
   @Field()
-  garageId: number;
+  propertyId: number;
   verified: boolean;
   adminId: string;
   // Todo Add below to make optional fields optional.

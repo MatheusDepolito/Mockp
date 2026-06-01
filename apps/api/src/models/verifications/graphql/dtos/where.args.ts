@@ -8,11 +8,11 @@ import {
   StringFilter,
 } from 'src/common/dtos/common.input';
 import { AdminRelationFilter } from 'src/models/admins/graphql/dtos/where.args';
-import { GarageRelationFilter } from 'src/models/garages/graphql/dtos/where.args';
+import { PropertyRelationFilter } from 'src/models/properties/graphql/dtos/where.args';
 
 @InputType()
 export class VerificationWhereUniqueInput {
-  garageId: number;
+  propertyId: number;
 }
 
 @InputType()
@@ -27,9 +27,9 @@ export class VerificationWhereInputStrict
   updatedAt: DateTimeFilter;
   verified: BoolFilter;
   adminId: StringFilter;
-  garageId: IntFilter;
+  propertyId: IntFilter;
   Admin: AdminRelationFilter;
-  Garage: GarageRelationFilter;
+  Property: PropertyRelationFilter;
 
   AND: VerificationWhereInput[];
   OR: VerificationWhereInput[];

@@ -7,7 +7,7 @@ import {
   StringFilter,
 } from 'src/common/dtos/common.input';
 import { CustomerRelationFilter } from 'src/models/customers/graphql/dtos/where.args';
-import { GarageRelationFilter } from 'src/models/garages/graphql/dtos/where.args';
+import { PropertyRelationFilter } from 'src/models/properties/graphql/dtos/where.args';
 
 @InputType()
 export class ReviewWhereUniqueInput {
@@ -24,9 +24,9 @@ export class ReviewWhereInputStrict
   rating: IntFilter;
   comment: StringFilter;
   customerId: StringFilter;
-  garageId: IntFilter;
+  propertyId: IntFilter;
   Customer: CustomerRelationFilter;
-  Garage: GarageRelationFilter;
+  Property: PropertyRelationFilter;
 
   AND: ReviewWhereInput[];
   OR: ReviewWhereInput[];

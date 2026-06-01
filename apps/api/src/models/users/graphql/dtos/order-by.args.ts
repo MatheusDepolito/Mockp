@@ -13,8 +13,8 @@ export class UserOrderByWithRelationInputStrict
         | 'AuthProvider'
         | 'Admin'
         | 'image'
-        | 'Manager'
-        | 'Valet'
+        | 'BrokerageManager'
+        | 'Agent'
         | 'Customer'
       >
     >

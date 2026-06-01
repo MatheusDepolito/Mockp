@@ -37,13 +37,13 @@ export class AddressesController {
     @Body() createAddressDto: CreateAddress,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.garage.findUnique({
-      where: { id: createAddressDto.garageId },
-      include: { Company: { include: { Managers: true } } },
+    const garage = await this.prisma.property.findUnique({
+      where: { id: createAddressDto.propertyId },
+      include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Company.Managers.map((manager) => manager.uid),
+      garage.Brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.address.create({ data: createAddressDto });
   }
@@ -76,12 +76,16 @@ export class AddressesController {
     const address = await this.prisma.address.findUnique({
       where: { id },
       include: {
-        Garage: { include: { Company: { include: { Managers: true } } } },
+        Property: {
+          include: { Brokerage: { include: { BrokerageManagers: true } } },
+        },
       },
     });
     checkRowLevelPermission(
       user,
-      address.Garage.Company.Managers.map((manager) => manager.uid),
+      address.Property.Brokerage.BrokerageManagers.map(
+        (manager) => manager.uid,
+      ),
     );
     return this.prisma.address.update({
       where: { id },
@@ -96,12 +100,16 @@ export class AddressesController {
     const address = await this.prisma.address.findUnique({
       where: { id },
       include: {
-        Garage: { include: { Company: { include: { Managers: true } } } },
+        Property: {
+          include: { Brokerage: { include: { BrokerageManagers: true } } },
+        },
       },
     });
     checkRowLevelPermission(
       user,
-      address.Garage.Company.Managers.map((manager) => manager.uid),
+      address.Property.Brokerage.BrokerageManagers.map(
+        (manager) => manager.uid,
+      ),
     );
     return this.prisma.address.delete({ where: { id } });
   }

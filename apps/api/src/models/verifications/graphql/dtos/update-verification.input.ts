@@ -6,5 +6,5 @@ import { Verification } from 'src/common/prisma/client';
 export class UpdateVerificationInput extends PartialType(
   CreateVerificationInput,
 ) {
-  garageId: Verification['garageId'];
+  propertyId: Verification['propertyId'];
 }

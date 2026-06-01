@@ -9,7 +9,7 @@ export class CreateAddressInput extends OmitType(
 ) {}
 
 @InputType()
-export class CreateAddressInputWithoutGarageId extends PickType(
+export class CreateAddressInputWithoutPropertyId extends PickType(
   CreateAddressInput,
   ['address', 'lat', 'lng'],
   InputType,

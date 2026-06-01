@@ -21,9 +21,9 @@ import { GetUserType } from 'src/common/types';
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { Admin } from 'src/models/admins/graphql/entity/admin.entity';
-import { Valet } from 'src/models/valets/graphql/entity/valet.entity';
+import { Agent } from 'src/models/agents/graphql/entity/agent.entity';
 import { Customer } from 'src/models/customers/graphql/entity/customer.entity';
-import { Manager } from 'src/models/managers/graphql/entity/manager.entity';
+import { BrokerageManager } from 'src/models/brokerage-managers/graphql/entity/brokerage-manager.entity';
 import { AuthProviderType } from 'src/common/prisma/client';
 
 @Resolver(() => User)
@@ -101,9 +101,9 @@ export class UsersResolver {
     });
   }
 
-  @ResolveField(() => Valet, { nullable: true })
-  valet(@Parent() user: User) {
-    return this.prisma.valet.findUnique({
+  @ResolveField(() => Agent, { nullable: true })
+  agent(@Parent() user: User) {
+    return this.prisma.agent.findUnique({
       where: { uid: user.uid },
     });
   }
@@ -115,9 +115,9 @@ export class UsersResolver {
     });
   }
 
-  @ResolveField(() => Manager, { nullable: true })
-  manager(@Parent() user: User) {
-    return this.prisma.manager.findUnique({
+  @ResolveField(() => BrokerageManager, { nullable: true })
+  brokerageManager(@Parent() user: User) {
+    return this.prisma.brokerageManager.findUnique({
       where: { uid: user.uid },
     });
   }

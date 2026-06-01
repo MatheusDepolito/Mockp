@@ -16,7 +16,7 @@ export default class StripeService {
   async createStripeSession({
     totalPriceObj,
     uid,
-    bookingData,
+    inquiryData,
   }: CreateStripeDto) {
     const session = await this.stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -37,7 +37,7 @@ export default class StripeService {
       cancel_url: process.env.STRIPE_CANCEL_URL,
       metadata: {
         uid,
-        bookingData: JSON.stringify(bookingData),
+        inquiryData: JSON.stringify(inquiryData),
       },
     });
     return { sessionId: session.id };

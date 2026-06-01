@@ -25,9 +25,9 @@ export class VerificationsService {
   }
 
   update(updateVerificationInput: UpdateVerificationInput) {
-    const { garageId, ...data } = updateVerificationInput;
+    const { propertyId, ...data } = updateVerificationInput;
     return this.prisma.verification.update({
-      where: { garageId },
+      where: { propertyId },
       data: data,
     });
   }

@@ -8,6 +8,6 @@ export class VerificationEntity
   createdAt: Date;
   updatedAt: Date;
   adminId: string;
-  garageId: number;
+  propertyId: number;
   verified: boolean;
 }

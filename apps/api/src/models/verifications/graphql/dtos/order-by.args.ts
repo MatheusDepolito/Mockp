@@ -2,7 +2,7 @@ import { Field, InputType, PartialType } from '@nestjs/graphql';
 import { Prisma } from 'src/common/prisma/client';
 import { RestrictProperties } from 'src/common/dtos/common.input';
 import { AdminOrderByWithRelationInput } from 'src/models/admins/graphql/dtos/order-by.args';
-import { GarageOrderByWithRelationInput } from 'src/models/garages/graphql/dtos/order-by.args';
+import { PropertyOrderByWithRelationInput } from 'src/models/properties/graphql/dtos/order-by.args';
 
 @InputType()
 export class VerificationOrderByWithRelationInputStrict
@@ -21,9 +21,9 @@ export class VerificationOrderByWithRelationInputStrict
   @Field(() => Prisma.SortOrder)
   adminId: Prisma.SortOrder;
   @Field(() => Prisma.SortOrder)
-  garageId: Prisma.SortOrder;
+  propertyId: Prisma.SortOrder;
   Admin: AdminOrderByWithRelationInput;
-  Garage: GarageOrderByWithRelationInput;
+  Property: PropertyOrderByWithRelationInput;
   // Todo: Add below field decorator to the SortOrder properties.
   // @Field(() => Prisma.SortOrder)
 }

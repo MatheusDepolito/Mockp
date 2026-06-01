@@ -12,5 +12,5 @@ export class AddressEntity
   lat: number;
   lng: number;
   @IsOptional()
-  garageId: number;
+  propertyId: number;
 }

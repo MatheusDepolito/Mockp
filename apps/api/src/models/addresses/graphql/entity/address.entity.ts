@@ -11,5 +11,5 @@ export class Address implements RestrictProperties<Address, AddressType> {
   lat: number;
   lng: number;
   @Field({ nullable: true })
-  garageId: number;
+  propertyId: number;
 }

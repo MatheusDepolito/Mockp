@@ -7,7 +7,7 @@ import {
   RestrictProperties,
   StringFilter,
 } from 'src/common/dtos/common.input';
-import { GarageRelationFilter } from 'src/models/garages/graphql/dtos/where.args';
+import { PropertyRelationFilter } from 'src/models/properties/graphql/dtos/where.args';
 
 @InputType()
 export class AddressWhereUniqueInput {
@@ -25,8 +25,8 @@ export class AddressWhereInputStrict
   address: StringFilter;
   lat: FloatFilter;
   lng: FloatFilter;
-  garageId: IntFilter;
-  Garage: GarageRelationFilter;
+  propertyId: IntFilter;
+  Property: PropertyRelationFilter;
 
   AND: AddressWhereInput[];
   OR: AddressWhereInput[];

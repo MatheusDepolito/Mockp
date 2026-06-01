@@ -46,29 +46,29 @@ export class VerificationsController {
   }
 
   @ApiOkResponse({ type: VerificationEntity })
-  @Get(':garageId')
-  findOne(@Param('garageId') garageId: number) {
-    return this.prisma.verification.findUnique({ where: { garageId } });
+  @Get(':propertyId')
+  findOne(@Param('propertyId') propertyId: number) {
+    return this.prisma.verification.findUnique({ where: { propertyId } });
   }
 
   @ApiOkResponse({ type: VerificationEntity })
   @ApiBearerAuth()
   @AllowAuthenticated('admin')
-  @Patch(':garageId')
+  @Patch(':propertyId')
   async update(
-    @Param('garageId') garageId: number,
+    @Param('propertyId') propertyId: number,
     @Body() updateVerificationDto: UpdateVerification,
   ) {
     return this.prisma.verification.update({
-      where: { garageId },
+      where: { propertyId },
       data: updateVerificationDto,
     });
   }
 
   @ApiBearerAuth()
   @AllowAuthenticated('admin')
-  @Delete(':garageId')
-  async remove(@Param('garageId') garageId: number) {
-    return this.prisma.verification.delete({ where: { garageId } });
+  @Delete(':propertyId')
+  async remove(@Param('propertyId') propertyId: number) {
+    return this.prisma.verification.delete({ where: { propertyId } });
   }
 }

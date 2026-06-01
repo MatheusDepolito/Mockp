@@ -10,5 +10,5 @@ export class ReviewEntity implements RestrictProperties<ReviewEntity, Review> {
   @IsOptional()
   comment: string;
   customerId: string;
-  garageId: number;
+  propertyId: number;
 }

@@ -15,7 +15,7 @@ import { checkRowLevelPermission } from 'src/common/auth/util';
 import { GetUserType } from 'src/common/types';
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { Garage } from 'src/models/garages/graphql/entity/garage.entity';
+import { Property } from 'src/models/properties/graphql/entity/property.entity';
 
 @Resolver(() => Address)
 export class AddressesResolver {
@@ -30,13 +30,13 @@ export class AddressesResolver {
     @Args('createAddressInput') args: CreateAddressInput,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.garage.findUnique({
-      where: { id: args.garageId },
-      include: { Company: { include: { Managers: true } } },
+    const garage = await this.prisma.property.findUnique({
+      where: { id: args.propertyId },
+      include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Company.Managers.map((man) => man.uid),
+      garage.Brokerage.BrokerageManagers.map((man) => man.uid),
     );
     return this.addressesService.create(args);
   }
@@ -60,14 +60,14 @@ export class AddressesResolver {
     const address = await this.prisma.address.findUnique({
       where: { id: args.id },
       include: {
-        Garage: {
-          include: { Company: { include: { Managers: true } } },
+        Property: {
+          include: { Brokerage: { include: { BrokerageManagers: true } } },
         },
       },
     });
     checkRowLevelPermission(
       user,
-      address.Garage.Company.Managers.map((man) => man.uid),
+      address.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
     );
     return this.addressesService.update(args);
   }
@@ -81,20 +81,22 @@ export class AddressesResolver {
     const address = await this.prisma.address.findUnique({
       where: { id: args.where.id },
       include: {
-        Garage: {
-          include: { Company: { include: { Managers: true } } },
+        Property: {
+          include: { Brokerage: { include: { BrokerageManagers: true } } },
         },
       },
     });
     checkRowLevelPermission(
       user,
-      address.Garage.Company.Managers.map((man) => man.uid),
+      address.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
     );
     return this.addressesService.remove(args);
   }
 
-  @ResolveField(() => Garage, { nullable: true })
+  @ResolveField(() => Property, { nullable: true })
   garage(@Parent() address: Address) {
-    return this.prisma.company.findFirst({ where: { id: address.garageId } });
+    return this.prisma.brokerage.findFirst({
+      where: { id: address.propertyId },
+    });
   }
 }

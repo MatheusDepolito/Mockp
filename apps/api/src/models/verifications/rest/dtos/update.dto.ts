@@ -3,5 +3,5 @@ import { CreateVerification } from './create.dto';
 import { Verification } from 'src/common/prisma/client';
 
 export class UpdateVerification extends PartialType(CreateVerification) {
-  garageId: Verification['garageId'];
+  propertyId: Verification['propertyId'];
 }

@@ -7,16 +7,16 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
-import { BookingsService } from '../bookings/graphql/bookings.service';
+import { InquiriesService } from '../inquiries/graphql/inquiries.service';
 import StripeService from './stripe.service';
 import { CreateStripeDto } from './dto/create-stripe-session.dto';
-import { CreateBookingInput } from '../bookings/graphql/dtos/create-booking.input';
+import { CreateInquiryInput } from '../inquiries/graphql/dtos/create-inquiry.input';
 import { Response } from 'express';
 @Controller('stripe')
 export class StripeController {
   constructor(
     private readonly stripeService: StripeService,
-    private readonly bookingsService: BookingsService,
+    private readonly inquiriesService: InquiriesService,
   ) {}
 
   @Get()
@@ -41,10 +41,10 @@ export class StripeController {
     const session =
       await this.stripeService.stripe.checkout.sessions.retrieve(sessionId);
 
-    const { uid, bookingData } = session.metadata;
+    const { uid, inquiryData } = session.metadata;
 
-    const bookingInput: CreateBookingInput = JSON.parse(bookingData);
-    const newBooking = await this.bookingsService.create(bookingInput);
+    const bookingInput: CreateInquiryInput = JSON.parse(inquiryData);
+    const newInquiry = await this.inquiriesService.create(bookingInput);
     res.redirect(process.env.BOOKINGS_REDIRECT_URL);
   }
 }

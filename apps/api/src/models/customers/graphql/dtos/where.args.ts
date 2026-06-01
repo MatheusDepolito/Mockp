@@ -5,7 +5,7 @@ import {
   RestrictProperties,
   StringFilter,
 } from 'src/common/dtos/common.input';
-import { BookingListRelationFilter } from 'src/models/bookings/graphql/dtos/where.args';
+import { InquiryListRelationFilter } from 'src/models/inquiries/graphql/dtos/where.args';
 import { ReviewListRelationFilter } from 'src/models/reviews/graphql/dtos/where.args';
 import { UserRelationFilter } from 'src/models/users/graphql/dtos/where.args';
 
@@ -24,7 +24,7 @@ export class CustomerWhereInputStrict
   createdAt: DateTimeFilter;
   updatedAt: DateTimeFilter;
   displayName: StringFilter;
-  Bookings: BookingListRelationFilter;
+  Inquiries: InquiryListRelationFilter;
   Reviews: ReviewListRelationFilter;
 
   AND: CustomerWhereInput[];

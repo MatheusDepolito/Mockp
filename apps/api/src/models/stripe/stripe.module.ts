@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 
 import { StripeController } from './stripe.controller';
 import StripeService from './stripe.service';
-import { BookingsService } from '../bookings/graphql/bookings.service';
+import { InquiriesService } from '../inquiries/graphql/inquiries.service';
 
 @Module({
   controllers: [StripeController],
-  providers: [StripeService, BookingsService],
+  providers: [StripeService, InquiriesService],
 })
 export class StripeModule {}
