@@ -1,9 +1,9 @@
-import { FormProviderSearchGarage } from '@mockp/forms/src/searchGarages';
+import { FormProviderSearchProperty } from '@mockp/forms/src/searchProperties';
 import { SearchPage } from '@mockp/ui/src/components/templates/SearchPage';
 export default function Page() {
   return (
-    <FormProviderSearchGarage>
+    <FormProviderSearchProperty>
       <SearchPage />
-    </FormProviderSearchGarage>
+    </FormProviderSearchProperty>
   );
 }

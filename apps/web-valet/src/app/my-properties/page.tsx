@@ -1,15 +1,15 @@
 'use client';
 import { IsLoggedIn } from '@mockp/ui/src/components/organisms/IsLoggedIn';
 import { IsAgent } from '@mockp/ui/src/components/organisms/IsAgent';
-import { AgentHome } from '@mockp/ui/src/components/templates/AgentHome';
+import { AgentProperties } from '@mockp/ui/src/components/templates/AgentProperties';
 
-export default function Home() {
+export default function Page() {
   return (
     <main>
       <IsLoggedIn>
         {(uid) => (
           <IsAgent uid={uid}>
-            <AgentHome />
+            <AgentProperties />
           </IsAgent>
         )}
       </IsLoggedIn>

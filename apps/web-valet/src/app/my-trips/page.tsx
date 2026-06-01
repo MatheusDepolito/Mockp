@@ -1,16 +1,16 @@
 'use client';
 import { IsLoggedIn } from '@mockp/ui/src/components/organisms/IsLoggedIn';
-import { IsValet } from '@mockp/ui/src/components/organisms/IsValet';
-import { ValetTrips } from '@mockp/ui/src/components/templates/ValetTrips';
+import { IsAgent } from '@mockp/ui/src/components/organisms/IsAgent';
+import { AgentTrips } from '@mockp/ui/src/components/templates/AgentTrips';
 
 export default function Page() {
   return (
     <main>
       <IsLoggedIn>
         {(uid) => (
-          <IsValet uid={uid}>
-            <ValetTrips uid={uid} />
-          </IsValet>
+          <IsAgent uid={uid}>
+            <AgentTrips uid={uid} />
+          </IsAgent>
         )}
       </IsLoggedIn>
     </main>

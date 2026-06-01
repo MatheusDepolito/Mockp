@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 const MENUITEMS: MenuItem[] = [
-  { label: 'Garages', href: '/' },
+  { label: 'Propertys', href: '/' },
   { label: 'Admins', href: '/manageAdmins' },
 ];
 

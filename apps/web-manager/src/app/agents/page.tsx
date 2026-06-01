@@ -1,10 +1,10 @@
-import { ManageValets } from '@mockp/ui/src/components/templates/ManageValets';
+import { ManageAgents } from '@mockp/ui/src/components/templates/ManageAgents';
 import { IsLoggedIn } from '@mockp/ui/src/components/organisms/IsLoggedIn';
 
 export default function Page() {
   return (
     <IsLoggedIn>
-      <ManageValets />
+      <ManageAgents />
     </IsLoggedIn>
   );
 }

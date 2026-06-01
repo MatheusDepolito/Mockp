@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const MENUITEMS: MenuItem[] = [
   { label: 'Search', href: '/search' },
-  { label: 'Bookings', href: '/bookings' },
+  { label: 'Inquiries', href: '/bookings' },
 ];
 
 export default function RootLayout({
