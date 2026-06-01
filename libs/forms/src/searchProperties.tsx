@@ -1,15 +1,15 @@
 'use client';
-import { SlotType } from '@mockp/network/src/gql/generated';
+import { PropertyFeatureType } from '@mockp/network/src/gql/generated';
 import { z } from 'zod';
 import { toLocalISOString } from '@mockp/util/date';
 import { ReactNode } from 'react';
-import { DefaultValues, useForm, FormProvider, Form } from 'react-hook-form';
+import { DefaultValues, useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isEndTimeValid, isStartTimeValid } from './util';
 
 const minMaxTuple = z.tuple([z.number(), z.number()]);
 
-export const formSchemaSearchGarage = z
+export const formSchemaSearchProperty = z
   .object({
     startTime: z.string(),
     endTime: z.string(),
@@ -21,12 +21,9 @@ export const formSchemaSearchGarage = z
       sw_lng: z.number(),
     }),
 
-    types: z.nativeEnum(SlotType).array(),
+    types: z.nativeEnum(PropertyFeatureType).array(),
 
-    pricePerHour: minMaxTuple.optional(),
-    height: minMaxTuple.optional(),
-    width: minMaxTuple.optional(),
-    length: minMaxTuple.optional(),
+    listPrice: minMaxTuple.optional(),
 
     skip: z.number().optional(),
     take: z.number().optional(),
@@ -40,7 +37,7 @@ export const formSchemaSearchGarage = z
     path: ['endTime'],
   });
 
-export type FormTypeSearchGarage = z.infer<typeof formSchemaSearchGarage>;
+export type FormTypeSearchProperty = z.infer<typeof formSchemaSearchProperty>;
 
 export const getCurrentTimeAndOneHourLater = () => {
   const startTime = new Date();
@@ -55,32 +52,32 @@ export const getCurrentTimeAndOneHourLater = () => {
   };
 };
 
-export const AllSlotTypes = [
-  SlotType.Bicycle,
-  SlotType.Bike,
-  SlotType.Car,
-  SlotType.Heavy,
+export const AllPropertyFeatureTypes = [
+  PropertyFeatureType.Bedroom,
+  PropertyFeatureType.Bathroom,
+  PropertyFeatureType.ParkingSpot,
+  PropertyFeatureType.AirConditioner,
+  PropertyFeatureType.BuiltInWardrobe,
+  PropertyFeatureType.FurnishedKitchen,
+  PropertyFeatureType.Other,
 ];
 
-export const formDefaultValuesSearchGarages: DefaultValues<FormTypeSearchGarage> =
+export const formDefaultValuesSearchProperties: DefaultValues<FormTypeSearchProperty> =
   {
-    pricePerHour: [0, 200],
-    width: [0, 20],
-    height: [0, 100],
-    length: [0, 100],
-    types: AllSlotTypes.sort(),
+    listPrice: [0, 5000],
+    types: AllPropertyFeatureTypes.sort(),
   };
 
-export const FormProviderSearchGarage = ({
+export const FormProviderSearchProperty = ({
   children,
 }: {
   children: ReactNode;
 }) => {
   const { startTime, endTime } = getCurrentTimeAndOneHourLater();
-  const methods = useForm<FormTypeSearchGarage>({
-    resolver: zodResolver(formSchemaSearchGarage),
+  const methods = useForm<FormTypeSearchProperty>({
+    resolver: zodResolver(formSchemaSearchProperty),
     defaultValues: {
-      ...formDefaultValuesSearchGarages,
+      ...formDefaultValuesSearchProperties,
       startTime,
       endTime,
     },

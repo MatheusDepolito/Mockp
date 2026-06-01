@@ -1,33 +1,24 @@
-import { SlotType } from '@mockp/network/src/gql/generated';
 import { z } from 'zod';
 import { isEndTimeValid, isStartTimeValid } from './util';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReactNode } from 'react';
 
-export const locationInfo = z.object({
+export const visitInfo = z.object({
   lat: z.number(),
   lng: z.number(),
-  distance: z.number().optional(),
   notes: z.string().optional(),
 });
 
-export const formSchemaValet = z.object({
-  pickupInfo: locationInfo,
-  dropoffInfo: locationInfo,
-  differentLocations: z.boolean().optional(),
-});
-
-export const formSchemaBookSlot = z
+export const formSchemaBookPropertyFeature = z
   .object({
     startTime: z.string(),
     endTime: z.string(),
-    vehicleNumber: z.string().min(1, { message: 'Vehicle number is required' }),
+    contactNotes: z
+      .string()
+      .min(1, { message: 'Observações de contato são obrigatórias' }),
     phoneNumber: z.string().min(1, { message: 'Phone number is required' }),
-    type: z.nativeEnum(SlotType, {
-      required_error: 'Slot type is required',
-    }),
-    valet: formSchemaValet.optional(),
+    visitInfo: visitInfo.optional(),
   })
   .refine(({ startTime }) => isStartTimeValid(startTime), {
     message: 'Start time should be greater than current time',
@@ -38,27 +29,29 @@ export const formSchemaBookSlot = z
     path: ['endTime'],
   });
 
-export type FormTypeBookSlot = z.infer<typeof formSchemaBookSlot>;
+export type FormTypeBookPropertyFeature = z.infer<
+  typeof formSchemaBookPropertyFeature
+>;
 
-export const userFormBookSlot = ({
+export const userFormBookPropertyFeature = ({
   defaultValues,
 }: {
-  defaultValues: DefaultValues<FormTypeBookSlot>;
+  defaultValues: DefaultValues<FormTypeBookPropertyFeature>;
 }) =>
-  useForm<FormTypeBookSlot>({
-    resolver: zodResolver(formSchemaBookSlot),
+  useForm<FormTypeBookPropertyFeature>({
+    resolver: zodResolver(formSchemaBookPropertyFeature),
     defaultValues,
     mode: 'onChange',
   });
 
-export const FormProviderBookSlot = ({
+export const FormProviderBookPropertyFeature = ({
   children,
   defaultValues,
 }: {
   children: ReactNode;
-  defaultValues: DefaultValues<FormTypeBookSlot>;
+  defaultValues: DefaultValues<FormTypeBookPropertyFeature>;
 }) => {
-  const methods = userFormBookSlot({ defaultValues });
+  const methods = userFormBookPropertyFeature({ defaultValues });
 
   return <FormProvider {...methods}>{children}</FormProvider>;
 };

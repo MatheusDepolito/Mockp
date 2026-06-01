@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { FormTypeSearchGarage } from '../searchGarages';
-import { SearchGaragesQueryVariables } from '@mockp/network/src/gql/generated';
+import { FormTypeSearchProperty } from '../searchProperties';
+import { SearchPropertiesQueryVariables } from '@mockp/network/src/gql/generated';
 import {
   FieldNamesMarkedBoolean,
   useFormContext,
@@ -11,13 +11,10 @@ import { intFilter } from './util';
 
 type FormData = Partial<
   Pick<
-    FormTypeSearchGarage,
+    FormTypeSearchProperty,
     | 'endTime'
     | 'startTime'
-    | 'height'
-    | 'length'
-    | 'width'
-    | 'pricePerHour'
+    | 'listPrice'
     | 'types'
     | 'locationFilter'
     | 'skip'
@@ -27,13 +24,13 @@ type FormData = Partial<
 
 export const useConvertSearchFormToVariables = () => {
   const [variables, setVariables] =
-    useState<SearchGaragesQueryVariables | null>(null);
+    useState<SearchPropertiesQueryVariables | null>(null);
 
   const {
     formState: { dirtyFields, errors },
-  } = useFormContext<FormTypeSearchGarage>();
+  } = useFormContext<FormTypeSearchProperty>();
 
-  const formData = useWatch<FormTypeSearchGarage>();
+  const formData = useWatch<FormTypeSearchProperty>();
 
   const [debouncedFormData, { debouncing }] = useDebounce(formData, 300);
 
@@ -44,10 +41,7 @@ export const useConvertSearchFormToVariables = () => {
       endTime = '',
       startTime = '',
       locationFilter,
-      length,
-      width,
-      height,
-      pricePerHour,
+      listPrice,
       types,
       skip,
       take,
@@ -57,62 +51,55 @@ export const useConvertSearchFormToVariables = () => {
       return;
     }
 
-    const dateFilter: SearchGaragesQueryVariables['dateFilter'] = {
+    const dateFilter: SearchPropertiesQueryVariables['dateFilter'] = {
       start: startTime,
       end: endTime,
     };
 
     const { ne_lat = 0, ne_lng = 0, sw_lat = 0, sw_lng = 0 } = locationFilter;
 
-    const slotsFilter = createSlotsFilter(dirtyFields, {
-      length,
-      width,
-      height,
-      pricePerHour,
+    const featuresFilter = createPropertyFeaturesFilter(dirtyFields, {
       types,
     });
 
-    const garagesFilter = createGaragesFilter(dirtyFields, { skip, take });
+    const propertyFilter = createPropertyFilter(dirtyFields, {
+      listPrice,
+      skip,
+      take,
+    });
 
     setVariables({
       dateFilter,
       locationFilter: { ne_lat, ne_lng, sw_lat, sw_lng },
-      ...(Object.keys(slotsFilter).length && { slotsFilter }),
-      ...(Object.keys(garagesFilter).length && { garagesFilter }),
+      ...(Object.keys(featuresFilter).length && { featuresFilter }),
+      ...(Object.keys(propertyFilter).length && { propertyFilter }),
     });
-  }, [debouncedFormData]);
+  }, [debouncedFormData, dirtyFields]);
 
   return { variables: hasErrors ? null : variables, debouncing };
 };
 
-export const createSlotsFilter = (
-  dirtyFields: FieldNamesMarkedBoolean<FormTypeSearchGarage>,
-  formData: FormData,
+export const createPropertyFeaturesFilter = (
+  dirtyFields: FieldNamesMarkedBoolean<FormTypeSearchProperty>,
+  formData: Pick<FormData, 'types'>,
 ) => {
-  const length = dirtyFields.length && intFilter(formData.length);
-  const width = dirtyFields.width && intFilter(formData.width);
-  const height = dirtyFields.height && intFilter(formData.height);
-  const pricePerHour =
-    dirtyFields.pricePerHour && intFilter(formData.pricePerHour);
   const type = dirtyFields.types && { in: formData.types };
 
   return {
-    ...(length && { length }),
-    ...(width && { width }),
-    ...(height && { height }),
-    ...(pricePerHour && { pricePerHour }),
     ...(type && { type }),
   };
 };
 
-export const createGaragesFilter = (
-  dirtyFields: FieldNamesMarkedBoolean<FormTypeSearchGarage>,
-  formData: FormData,
+export const createPropertyFilter = (
+  dirtyFields: FieldNamesMarkedBoolean<FormTypeSearchProperty>,
+  formData: Pick<FormData, 'listPrice' | 'skip' | 'take'>,
 ) => {
+  const listPrice = dirtyFields.listPrice && intFilter(formData.listPrice);
   const skip = (dirtyFields.skip && formData.skip) || 0;
   const take = (dirtyFields.take && formData.take) || 10;
 
   return {
+    ...(listPrice && { where: { listPrice } }),
     ...(skip && { skip }),
     ...(take && { take }),
   };

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type Role = 'admin' | 'manager' | 'valet';
+export type Role = 'admin' | 'brokerageManager' | 'agent';
 
 export type BaseComponent = {
   children?: ReactNode;
