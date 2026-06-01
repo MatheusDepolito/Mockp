@@ -10,6 +10,7 @@ The wiki is versioned in Git under `docs/wiki`. Treat it as the source of truth 
 
 - [[PRODUCT_OVERVIEW_PT|Mockp — visão do produto (PT)]]
 - [[PRODUCT_OVERVIEW_IMOBILIARIO_PT|Mockp como produto imobiliário — visão (PT)]]
+- [[DOMAIN_GLOSSARY_IMOBILIARIO_PT|Glossário de domínio imobiliário (PT)]]
 
 ## Recommended Reading Order
 

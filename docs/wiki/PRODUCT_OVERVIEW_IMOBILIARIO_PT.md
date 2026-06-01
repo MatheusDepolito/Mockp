@@ -34,6 +34,17 @@ Os nomes e os limites de atuação por papel devem ser validados com produto e r
 
 ---
 
+## Modelo corretora, corretor e imóvel
+
+- **Corretora (`Brokerage`):** carteira organizacional de imóveis e equipe.
+- **Corretor (`Agent`):** pode atuar **sozinho** (`brokerageId` opcional) ou **vinculado** a uma corretora.
+- **Imóvel (`Property`):** pode pertencer a uma corretora (`brokerageId` opcional) e sempre tem **corretor responsável** (`responsibleAgentId`).
+- **Características (`PropertyFeature`):** contagens tipadas (quartos, ar-condicionado, vagas, etc.) via enum `PropertyFeatureType`.
+
+Glossário técnico completo: [[DOMAIN_GLOSSARY_IMOBILIARIO_PT]].
+
+---
+
 ## Cadastro de imóveis e características
 
 Em vez de cadastro de garagem, esta visão trata cada registro como **imóvel/listagem** com:
