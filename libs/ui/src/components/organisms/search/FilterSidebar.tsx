@@ -1,7 +1,7 @@
 import {
-  FormTypeSearchGarage,
-  formDefaultValuesSearchGarages,
-} from '@mockp/forms/src/searchGarages';
+  FormTypeSearchProperty,
+  formDefaultValuesSearchProperties,
+} from '@mockp/forms/src/searchProperties';
 import { useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Button } from '../../atoms/Button';
@@ -23,7 +23,7 @@ export const FilterSidebar = () => {
     reset,
     getValues,
     formState: { dirtyFields },
-  } = useFormContext<FormTypeSearchGarage>();
+  } = useFormContext<FormTypeSearchProperty>();
 
   return (
     <>
@@ -48,13 +48,13 @@ export const FilterSidebar = () => {
             }) => {
               return (
                 <div>
-                  <FilterHeading dirty={isDirty} title="Vehicle type" />
+                  <FilterHeading dirty={isDirty} title="Características" />
                   <ToggleButtonGroup
                     value={value}
                     onChange={(_, value) => {
                       onChange(value.sort());
                     }}
-                    aria-label="text formatting"
+                    aria-label="property features"
                   >
                     {defaultValues?.types?.map((val) => {
                       if (!val) return null;
@@ -74,7 +74,7 @@ export const FilterSidebar = () => {
             }}
           />
           <Controller
-            name="pricePerHour"
+            name="listPrice"
             control={control}
             render={({
               field: { value, onChange },
@@ -83,92 +83,16 @@ export const FilterSidebar = () => {
             }) => {
               return (
                 <div className="w-full">
-                  <FilterHeading dirty={isDirty} title="Price per hour" />
+                  <FilterHeading dirty={isDirty} title="Preço" />
                   <RangeSlider
-                    min={defaultValues?.pricePerHour?.[0]}
-                    max={defaultValues?.pricePerHour?.[1]}
-                    // max={200}
+                    min={defaultValues?.listPrice?.[0]}
+                    max={defaultValues?.listPrice?.[1]}
                     value={value}
                     onChange={onChange}
                     valueLabelFormat={(sliderValue) =>
                       `$ ${sliderValue.toLocaleString()}`
                     }
-                    step={1}
-                  />
-                </div>
-              );
-            }}
-          />
-          <Controller
-            name="width"
-            control={control}
-            render={({
-              field: { value, onChange },
-              fieldState: { isDirty },
-              formState: { defaultValues },
-            }) => {
-              return (
-                <div className="w-full">
-                  <FilterHeading dirty={isDirty} title="Width" />
-                  <RangeSlider
-                    min={defaultValues?.width?.[0]}
-                    max={defaultValues?.width?.[1]}
-                    value={value}
-                    onChange={onChange}
-                    valueLabelFormat={(sliderValue) =>
-                      `${sliderValue.toLocaleString()} ft`
-                    }
-                    step={2}
-                  />
-                </div>
-              );
-            }}
-          />
-          <Controller
-            name="height"
-            control={control}
-            render={({
-              field: { value, onChange },
-              fieldState: { isDirty },
-              formState: { defaultValues },
-            }) => {
-              return (
-                <div className="w-full">
-                  <FilterHeading dirty={isDirty} title="Height" />
-                  <RangeSlider
-                    min={defaultValues?.height?.[0]}
-                    max={defaultValues?.height?.[1]}
-                    value={value}
-                    onChange={onChange}
-                    valueLabelFormat={(sliderValue) =>
-                      `${sliderValue.toLocaleString()} ft`
-                    }
-                    step={2}
-                  />
-                </div>
-              );
-            }}
-          />
-          <Controller
-            name="length"
-            control={control}
-            render={({
-              field: { value, onChange },
-              fieldState: { isDirty },
-              formState: { defaultValues },
-            }) => {
-              return (
-                <div className="w-full">
-                  <FilterHeading dirty={isDirty} title="Length" />
-                  <RangeSlider
-                    min={defaultValues?.length?.[0]}
-                    max={defaultValues?.length?.[1]}
-                    value={value}
-                    onChange={onChange}
-                    valueLabelFormat={(sliderValue) =>
-                      `${sliderValue.toLocaleString()} ft`
-                    }
-                    step={5}
+                    step={50}
                   />
                 </div>
               );
@@ -176,7 +100,7 @@ export const FilterSidebar = () => {
           />
           <Button
             onClick={() =>
-              reset({ ...getValues(), ...formDefaultValuesSearchGarages })
+              reset({ ...getValues(), ...formDefaultValuesSearchProperties })
             }
             disabled={!Object.values(dirtyFields).length}
           >

@@ -1,5 +1,5 @@
 'use client';
-import { useFormCreateCompany } from '@mockp/forms/src/createCompany';
+import { useFormCreateBrokerage } from '@mockp/forms/src/createBrokerage';
 import { useEffect, useState } from 'react';
 import { Button } from '../atoms/Button';
 import { Dialog } from '../atoms/Dialog';
@@ -10,50 +10,54 @@ import { HtmlTextArea } from '../atoms/HtmlTextArea';
 import { useSession } from 'next-auth/react';
 import { useMutation } from '@apollo/client';
 import {
-  CreateCompanyDocument,
+  CreateBrokerageDocument,
   namedOperations,
 } from '@mockp/network/src/gql/generated';
-export const CreateCompany = () => {
+export const CreateBrokerage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useFormCreateCompany();
+  } = useFormCreateBrokerage();
 
   const session = useSession();
   const uid = session.data?.user?.uid;
   const managerName = session.data?.user?.name;
 
-  const [createCompany, { loading, data }] = useMutation(CreateCompanyDocument);
+  const [createBrokerage, { loading, data }] = useMutation(
+    CreateBrokerageDocument,
+  );
 
   useEffect(() => {
     if (uid) {
-      setValue('managerId', uid);
+      setValue('brokerageManagerId', uid);
     }
-    setValue('managerName', managerName);
-  }, [uid]);
+    if (managerName) {
+      setValue('managerName', managerName);
+    }
+  }, [uid, managerName, setValue]);
 
   const [open, setOpen] = useState(false);
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Create Company</Button>
-      <Dialog open={open} setOpen={setOpen} title="Create Company">
+      <Button onClick={() => setOpen(true)}>Create Brokerage</Button>
+      <Dialog open={open} setOpen={setOpen} title="Create Brokerage">
         <Form
           onSubmit={handleSubmit(async (data) => {
-            await createCompany({
+            await createBrokerage({
               variables: {
-                createCompanyInput: data,
+                createBrokerageInput: data,
               },
               awaitRefetchQueries: true,
-              refetchQueries: [namedOperations.Query.myCompany],
+              refetchQueries: [namedOperations.Query.myBrokerage],
             });
           })}
         >
-          <HtmlLabel title="Company name" error={errors.displayName?.message}>
+          <HtmlLabel title="Brokerage name" error={errors.displayName?.message}>
             <HtmlInput
-              placeholder="Company name"
+              placeholder="Brokerage name"
               {...register('displayName')}
             />
           </HtmlLabel>
@@ -63,16 +67,22 @@ export const CreateCompany = () => {
               {...register('description')}
             />
           </HtmlLabel>
-          <HtmlLabel title="Manager ID" error={errors.managerId?.message}>
+          <HtmlLabel
+            title="BrokerageManager ID"
+            error={errors.brokerageManagerId?.message}
+          >
             <HtmlInput
-              placeholder="Manager ID"
-              {...register('managerId')}
+              placeholder="BrokerageManager ID"
+              {...register('brokerageManagerId')}
               readOnly
             />
           </HtmlLabel>
-          <HtmlLabel title="Manager name" error={errors.managerName?.message}>
+          <HtmlLabel
+            title="BrokerageManager name"
+            error={errors.managerName?.message}
+          >
             <HtmlInput
-              placeholder="Manager name"
+              placeholder="BrokerageManager name"
               {...register('managerName')}
               readOnly
             />

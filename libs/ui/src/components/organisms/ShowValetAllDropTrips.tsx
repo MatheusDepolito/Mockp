@@ -1,15 +1,14 @@
 import {
-  BookingStatus,
+  InquiryStatus,
   ValetDropsDocument,
-  ValetPickupsDocument,
 } from '@mockp/network/src/gql/generated';
 import { useQuery } from '@apollo/client';
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { ShowData } from './ShowData';
-import { ValetTripCard } from './ValetTripCard';
-import { AssignValetButton } from './AssignValetButton';
+import { AgentTripCard } from './ValetTripCard';
+import { AssignAgentButton } from './AssignValetButton';
 
-export const ShowValetAllDropTrips = () => {
+export const ShowAgentAllDropTrips = () => {
   const { loading, data } = useQuery(ValetDropsDocument);
   const { setSkip, setTake, skip, take } = useTakeSkip();
   return (
@@ -24,27 +23,35 @@ export const ShowValetAllDropTrips = () => {
         totalCount: data?.valetDropsTotal || 0,
       }}
     >
-      {data?.valetDrops.map((booking) => (
-        <ValetTripCard
-          key={booking.id}
-          booking={{
-            id: booking.id,
-            time: booking.endTime,
-          }}
-          end={{
-            lat: booking.valetAssignment?.returnLat || undefined,
-            lng: booking.valetAssignment?.returnLng || undefined,
-          }}
-          start={booking.slot.garage.address}
-        >
-          <AssignValetButton
-            bookingId={booking.id}
-            status={BookingStatus.ValetAssignedForCheckOut}
+      {data?.valetDrops.map((inquiry) => {
+        const propertyAddress = inquiry.property.address;
+        const visitLat =
+          inquiry.agentAssignment?.visitLat ?? propertyAddress?.lat;
+        const visitLng =
+          inquiry.agentAssignment?.visitLng ?? propertyAddress?.lng;
+
+        return (
+          <AgentTripCard
+            key={inquiry.id}
+            booking={{
+              id: inquiry.id,
+              time: inquiry.endTime,
+            }}
+            start={propertyAddress}
+            end={{
+              lat: visitLat,
+              lng: visitLng,
+            }}
           >
-            Accept
-          </AssignValetButton>
-        </ValetTripCard>
-      ))}
+            <AssignAgentButton
+              inquiryId={inquiry.id}
+              status={InquiryStatus.Closed}
+            >
+              Encerrar
+            </AssignAgentButton>
+          </AgentTripCard>
+        );
+      })}
     </ShowData>
   );
 };

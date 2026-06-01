@@ -1,22 +1,22 @@
 import {
-  BookingStatus,
-  CreateBookingTimelineDocument,
+  InquiryStatus,
+  CreateInquiryTimelineDocument,
   namedOperations,
 } from '@mockp/network/src/gql/generated';
 import { useMutation } from '@apollo/client';
 import { Button } from '../atoms/Button';
 
 export const CheckInOutButton = ({
-  bookingId,
+  inquiryId,
   buttonText,
   status,
 }: {
-  bookingId: number;
-  status: BookingStatus;
+  inquiryId: number;
+  status: InquiryStatus;
   buttonText: string;
 }) => {
   const [checkIn, { data, loading }] = useMutation(
-    CreateBookingTimelineDocument,
+    CreateInquiryTimelineDocument,
   );
   return (
     <Button
@@ -24,13 +24,13 @@ export const CheckInOutButton = ({
       onClick={() => {
         checkIn({
           variables: {
-            createBookingTimelineInput: {
-              bookingId,
+            createInquiryTimelineInput: {
+              inquiryId,
               status,
             },
           },
           awaitRefetchQueries: true,
-          refetchQueries: [namedOperations.Query.BookingsForGarage],
+          refetchQueries: [namedOperations.Query.InquiriesForProperty],
         });
       }}
       color="white"

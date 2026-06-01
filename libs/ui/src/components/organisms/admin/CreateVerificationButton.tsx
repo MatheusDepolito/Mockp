@@ -6,15 +6,15 @@ import {
 import { Button } from '../../atoms/Button';
 
 export const CreateVerificationButton = ({
-  garageId,
+  propertyId,
 }: {
-  garageId: number;
+  propertyId: number;
 }) => {
   const [createVerification, { loading }] = useMutation(
     CreateVerificationDocument,
     {
       awaitRefetchQueries: true,
-      refetchQueries: [namedOperations.Query.Garages],
+      refetchQueries: [namedOperations.Query.Properties],
     },
   );
 
@@ -28,7 +28,7 @@ export const CreateVerificationButton = ({
         await createVerification({
           variables: {
             createVerificationInput: {
-              garageId,
+              propertyId,
               verified: true,
             },
           },

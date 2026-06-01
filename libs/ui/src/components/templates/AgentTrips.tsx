@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Tab, TabPanel, Tabs } from '../molecules/Tabs';
-import { ShowValetAllPickupTrips } from '../organisms/ShowValetAllPickupTrips';
-import { ShowValetAllDropTrips } from '../organisms/ShowValetAllDropTrips';
+import { ShowAgentMyPickupTrips } from '../organisms/ShowValetMyPickupTrips';
+import { ShowAgentMyDropTrips } from '../organisms/ShowValetMyDropTrips';
 
-export const ValetHome = () => {
+export const AgentTrips = ({ uid }: { uid: string }) => {
   const [value, setValue] = useState<0 | 1>(0);
 
   return (
@@ -17,10 +17,10 @@ export const ValetHome = () => {
         <Tab label={'Drop'} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <ShowValetAllPickupTrips />
+        <ShowAgentMyPickupTrips uid={uid} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ShowValetAllDropTrips />
+        <ShowAgentMyDropTrips uid={uid} />
       </TabPanel>
     </>
   );

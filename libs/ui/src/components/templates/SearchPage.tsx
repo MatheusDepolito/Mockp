@@ -7,12 +7,12 @@ import { ViewStateChangeEvent } from 'react-map-gl';
 import { initialViewState } from '@mockp/util/constants';
 import { SearchPlaceBox } from '../organisms/map/SearchPlacesBox';
 import { useFormContext } from 'react-hook-form';
-import { FormTypeSearchGarage } from '@mockp/forms/src/searchGarages';
+import { FormTypeSearchProperty } from '@mockp/forms/src/searchProperties';
 import { IconType } from '../molecules/IconTypes';
 import { IconArrowDown } from '@tabler/icons-react';
 import { HtmlInput } from '../atoms/HtmlInput';
 import { toLocalISOString } from '@mockp/util/date';
-import { ShowGarages } from '../organisms/search/ShowGarages';
+import { ShowProperties } from '../organisms/search/ShowProperties';
 import { FilterSidebar } from '../organisms/search/FilterSidebar';
 
 export const SearchPage = () => {
@@ -22,7 +22,7 @@ export const SearchPage = () => {
     watch,
     formState: { errors },
     trigger,
-  } = useFormContext<FormTypeSearchGarage>();
+  } = useFormContext<FormTypeSearchProperty>();
   const formData = watch();
 
   const handleMapChange = useCallback(
@@ -46,7 +46,7 @@ export const SearchPage = () => {
       onZoomEnd={(e) => handleMapChange(e.target)}
       initialViewState={initialViewState}
     >
-      <ShowGarages />
+      <ShowProperties />
       <Panel position="left-top">
         <div className="flex flex-col items-stretch">
           <SearchPlaceBox />

@@ -3,7 +3,11 @@ import MapGl, { useMap } from 'react-map-gl';
 
 type MapProps = React.ComponentProps<typeof MapGl> & { height?: string };
 
-export const Map = ({ height = 'calc(100vh - 4rem)', ...props }: MapProps) => {
+export const Map = ({
+  height = 'calc(100vh - 4rem)',
+  scrollZoom = true,
+  ...props
+}: MapProps) => {
   return (
     <MapGl
       {...props}
@@ -11,7 +15,7 @@ export const Map = ({ height = 'calc(100vh - 4rem)', ...props }: MapProps) => {
       mapStyle="mapbox://styles/matheussousadg/cm6qn0rcf001d01sbdx9q4yly"
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       style={{ height }}
-      scrollZoom={false}
+      scrollZoom={scrollZoom}
     >
       <StyleMap />
       {props.children}

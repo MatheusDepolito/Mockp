@@ -1,6 +1,6 @@
 import {
-  AssignValetDocument,
-  BookingStatus,
+  AssignAgentDocument,
+  InquiryStatus,
   namedOperations,
 } from '@mockp/network/src/gql/generated';
 import { ReactNode } from 'react';
@@ -8,16 +8,16 @@ import { useMutation } from '@apollo/client';
 import { toast } from '../molecules/Toast';
 import { Button } from '../atoms/Button';
 
-export const AssignValetButton = ({
-  bookingId,
+export const AssignAgentButton = ({
+  inquiryId,
   status,
   children,
 }: {
-  bookingId: number;
-  status: BookingStatus;
+  inquiryId: number;
+  status: InquiryStatus;
   children: ReactNode;
 }) => {
-  const [assignPickup, { data, loading }] = useMutation(AssignValetDocument, {
+  const [assignPickup, { data, loading }] = useMutation(AssignAgentDocument, {
     awaitRefetchQueries: true,
     refetchQueries: [
       namedOperations.Query.valetDrops,
@@ -27,7 +27,7 @@ export const AssignValetButton = ({
     ],
     onCompleted(data, clientOptions) {
       toast(`Action successful.
-            ID: ${data.assignValet.id}`);
+            ID: ${data.assignAgent.id}`);
     },
   });
 
@@ -38,7 +38,7 @@ export const AssignValetButton = ({
       fullWidth
       onClick={async () => {
         await assignPickup({
-          variables: { bookingId, status },
+          variables: { inquiryId, status },
         });
       }}
     >

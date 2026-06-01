@@ -1,16 +1,15 @@
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { useQuery } from '@apollo/client';
 import {
-  BookingStatus,
+  InquiryStatus,
   MyDropTripsDocument,
   SortOrder,
 } from '@mockp/network/src/gql/generated';
 import { ShowData } from './ShowData';
-import { ValetTripCard } from './ValetTripCard';
+import { AgentTripCard } from './ValetTripCard';
 import { Reveal } from '../molecules/Reveal';
-import { AssignValetButton } from './AssignValetButton';
 
-export const ShowValetMyDropTrips = ({ uid }: { uid: string }) => {
+export const ShowAgentMyDropTrips = ({ uid }: { uid: string }) => {
   const { setSkip, setTake, skip, take } = useTakeSkip();
 
   const { data, loading } = useQuery(MyDropTripsDocument, {
@@ -19,14 +18,10 @@ export const ShowValetMyDropTrips = ({ uid }: { uid: string }) => {
       take,
       orderBy: { endTime: SortOrder.Asc },
       where: {
-        BookingTimeline: {
-          none: {
-            status: BookingStatus.ValetReturned,
-          },
-        },
-        ValetAssignment: {
+        status: { equals: InquiryStatus.Closed },
+        AgentAssignment: {
           is: {
-            returnValetId: { equals: uid },
+            assignedAgentId: { equals: uid },
           },
         },
       },
@@ -41,54 +36,50 @@ export const ShowValetMyDropTrips = ({ uid }: { uid: string }) => {
         setTake,
         skip,
         take,
-        resultCount: data?.bookingsForValet.length || 0,
-        totalCount: data?.bookingsCount.count || 0,
+        resultCount: data?.inquiriesForAgent.length || 0,
+        totalCount: data?.inquiriesCount.count || 0,
       }}
     >
-      {data?.bookingsForValet.map((booking) => (
-        <ValetTripCard
-          key={booking.id}
-          booking={{
-            id: booking.id,
-            time: booking.startTime,
-          }}
-          end={{
-            lat: booking.valetAssignment?.returnLat || undefined,
-            lng: booking.valetAssignment?.returnLng || undefined,
-          }}
-          start={booking.slot.garage.address}
-        >
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="text-xl font-semibold ">
-                {booking.vehicleNumber}
+      {data?.inquiriesForAgent.map((inquiry) => {
+        const propertyAddress = inquiry.property.address;
+        const visitLat =
+          inquiry.agentAssignment?.visitLat ?? propertyAddress?.lat;
+        const visitLng =
+          inquiry.agentAssignment?.visitLng ?? propertyAddress?.lng;
+
+        return (
+          <AgentTripCard
+            key={inquiry.id}
+            booking={{
+              id: inquiry.id,
+              time: inquiry.startTime,
+            }}
+            start={propertyAddress}
+            end={{
+              lat: visitLat,
+              lng: visitLng,
+            }}
+          >
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="text-xl font-semibold ">
+                  {inquiry.contactNotes}
+                </div>
+
+                <Reveal
+                  secret={inquiry.passcode}
+                  showIntruction={false}
+                  className="w-full"
+                />
               </div>
 
-              <Reveal
-                secret={booking.passcode}
-                showIntruction={false}
-                className="w-full"
-              />
+              <div className="text-sm">
+                {inquiry.status?.split('_').join(' ')}
+              </div>
             </div>
-
-            <div className="text-sm">
-              {booking.status?.split('_').join(' ')}
-            </div>
-
-            {[
-              BookingStatus.ValetAssignedForCheckIn,
-              BookingStatus.CheckedOut,
-            ].includes(booking.status) ? (
-              <AssignValetButton
-                bookingId={booking.id}
-                status={BookingStatus.ValetReturned}
-              >
-                Drop
-              </AssignValetButton>
-            ) : null}
-          </div>
-        </ValetTripCard>
-      ))}
+          </AgentTripCard>
+        );
+      })}
     </ShowData>
   );
 };

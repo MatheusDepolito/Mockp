@@ -1,26 +1,26 @@
 import { useLazyQuery } from '@apollo/client';
-import { SearchGaragesDocument } from '@mockp/network/src/gql/generated';
+import { SearchPropertiesDocument } from '@mockp/network/src/gql/generated';
 import { useEffect } from 'react';
-import { GarageMarker } from './GarageMarker';
+import { PropertyMarker } from './PropertyMarker';
 import { useConvertSearchFormToVariables } from '@mockp/forms/src/adapters/searchFormAdapter';
 import { Panel } from '../map/Panel';
 import { Loader } from '../../molecules/Loader';
 import { IconInfoCircle } from '@tabler/icons-react';
 
-export const ShowGarages = () => {
+export const ShowProperties = () => {
   const [
-    searchGarages,
-    { loading: garagesLoading, data, previousData, error },
-  ] = useLazyQuery(SearchGaragesDocument);
+    searchProperties,
+    { loading: propertiesLoading, data, previousData, error },
+  ] = useLazyQuery(SearchPropertiesDocument);
 
   const { variables, debouncing } = useConvertSearchFormToVariables();
-  //const { endTime: end, startTime: start, locationFilter } = ();
   useEffect(() => {
-    if (variables) searchGarages({ variables });
-  }, [variables]);
+    if (variables) searchProperties({ variables });
+  }, [variables, searchProperties]);
 
-  const garages = data?.searchGarages || previousData?.searchGarages || [];
-  const loading = debouncing || garagesLoading;
+  const properties =
+    data?.searchProperties || previousData?.searchProperties || [];
+  const loading = debouncing || propertiesLoading;
 
   if (error) {
     return (
@@ -35,14 +35,14 @@ export const ShowGarages = () => {
     );
   }
 
-  if (!loading && garages.length === 0) {
+  if (!loading && properties.length === 0) {
     return (
       <Panel
         position="center-center"
         className="bg-white/50 shadow border-white border backdrop-blur-sm"
       >
         <div className="flex items-center justify-center gap-2">
-          <IconInfoCircle /> <div>No parking slots found in this area.</div>
+          <IconInfoCircle /> <div>Nenhum imóvel encontrado nesta área.</div>
         </div>
       </Panel>
     );
@@ -55,8 +55,8 @@ export const ShowGarages = () => {
           <Loader />
         </Panel>
       ) : null}
-      {garages.map((garage) => (
-        <GarageMarker key={garage.id} marker={garage} />
+      {properties.map((property) => (
+        <PropertyMarker key={property.id} marker={property} />
       ))}
     </>
   );

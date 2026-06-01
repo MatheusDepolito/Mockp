@@ -1,46 +1,46 @@
 'use client';
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { useQuery } from '@apollo/client';
-import { GaragesDocument } from '@mockp/network/src/gql/generated';
+import { PropertiesDocument } from '@mockp/network/src/gql/generated';
 import { ShowData } from '../organisms/ShowData';
-import { GarageAdminCard } from '../organisms/GarageAdminCard';
+import { PropertyAdminCard } from '../organisms/PropertyAdminCard';
 import { CreateVerificationButton } from '../organisms/admin/CreateVerificationButton';
 import { RemoveVerificationButton } from '../organisms/admin/RemoveVerificationButton';
 
 export const AdminHome = () => {
-  return <ShowGarages />;
+  return <ShowProperties />;
 };
 
-export const ShowGarages = () => {
+export const ShowProperties = () => {
   const { setSkip, setTake, skip, take } = useTakeSkip();
-  const { loading, data, error } = useQuery(GaragesDocument, {
+  const { loading, data, error } = useQuery(PropertiesDocument, {
     variables: { skip, take },
   });
 
   return (
     <ShowData
       error={error?.message}
-      title="Garages"
+      title="Imóveis"
       loading={loading}
       pagination={{
-        resultCount: data?.garages.length || 0,
-        totalCount: data?.garagesCount.count || 0,
+        resultCount: data?.properties.length || 0,
+        totalCount: data?.propertiesCount.count || 0,
         setSkip,
         setTake,
         skip,
         take,
       }}
     >
-      {data?.garages.map((garage) => (
-        <GarageAdminCard key={garage.id} garage={garage}>
+      {data?.properties.map((property) => (
+        <PropertyAdminCard key={property.id} property={property}>
           <div className="flex justify-end">
-            {!garage?.verification?.verified ? (
-              <CreateVerificationButton garageId={garage.id} />
+            {!property?.verification?.verified ? (
+              <CreateVerificationButton propertyId={property.id} />
             ) : (
-              <RemoveVerificationButton garageId={garage.id} />
+              <RemoveVerificationButton propertyId={property.id} />
             )}
           </div>
-        </GarageAdminCard>
+        </PropertyAdminCard>
       ))}
     </ShowData>
   );

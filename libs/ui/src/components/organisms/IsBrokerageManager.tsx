@@ -1,37 +1,37 @@
 'use client';
-import { MyCompanyDocument } from '@mockp/network/src/gql/generated';
+import { MyBrokerageDocument } from '@mockp/network/src/gql/generated';
 import { BaseComponent } from '@mockp/util/types';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { Loader, LoaderPanel } from '../molecules/Loader';
 import { AlertSection } from '../molecules/AlertSection';
 import { ReactNode } from 'react';
-import { CreateCompany } from './CreateCompany';
+import { CreateBrokerage } from './CreateBrokerage';
 
 type RenderPropChild = (id: number) => ReactNode;
 
-export const IsManager = ({
+export const IsBrokerageManager = ({
   children,
 }: {
   children: RenderPropChild | ReactNode;
 }) => {
-  const { data, loading } = useQuery(MyCompanyDocument);
+  const { data, loading } = useQuery(MyBrokerageDocument);
 
   if (loading) {
     return <LoaderPanel text="Loading company..." />;
   }
 
-  if (!data?.myCompany) {
+  if (!data?.myBrokerage) {
     return (
       <AlertSection>
         <div>You don&apos;t have a company yet.</div>
-        <CreateCompany />
+        <CreateBrokerage />
       </AlertSection>
     );
   }
   return (
     <div>
       {typeof children === 'function'
-        ? (children as RenderPropChild)(data.myCompany.id)
+        ? (children as RenderPropChild)(data.myBrokerage.id)
         : children}
     </div>
   );

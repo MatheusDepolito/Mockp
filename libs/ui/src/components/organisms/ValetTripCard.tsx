@@ -7,7 +7,7 @@ import { MapLink } from '../molecules/MapLink';
 import { StaticMapDirections } from './map/StaticMapDirections';
 import { format } from 'date-fns';
 
-export interface IValetTripCardProps {
+export interface IAgentTripCardProps {
   start?: Partial<LatLng> | null;
   end?: Partial<LatLng> | null;
   booking: {
@@ -17,12 +17,12 @@ export interface IValetTripCardProps {
   children?: ReactNode;
 }
 
-export const ValetTripCard = ({
+export const AgentTripCard = ({
   start,
   end,
   booking,
   children,
-}: IValetTripCardProps) => {
+}: IAgentTripCardProps) => {
   const { data, distance, error, loading } = useMapboxDirections(start, end);
 
   if (!isLatLng(start) || !isLatLng(end)) {

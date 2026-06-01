@@ -1,23 +1,23 @@
-import { SearchGaragesQuery } from '@mockp/network/src/gql/generated';
+import { SearchPropertiesQuery } from '@mockp/network/src/gql/generated';
 import { useKeypress } from '@mockp/util/hooks/keys';
 import { useState } from 'react';
 import { Marker } from '../map/MapMarker';
 import { Dialog } from '../../atoms/Dialog';
 import { MockpIcon } from '../../atoms/MockpIcon';
-import { FormProviderBookSlot } from '@mockp/forms/src/bookSlot';
+import { FormProviderBookPropertyFeature } from '@mockp/forms/src/bookProperty';
 import { useWatch } from 'react-hook-form';
-import { FormTypeSearchGarage } from '@mockp/forms/src/searchGarages';
-import { BookSlotPopup } from '../BookSlotPopup';
+import { FormTypeSearchProperty } from '@mockp/forms/src/searchProperties';
+import { BookPropertyPopup } from '../BookPropertyPopup';
 
-export const GarageMarker = ({
+export const PropertyMarker = ({
   marker,
 }: {
-  marker: SearchGaragesQuery['searchGarages'][number];
+  marker: SearchPropertiesQuery['searchProperties'][number];
 }) => {
   const [showPopup, setShowPopup] = useState(false);
   useKeypress(['Escape'], () => setShowPopup(false));
 
-  const { endTime, startTime } = useWatch<FormTypeSearchGarage>();
+  const { endTime, startTime } = useWatch<FormTypeSearchProperty>();
 
   if (!marker.address?.lat || !marker.address.lng) {
     return null;
@@ -26,14 +26,14 @@ export const GarageMarker = ({
   return (
     <>
       <Dialog
-        title="Booking"
+        title="Inquiry"
         widthClassName="max-w-3xl"
         open={showPopup}
         setOpen={setShowPopup}
       >
-        <FormProviderBookSlot defaultValues={{ endTime, startTime }}>
-          <BookSlotPopup garage={marker} />
-        </FormProviderBookSlot>
+        <FormProviderBookPropertyFeature defaultValues={{ endTime, startTime }}>
+          <BookPropertyPopup property={marker} />
+        </FormProviderBookPropertyFeature>
       </Dialog>
 
       <Marker

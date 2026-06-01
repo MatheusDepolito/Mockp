@@ -1,14 +1,14 @@
 import {
-  BookingStatus,
+  InquiryStatus,
   ValetPickupsDocument,
 } from '@mockp/network/src/gql/generated';
 import { useQuery } from '@apollo/client';
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { ShowData } from './ShowData';
-import { ValetTripCard } from './ValetTripCard';
-import { AssignValetButton } from './AssignValetButton';
+import { AgentTripCard } from './ValetTripCard';
+import { AssignAgentButton } from './AssignValetButton';
 
-export const ShowValetAllPickupTrips = () => {
+export const ShowAgentAllPickupTrips = () => {
   const { loading, data } = useQuery(ValetPickupsDocument);
   const { setSkip, setTake, skip, take } = useTakeSkip();
   return (
@@ -23,27 +23,35 @@ export const ShowValetAllPickupTrips = () => {
         totalCount: data?.valetPickupsTotal || 0,
       }}
     >
-      {data?.valetPickups.map((booking) => (
-        <ValetTripCard
-          key={booking.id}
-          booking={{
-            id: booking.id,
-            time: booking.startTime,
-          }}
-          start={{
-            lat: booking.valetAssignment?.pickupLat,
-            lng: booking.valetAssignment?.pickupLng,
-          }}
-          end={booking.slot.garage.address}
-        >
-          <AssignValetButton
-            bookingId={booking.id}
-            status={BookingStatus.ValetAssignedForCheckIn}
+      {data?.valetPickups.map((inquiry) => {
+        const propertyAddress = inquiry.property.address;
+        const visitLat =
+          inquiry.agentAssignment?.visitLat ?? propertyAddress?.lat;
+        const visitLng =
+          inquiry.agentAssignment?.visitLng ?? propertyAddress?.lng;
+
+        return (
+          <AgentTripCard
+            key={inquiry.id}
+            booking={{
+              id: inquiry.id,
+              time: inquiry.startTime,
+            }}
+            start={{
+              lat: visitLat,
+              lng: visitLng,
+            }}
+            end={propertyAddress}
           >
-            Accept
-          </AssignValetButton>
-        </ValetTripCard>
-      ))}
+            <AssignAgentButton
+              inquiryId={inquiry.id}
+              status={InquiryStatus.VisitScheduled}
+            >
+              Aceitar visita
+            </AssignAgentButton>
+          </AgentTripCard>
+        );
+      })}
     </ShowData>
   );
 };

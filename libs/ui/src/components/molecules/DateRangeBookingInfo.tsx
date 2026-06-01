@@ -8,15 +8,15 @@ import {
   getTimeUnits,
 } from '@mockp/util/date';
 
-export interface IDateRangeBookingInfoProps {
+export interface IDateRangeInquiryInfoProps {
   startTime?: string;
   endTime?: string;
 }
 
-export const DateRangeBookingInfo = ({
+export const DateRangeInquiryInfo = ({
   startTime,
   endTime,
-}: IDateRangeBookingInfoProps) => {
+}: IDateRangeInquiryInfoProps) => {
   const [duration, setDuration] = useState<string | null>(null);
 
   useEffect(() => {

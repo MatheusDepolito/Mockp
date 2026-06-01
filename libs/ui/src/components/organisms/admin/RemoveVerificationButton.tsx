@@ -6,15 +6,15 @@ import {
 import { Button } from '../../atoms/Button';
 
 export const RemoveVerificationButton = ({
-  garageId,
+  propertyId,
 }: {
-  garageId: number;
+  propertyId: number;
 }) => {
   const [removeVerification, { loading }] = useMutation(
     RemoveVerificationDocument,
     {
       awaitRefetchQueries: true,
-      refetchQueries: [namedOperations.Query.Garages],
+      refetchQueries: [namedOperations.Query.Properties],
     },
   );
 
@@ -28,7 +28,7 @@ export const RemoveVerificationButton = ({
         await removeVerification({
           variables: {
             where: {
-              garageId,
+              propertyId,
             },
           },
         });
