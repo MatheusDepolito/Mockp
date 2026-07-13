@@ -11,8 +11,12 @@ import { useState } from 'react';
 
 export interface ILoginFormProps {
   className?: string;
+  redirectTo?: string;
 }
-export const LoginForm = ({ className }: ILoginFormProps) => {
+export const LoginForm = ({
+  className,
+  redirectTo = '/',
+}: ILoginFormProps) => {
   const {
     register,
     handleSubmit,
@@ -36,7 +40,7 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
         setLoading(false);
 
         if (result?.ok) {
-          replace('/');
+          replace(redirectTo);
         }
         if (result?.error) {
           alert('Login failed. Try again.');

@@ -7,6 +7,15 @@ const nextConfig = {
       { hostname: 'lh3.googleusercontent.com' },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/verificacoes',
+        destination: '/verifications',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

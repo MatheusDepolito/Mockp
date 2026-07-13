@@ -7,11 +7,13 @@ import { CreateManyPropertyFeaturesDialog } from './CreateManyPropertyFeaturesDi
 export interface IPropertyCardProps {
   property: PropertiesQuery['properties'][number];
   hideInquiriesLink?: boolean;
+  showEditLink?: boolean;
 }
 
 export const PropertyCard = ({
   property,
   hideInquiriesLink,
+  showEditLink,
 }: IPropertyCardProps) => {
   return (
     <div className="overflow-hidden bg-white shadow-lg flex flex-col">
@@ -21,17 +23,27 @@ export const PropertyCard = ({
         <div>
           <div className="flex justify-between ">
             <h3 className="font-semibold ">{property.displayName}</h3>
-            {!hideInquiriesLink ? (
-              <Link
-                className="text-sm underline underline-offset-4"
-                href={{
-                  pathname: 'inquiries',
-                  query: { propertyId: property.id },
-                }}
-              >
-                Inquiries
-              </Link>
-            ) : null}
+            <div className="flex gap-2">
+              {showEditLink ? (
+                <Link
+                  className="text-sm underline underline-offset-4"
+                  href={`/properties/${property.id}/edit`}
+                >
+                  Edit
+                </Link>
+              ) : null}
+              {!hideInquiriesLink ? (
+                <Link
+                  className="text-sm underline underline-offset-4"
+                  href={{
+                    pathname: 'inquiries',
+                    query: { propertyId: property.id },
+                  }}
+                >
+                  Inquiries
+                </Link>
+              ) : null}
+            </div>
           </div>
           <p className="text-gray-500 text-sm my-2 line-clamp-2 ">
             {property.description}

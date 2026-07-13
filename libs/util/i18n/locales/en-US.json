@@ -27,6 +27,19 @@
     "typeLabel": "Type",
     "purposeLabel": "Purpose"
   },
+  "editProperty": {
+    "title": "Edit property",
+    "success": "Property updated successfully.",
+    "deleted": "Property deleted successfully.",
+    "actionFailed": "Action failed.",
+    "notFound": "Property not found.",
+    "saveButton": "Save changes",
+    "deleteButton": "Delete property",
+    "deleteTitle": "Delete property",
+    "deleteConfirm": "Are you sure you want to delete this property? This action cannot be undone.",
+    "deleteCancel": "Cancel",
+    "deleteConfirmButton": "Delete"
+  },
   "registerSoloAgent": {
     "accountCreatedLoginFailed": "Account created, but sign-in failed. Please log in manually.",
     "accountCreateFailed": "Failed to create account.",
@@ -43,10 +56,44 @@
     "namePlaceholder": "Your name",
     "licensePlaceholder": "License number"
   },
+  "professionalHubPage": {
+    "back": "Back to portal",
+    "title": "Professional area",
+    "subtitle": "Choose how you operate in the real estate market.",
+    "brokerageManager": {
+      "title": "Brokerage manager",
+      "description": "Create your brokerage, register agents, and manage listings in the manager dashboard.",
+      "cta": "Register brokerage"
+    },
+    "soloAgent": {
+      "title": "Solo agent",
+      "description": "Sign up, provide your license, and list properties under your name — no brokerage affiliation.",
+      "cta": "Create agent account"
+    },
+    "linkedAgent": {
+      "title": "Brokerage agent",
+      "description": "Your manager must register you by email. Then sign in to the agent dashboard.",
+      "cta": "I already have an account — sign in",
+      "note": "Linked agents cannot self-register — ask your brokerage manager."
+    }
+  },
   "professionalAgentPage": {
     "back": "Back",
     "title": "Solo agent",
     "subtitle": "Create your account and start listing properties. Your profile will be reviewed before showing as verified."
+  },
+  "professionalBrokerageManagerPage": {
+    "back": "Back",
+    "title": "Brokerage manager",
+    "description": "Create your brokerage account and start managing agents and listings in the manager dashboard.",
+    "cta": "Register brokerage"
+  },
+  "professionalLinkedAgentPage": {
+    "back": "Back",
+    "title": "Brokerage agent",
+    "description": "Access the agent dashboard to manage your assigned listings and inquiries.",
+    "instruction": "Your manager must register you by email before you can sign in. There is no self-registration for linked agents.",
+    "cta": "Sign in to agent dashboard"
   },
   "adminVerifications": {
     "titleProperties": "Properties",

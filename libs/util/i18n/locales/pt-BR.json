@@ -27,6 +27,19 @@
     "typeLabel": "Tipo",
     "purposeLabel": "Finalidade"
   },
+  "editProperty": {
+    "title": "Editar imovel",
+    "success": "Imovel atualizado com sucesso.",
+    "deleted": "Imovel excluido com sucesso.",
+    "actionFailed": "Acao falhou.",
+    "notFound": "Imovel nao encontrado.",
+    "saveButton": "Salvar alteracoes",
+    "deleteButton": "Excluir imovel",
+    "deleteTitle": "Excluir imovel",
+    "deleteConfirm": "Tem certeza que deseja excluir este imovel? Esta acao nao pode ser desfeita.",
+    "deleteCancel": "Cancelar",
+    "deleteConfirmButton": "Excluir"
+  },
   "registerSoloAgent": {
     "accountCreatedLoginFailed": "Conta criada, mas falha ao entrar. Faca login manualmente.",
     "accountCreateFailed": "Falha ao criar conta.",
@@ -43,10 +56,44 @@
     "namePlaceholder": "Seu nome",
     "licensePlaceholder": "Numero do CRECI"
   },
+  "professionalHubPage": {
+    "back": "Voltar ao portal",
+    "title": "Area profissional",
+    "subtitle": "Escolha como voce atua no mercado imobiliario.",
+    "brokerageManager": {
+      "title": "Gestor de imobiliaria",
+      "description": "Crie sua corretora, cadastre corretores e gerencie imoveis no painel do gestor.",
+      "cta": "Cadastrar imobiliaria"
+    },
+    "soloAgent": {
+      "title": "Corretor autonomo",
+      "description": "Cadastre-se, informe seu CRECI e publique imoveis no seu nome — sem vinculo com imobiliaria.",
+      "cta": "Criar conta de corretor"
+    },
+    "linkedAgent": {
+      "title": "Corretor de imobiliaria",
+      "description": "Seu gestor precisa cadastra-lo por e-mail. Depois, acesse o painel do corretor.",
+      "cta": "Ja tenho conta — entrar",
+      "note": "Nao ha auto-cadastro para corretores vinculados — peca ao gestor da sua imobiliaria."
+    }
+  },
   "professionalAgentPage": {
     "back": "Voltar",
     "title": "Corretor autonomo",
     "subtitle": "Crie sua conta e comece a anunciar imoveis. Seu perfil passara por verificacao antes de aparecer como verificado."
+  },
+  "professionalBrokerageManagerPage": {
+    "back": "Voltar",
+    "title": "Gestor de imobiliaria",
+    "description": "Crie sua conta de imobiliaria e comece a gerenciar corretores e imoveis no painel do gestor.",
+    "cta": "Cadastrar imobiliaria"
+  },
+  "professionalLinkedAgentPage": {
+    "back": "Voltar",
+    "title": "Corretor de imobiliaria",
+    "description": "Acesse o painel do corretor para gerenciar seus imoveis e visitas.",
+    "instruction": "Seu gestor precisa cadastra-lo por e-mail antes de voce entrar. Nao ha auto-cadastro para corretores vinculados.",
+    "cta": "Entrar no painel do corretor"
   },
   "adminVerifications": {
     "titleProperties": "Imoveis",

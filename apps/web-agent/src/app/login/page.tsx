@@ -3,8 +3,8 @@ import { AuthLayout } from '@mockp/ui/src/components/molecules/AuthLayout';
 
 export default function Page() {
   return (
-    <AuthLayout title={'Login'}>
-      <LoginForm />
+    <AuthLayout title="Login">
+      <LoginForm redirectTo="/my-properties" />
     </AuthLayout>
   );
 }

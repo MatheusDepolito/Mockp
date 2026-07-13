@@ -47,6 +47,10 @@ Use shared packages only when the behavior is genuinely reusable. Do not move do
   - `/search`
   - `/bookings`
   - `/booking-failed`
+  - `/professional`
+  - `/professional/solo-agent`
+  - `/professional/brokerage-manager`
+  - `/professional/linked-agent`
 - Direct workspace dependencies include `@mockp/network`, `@mockp/ui`, and `@mockp/sample-lib`.
 
 Likely purpose based on route evidence:
@@ -78,6 +82,7 @@ Stop and confirm when:
   - `/login`
   - `/register`
   - `/manageAdmins`
+  - `/verifications`
 
 Likely purpose based on route evidence:
 
@@ -138,16 +143,21 @@ Stop and confirm when:
   - `/`
   - `/login`
   - `/register`
+  - `/my-properties`
+  - `/new-property`
   - `/my-trips`
+  - `/inquiries`
+  - `/properties/[id]/edit`
 
 Likely purpose based on route evidence:
 
-- Agent-oriented app for login/register and trip-related work.
+- Agent-oriented app for login/register, property management, inquiries, and trip-related work.
 
 When to edit:
 
 - Agent login/register flow.
-- Agent trip views.
+- Agent property CRUD and listing flows.
+- Agent inquiry and trip views.
 
 Stop and confirm when:
 

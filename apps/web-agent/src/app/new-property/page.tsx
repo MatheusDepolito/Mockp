@@ -1,14 +1,14 @@
 'use client';
+import { CreateProperty } from '@mockp/ui/src/components/templates/CreateProperty';
 import { IsAgent } from '@mockp/ui/src/components/organisms/IsAgent';
 import { IsLoggedIn } from '@mockp/ui/src/components/organisms/IsLoggedIn';
-import { AgentTrips } from '@mockp/ui/src/components/templates/AgentTrips';
 
 export default function Page() {
   return (
     <IsLoggedIn>
       {(uid) => (
         <IsAgent uid={uid}>
-          <AgentTrips uid={uid} />
+          <CreateProperty mode="solo" />
         </IsAgent>
       )}
     </IsLoggedIn>

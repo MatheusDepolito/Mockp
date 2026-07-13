@@ -26,7 +26,7 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
   const uid = session?.data?.user?.uid;
   let [open, setOpen] = useDialogState(false);
   const hideGuestRegister =
-    pathname === '/' || pathname?.startsWith('/profissional');
+    pathname === '/' || pathname?.startsWith('/professional');
 
   return (
     <header>

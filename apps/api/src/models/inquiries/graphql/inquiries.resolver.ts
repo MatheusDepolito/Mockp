@@ -21,7 +21,9 @@ import { AgentAssignment } from 'src/models/agent-assignments/graphql/entity/age
 import { AggregateCountOutput } from 'src/common/dtos/common.input';
 import { InquiryWhereInput } from './dtos/where.args';
 import { InquiryTimeline } from 'src/models/inquiry-timelines/graphql/entity/inquiry-timeline.entity';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { ErrorCodes } from 'src/common/errors/error-codes';
+import { appException } from 'src/common/errors/error-response';
 
 @Resolver(() => Inquiry)
 export class InquiriesResolver {
@@ -52,14 +54,28 @@ export class InquiriesResolver {
     @Args() args: FindManyInquiryArgs,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findFirst({
-      where: { Agents: { some: { uid: user.uid } } },
+    const agent = await this.prisma.agent.findUnique({
+      where: { uid: user.uid },
     });
+
+    if (!agent) {
+      throw appException(
+        HttpStatus.BAD_REQUEST,
+        ErrorCodes.AgentNotFound,
+        'You are not an agent.',
+      );
+    }
+
+    const propertyFilter =
+      agent.brokerageId != null
+        ? { brokerageId: { equals: agent.brokerageId } }
+        : { responsibleAgentId: { equals: user.uid } };
+
     return this.inquiriesService.findAll({
       ...args,
       where: {
         ...args.where,
-        Property: { is: { brokerageId: { equals: company.id } } },
+        Property: { is: propertyFilter },
       },
     });
   }
@@ -76,7 +92,7 @@ export class InquiriesResolver {
     });
   }
 
-  @AllowAuthenticated('brokerageManager', 'admin')
+  @AllowAuthenticated('agent', 'brokerageManager', 'admin')
   @Query(() => [Inquiry], { name: 'inquiriesForProperty' })
   async inquiriesForProperty(
     @Args()
@@ -92,10 +108,13 @@ export class InquiriesResolver {
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
 
-    checkRowLevelPermission(
-      user,
-      garage.Brokerage.BrokerageManagers.map((manager) => manager.uid),
-    );
+    if (garage.responsibleAgentId !== user.uid) {
+      checkRowLevelPermission(
+        user,
+        garage.Brokerage?.BrokerageManagers.map((manager) => manager.uid) ??
+          [],
+      );
+    }
 
     return this.inquiriesService.findAll({
       cursor,

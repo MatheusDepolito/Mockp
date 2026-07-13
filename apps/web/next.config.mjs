@@ -7,6 +7,20 @@ const nextConfig = {
       { hostname: 'lh3.googleusercontent.com' },
     ],
   },
-}
+  async redirects() {
+    return [
+      {
+        source: '/profissional',
+        destination: '/professional',
+        permanent: true,
+      },
+      {
+        source: '/profissional/corretor',
+        destination: '/professional/solo-agent',
+        permanent: true,
+      },
+    ];
+  },
+};
 
-export default nextConfig
+export default nextConfig;

@@ -73,18 +73,26 @@ export class AgentsResolver {
       select: {
         Property: {
           select: {
+            responsibleAgentId: true,
             Brokerage: { select: { BrokerageManagers: true, Agents: true } },
           },
         },
       },
     });
 
-    checkRowLevelPermission(user, [
-      ...booking.Property.Brokerage.BrokerageManagers.map(
-        (manager) => manager.uid,
-      ),
-      ...booking.Property.Brokerage.Agents.map((agent) => agent.uid),
-    ]);
+    const allowedUids = [
+      booking.Property.responsibleAgentId,
+      ...(booking.Property.Brokerage
+        ? [
+            ...booking.Property.Brokerage.BrokerageManagers.map(
+              (manager) => manager.uid,
+            ),
+            ...booking.Property.Brokerage.Agents.map((agent) => agent.uid),
+          ]
+        : []),
+    ];
+
+    checkRowLevelPermission(user, allowedUids);
 
     const [updatedInquiry] = await this.prisma.$transaction([
       this.prisma.inquiry.update({

@@ -20,8 +20,8 @@ export const AssignAgentButton = ({
   const [assignPickup, { loading }] = useMutation(AssignAgentDocument, {
     awaitRefetchQueries: true,
     refetchQueries: [
-      namedOperations.Query.agentDrops,
-      namedOperations.Query.agentPickups,
+      namedOperations.Query.AgentDrops,
+      namedOperations.Query.AgentPickups,
       namedOperations.Query.myDropTrips,
       namedOperations.Query.myPickupTrips,
     ],

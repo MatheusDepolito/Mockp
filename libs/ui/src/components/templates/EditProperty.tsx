@@ -2,16 +2,15 @@
 import {
   FormProviderCreateProperty,
   FormTypeCreateProperty,
-  CreatePropertyMode,
 } from '@mockp/forms/src/createProperty';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCloudinaryUpload } from '@mockp/util/hooks/cloudinary';
 import {
-  AgentMeDocument,
-  CompanyAgentsDocument,
-  CreatePropertyDocument,
+  PropertyDocument,
   PropertyPurpose,
   PropertyType,
+  RemovePropertyDocument,
+  UpdatePropertyDocument,
   namedOperations,
 } from '@mockp/network/src/gql/generated';
 import { Form } from '../atoms/Form';
@@ -20,8 +19,6 @@ import { HtmlInput } from '../atoms/HtmlInput';
 import { Button } from '../atoms/Button';
 import { HtmlTextArea } from '../atoms/HtmlTextArea';
 import { HtmlSelect } from '../atoms/HtmlSelect';
-import { Autocomplete } from '../atoms/AutoComplete';
-import Link from 'next/link';
 import { ImagePreview } from '../organisms/ImagePreview';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Map } from '../organisms/map/Map';
@@ -44,16 +41,20 @@ import {
   getPropertyPurposeLabel,
   getPropertyTypeLabel,
 } from '../../i18n/enumLabels';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Dialog } from '../atoms/Dialog';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { IconTrash } from '@tabler/icons-react';
+import { LoaderPanel } from '../molecules/Loader';
+import { AlertSection } from '../molecules/AlertSection';
 
-const CreatePropertyContent = ({
-  brokerageId,
-  mode = 'brokerage',
-}: {
-  brokerageId?: number;
-  mode?: CreatePropertyMode;
-}) => {
+const EditPropertyContent = ({ id }: { id: number }) => {
   const { locale, t } = useI18n();
+  const router = useRouter();
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -69,58 +70,99 @@ const CreatePropertyContent = ({
 
   const { uploading, upload } = useCloudinaryUpload();
 
-  const isSolo = mode === 'solo';
-
-  const { data: agentMeData } = useQuery(AgentMeDocument, {
-    skip: !isSolo,
+  const { data, loading, error } = useQuery(PropertyDocument, {
+    variables: { where: { id } },
   });
 
   useEffect(() => {
-    if (isSolo && agentMeData?.agentMe?.uid) {
-      setValue('responsibleAgentId', agentMeData.agentMe.uid);
+    const property = data?.property;
+    if (!property) {
+      return;
     }
-  }, [agentMeData?.agentMe?.uid, isSolo, setValue]);
 
-  const { data: agentsData, loading: agentsLoading } = useQuery(
-    CompanyAgentsDocument,
+    setExistingImages(property.images ?? []);
+    reset({
+      displayName: property.displayName ?? '',
+      description: property.description ?? '',
+      propertyType: property.propertyType,
+      purpose: property.purpose,
+      listPrice: property.listPrice ?? undefined,
+      location: {
+        address: property.address?.address ?? '',
+        lat: property.address?.lat ?? 0,
+        lng: property.address?.lng ?? 0,
+      },
+      propertyFeatures:
+        property.propertyFeatures?.map((feature) => ({
+          type: feature.type,
+          quantity: feature.quantity,
+          displayName: feature.displayName ?? undefined,
+        })) ?? [],
+      images: undefined,
+    });
+  }, [data?.property, reset]);
+
+  const [updateProperty, { loading: updating }] = useMutation(
+    UpdatePropertyDocument,
     {
-      skip: isSolo || !brokerageId,
-      variables: brokerageId
-        ? {
-            where: {
-              brokerageId: { equals: brokerageId },
-            },
-          }
-        : undefined,
+      refetchQueries: [
+        namedOperations.Query.Property,
+        namedOperations.Query.myPropertiesAsAgent,
+      ],
+      onCompleted: () => {
+        toast(t('editProperty.success'));
+      },
+      onError(updateError) {
+        toast(
+          getApiErrorMessage({
+            error: updateError,
+            locale,
+            fallbackMessage: t('editProperty.actionFailed'),
+          }),
+        );
+      },
     },
   );
 
-  const agents = agentsData?.companyAgents ?? [];
+  const [removeProperty, { loading: removing }] = useMutation(
+    RemovePropertyDocument,
+    {
+      refetchQueries: [namedOperations.Query.myPropertiesAsAgent],
+      onCompleted: () => {
+        toast(t('editProperty.deleted'));
+        router.push('/my-properties');
+      },
+      onError(removeError) {
+        toast(
+          getApiErrorMessage({
+            error: removeError,
+            locale,
+            fallbackMessage: t('editProperty.actionFailed'),
+          }),
+        );
+      },
+    },
+  );
 
-  const [createProperty, { loading }] = useMutation(CreatePropertyDocument, {
-    refetchQueries: [namedOperations.Query.Properties],
-    onCompleted: () => {
-      reset();
-      toast(t('createProperty.success'));
-    },
-    onError(error) {
-      toast(
-        getApiErrorMessage({
-          error,
-          locale,
-          fallbackMessage: t('createProperty.actionFailed'),
-        }),
-      );
-    },
-  });
+  if (loading) {
+    return <LoaderPanel text={t('editProperty.title')} />;
+  }
+
+  if (error || !data?.property) {
+    return (
+      <AlertSection title={t('editProperty.title')}>
+        {error?.message ?? t('editProperty.notFound')}
+      </AlertSection>
+    );
+  }
 
   return (
-    <div className="grid md:grid-cols-2 gap-2 mt-2 ">
+    <div className="grid md:grid-cols-2 gap-2 mt-2">
       <div>
         <Form
           onSubmit={handleSubmit(
             async ({
-              images,
+              images: newImages,
               description,
               displayName,
               location,
@@ -128,32 +170,31 @@ const CreatePropertyContent = ({
               propertyType,
               purpose,
               listPrice,
-              responsibleAgentId,
             }) => {
               try {
-                const uploadedImages = images ? await upload(images) : [];
+                const uploadedImages = newImages ? await upload(newImages) : [];
+                const allImages = [...existingImages, ...uploadedImages];
 
-                await createProperty({
+                await updateProperty({
                   variables: {
-                    createPropertyInput: {
+                    updatePropertyInput: {
+                      id,
                       Address: location,
-                      images: uploadedImages,
+                      images: allImages,
                       PropertyFeatures: propertyFeatures,
                       description,
                       displayName,
                       propertyType,
                       purpose,
                       listPrice,
-                      responsibleAgentId: responsibleAgentId ?? '',
-                      ...(brokerageId ? { brokerageId } : {}),
                     },
                   },
                 });
-              } catch (error) {
+              } catch (submitError) {
                 const message = getApiErrorMessage({
-                  error,
+                  error: submitError,
                   locale,
-                  fallbackMessage: t('createProperty.actionFailed'),
+                  fallbackMessage: t('editProperty.actionFailed'),
                 });
                 toast(message);
               }
@@ -224,50 +265,6 @@ const CreatePropertyContent = ({
               )}
             />
           </HtmlLabel>
-          {!isSolo ? (
-            <HtmlLabel
-              title="Corretor responsável"
-              error={errors.responsibleAgentId?.message}
-            >
-              <Controller
-                control={control}
-                name="responsibleAgentId"
-                render={({ field }) => {
-                  const selected =
-                    agents.find((agent) => agent.uid === field.value) ?? null;
-                  return (
-                    <Autocomplete<(typeof agents)[number]>
-                      options={agents}
-                      value={selected}
-                      disabled={agentsLoading || agents.length === 0}
-                      isOptionEqualToValue={(option, value) =>
-                        option.uid === value.uid
-                      }
-                      getOptionLabel={(option) =>
-                        option.licenseID
-                          ? `${option.displayName} (${option.licenseID})`
-                          : option.displayName
-                      }
-                      onChange={(_, value) => field.onChange(value?.uid ?? '')}
-                      placeholder={
-                        agentsLoading ? 'Carregando...' : 'Buscar corretor...'
-                      }
-                      noOptionsText="Nenhum corretor encontrado"
-                    />
-                  );
-                }}
-              />
-              {!agentsLoading && agents.length === 0 ? (
-                <p className="mt-1 text-xs text-red-600">
-                  Cadastre um corretor em{' '}
-                  <Link href="/agents" className="underline">
-                    Corretores
-                  </Link>{' '}
-                  antes de criar um imóvel.
-                </p>
-              ) : null}
-            </HtmlLabel>
-          ) : null}
           <HtmlLabel title="Endereço" error={errors.location?.address?.message}>
             <HtmlTextArea
               cols={5}
@@ -275,10 +272,36 @@ const CreatePropertyContent = ({
               placeholder="Rua, número, bairro"
             />
           </HtmlLabel>
+          {existingImages.length > 0 ? (
+            <div className="grid grid-cols-2 gap-2">
+              {existingImages.map((src, index) => (
+                <div key={src} className="relative aspect-square">
+                  <Image
+                    className="object-cover h-full w-full"
+                    alt=""
+                    width={300}
+                    height={300}
+                    src={src}
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setExistingImages((current) =>
+                        current.filter((_, i) => i !== index),
+                      )
+                    }
+                    className="absolute top-1 right-1 p-1 text-white bg-red/80 rounded"
+                  >
+                    <IconTrash className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : null}
           <ImagePreview srcs={images} clearImage={() => resetField('images')}>
             <Controller
               control={control}
-              name={`images`}
+              name="images"
               render={({ field }) => (
                 <HtmlInput
                   type="file"
@@ -291,10 +314,39 @@ const CreatePropertyContent = ({
             />
           </ImagePreview>
           <AddPropertyFeatures />
-          <Button loading={uploading || loading} type="submit">
-            Criar imóvel
-          </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <Button loading={uploading || updating} type="submit">
+              {t('editProperty.saveButton')}
+            </Button>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => setDeleteOpen(true)}
+            >
+              {t('editProperty.deleteButton')}
+            </Button>
+          </div>
         </Form>
+        <Dialog
+          open={deleteOpen}
+          setOpen={setDeleteOpen}
+          title={t('editProperty.deleteTitle')}
+        >
+          <div>{t('editProperty.deleteConfirm')}</div>
+          <div className="grid w-full grid-cols-2 gap-2 mt-4">
+            <Button variant="outlined" onClick={() => setDeleteOpen(false)}>
+              {t('editProperty.deleteCancel')}
+            </Button>
+            <Button
+              loading={removing}
+              onClick={async () => {
+                await removeProperty({ variables: { where: { id } } });
+              }}
+            >
+              {t('editProperty.deleteConfirmButton')}
+            </Button>
+          </div>
+        </Dialog>
       </div>
       <Map
         initialViewState={initialViewState}
@@ -333,16 +385,13 @@ const CreatePropertyContent = ({
   );
 };
 
-export const CreateProperty = ({
-  brokerageId,
-  mode = 'brokerage',
-}: {
-  brokerageId?: number;
-  mode?: CreatePropertyMode;
-}) => {
+export const EditProperty = ({ id }: { id: number }) => {
+  const { t } = useI18n();
+
   return (
-    <FormProviderCreateProperty mode={mode}>
-      <CreatePropertyContent brokerageId={brokerageId} mode={mode} />
+    <FormProviderCreateProperty mode="solo">
+      <h1 className="text-xl font-semibold">{t('editProperty.title')}</h1>
+      <EditPropertyContent id={id} />
     </FormProviderCreateProperty>
   );
 };

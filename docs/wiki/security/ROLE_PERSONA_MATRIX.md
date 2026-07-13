@@ -16,7 +16,7 @@ Read with:
 Backend role union:
 
 ```ts
-type Role = 'admin' | 'manager' | 'valet';
+type Role = 'admin' | 'brokerageManager' | 'agent';
 ```
 
 Verified role sources:
@@ -28,8 +28,8 @@ Verified role sources:
 `AuthGuard` derives roles by checking whether the authenticated user has related records in:
 
 - `Admin`
-- `Manager`
-- `Valet`
+- `BrokerageManager`
+- `Agent`
 
 ## Verified User-Related Models
 
@@ -37,8 +37,8 @@ The Prisma schema includes user/persona-related models:
 
 - `User`
 - `Admin`
-- `Manager`
-- `Valet`
+- `BrokerageManager`
+- `Agent`
 - `Customer`
 - `Credentials`
 - `AuthProvider`
@@ -51,10 +51,10 @@ The Prisma schema includes user/persona-related models:
 
 | App | Path | Port | Evidence | Likely persona |
 | --- | --- | --- | --- | --- |
-| `web` | `apps/web` | `3001` | routes include `/search`, `/bookings`, `/login`, `/register` | General/customer-facing user |
-| `web-admin` | `apps/web-admin` | `3004` | routes include `/manageAdmins`, `/login`, `/register` | Admin |
+| `web` | `apps/web` | `3001` | routes include `/search`, `/bookings`, `/professional`, `/login`, `/register` | General/customer-facing user |
+| `web-admin` | `apps/web-admin` | `3004` | routes include `/manageAdmins`, `/verifications`, `/login`, `/register` | Admin |
 | `web-manager` | `apps/web-manager` | `3002` | routes include `/new-garage`, `/agents`, `/bookings` | Manager |
-| `web-agent` | `apps/web-agent` | `3003` | routes include `/my-trips`, `/login`, `/register` | Agent |
+| `web-agent` | `apps/web-agent` | `3003` | routes include `/my-properties`, `/new-property`, `/my-trips`, `/inquiries`, `/properties/[id]/edit`, `/login`, `/register` | Agent |
 
 These app/persona mappings are inferred from route names and app names.
 
@@ -67,22 +67,22 @@ Evidence:
 - Backend role exists.
 - Admin Prisma model exists.
 - `apps/web-admin` exists.
-- `web-admin` route `/manageAdmins` exists.
+- `web-admin` routes `/manageAdmins` and `/verifications` exist.
 - Backend resolvers/controllers protect admin operations with `@AllowAuthenticated('admin')`.
 
 Likely app:
 
 - `apps/web-admin`
 
-### `manager`
+### `brokerageManager`
 
 Evidence:
 
 - Backend role exists.
-- Manager Prisma model exists.
+- BrokerageManager Prisma model exists.
 - `apps/web-manager` exists.
 - Manager routes include `/new-garage`, `/agents`, and `/bookings`.
-- Backend resolvers protect manager operations with `@AllowAuthenticated('manager')` and `@AllowAuthenticated('manager', 'admin')`.
+- Backend resolvers protect brokerage manager operations with `@AllowAuthenticated('brokerageManager')` and `@AllowAuthenticated('brokerageManager', 'admin')`.
 
 Likely app:
 
@@ -93,10 +93,10 @@ Likely app:
 Evidence:
 
 - Backend role exists.
-- Valet Prisma model exists.
+- Agent Prisma model exists.
 - `apps/web-agent` exists.
-- Valet route `/my-trips` exists.
-- Backend resolvers protect valet operations with `@AllowAuthenticated('agent')`.
+- Agent routes include `/my-properties`, `/new-property`, `/my-trips`, `/inquiries`, and `/properties/[id]/edit`.
+- Backend resolvers protect agent operations with `@AllowAuthenticated('agent')`.
 
 Likely app:
 
@@ -107,7 +107,7 @@ Likely app:
 Evidence:
 
 - Customer Prisma model exists.
-- `apps/web` routes include search and bookings.
+- `apps/web` routes include search, bookings, and professional onboarding paths.
 - Customer-specific GraphQL resolver/model exists.
 
 Likely app:
@@ -134,7 +134,7 @@ Stop before:
 - Changing app/persona ownership.
 - Making one app access another persona's data.
 - Adding customer role behavior.
-- Changing manager/admin/valet permissions.
+- Changing brokerageManager/admin/agent permissions.
 - Touching multiple apps for one feature without confirmation.
 
 Use [[../agents/STOP_CONDITIONS|Stop Conditions]].
@@ -143,7 +143,7 @@ Use [[../agents/STOP_CONDITIONS|Stop Conditions]].
 
 > Needs verification
 
-- Exact product definitions for customer, admin, manager, and valet.
+- Exact product definitions for customer, admin, brokerageManager, and agent.
 - Whether users can hold multiple roles intentionally.
-- Whether admin can act across every manager/company boundary.
+- Whether admin can act across every brokerageManager/company boundary.
 - Whether customer should become a first-class backend role.

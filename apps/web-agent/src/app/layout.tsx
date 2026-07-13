@@ -30,6 +30,7 @@ export default function RootLayout({
   const locale = resolveLocale(cookies().get(LOCALE_COOKIE_KEY)?.value);
   const menuMessages = getMessages(locale).menu;
   const menuItems: MenuItem[] = [
+    { label: menuMessages.newProperty, href: '/new-property' },
     { label: menuMessages.myProperties, href: '/my-properties' },
     { label: menuMessages.myTrips, href: '/my-trips' },
   ];

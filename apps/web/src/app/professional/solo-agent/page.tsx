@@ -7,7 +7,7 @@ import {
 } from '@mockp/util/i18n';
 import { cookies } from 'next/headers';
 
-export default function CorretorAutonomoPage() {
+export default function SoloAgentRegisterPage() {
   const locale = resolveLocale(cookies().get(LOCALE_COOKIE_KEY)?.value);
   const messages = getMessages(locale).professionalAgentPage;
 
@@ -16,7 +16,7 @@ export default function CorretorAutonomoPage() {
       <div className="max-w-lg mx-auto space-y-6">
         <div className="space-y-2 text-center">
           <Link
-            href="/profissional"
+            href="/professional"
             className="text-sm text-gray-500 hover:text-primary hover:underline"
           >
             ← {messages.back}

@@ -15,7 +15,7 @@ const cards = [
     title: 'Sou corretor ou imobiliária',
     description:
       'Gestores, corretores autônomos e corretores vinculados — escolha seu perfil.',
-    href: '/profissional',
+    href: '/professional',
     icon: IconBuilding,
     primary: false,
   },
@@ -67,7 +67,7 @@ export default function Home() {
           <span>
             Já é profissional?{' '}
             <Link
-              href="/profissional"
+              href="/professional"
               className="font-medium text-primary underline-offset-4 hover:underline"
             >
               Acesse as opções de login

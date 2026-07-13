@@ -31,7 +31,7 @@ export default function RootLayout({
   const menuMessages = getMessages(locale).menu;
   const menuItems: MenuItem[] = [
     { label: menuMessages.properties, href: '/' },
-    { label: menuMessages.verifications, href: '/verificacoes' },
+    { label: menuMessages.verifications, href: '/verifications' },
     { label: menuMessages.admins, href: '/manageAdmins' },
   ];
 

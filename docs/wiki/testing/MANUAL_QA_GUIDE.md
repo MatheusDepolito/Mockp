@@ -149,17 +149,20 @@ QA placeholders:
 
 ### `apps/web-agent`
 
-Routes verified from repo include `/`, `/login`, `/register`, and `/my-trips`.
+Routes verified from repo include `/`, `/login`, `/register`, `/my-properties`, `/new-property`, `/my-trips`, `/inquiries`, and `/properties/[id]/edit`.
 
 QA placeholders:
 
-- Valet login/register.
-- Valet home.
+- Agent login/register.
+- Agent home.
+- My properties and property edit.
+- New property.
+- Inquiries.
 - My trips.
 
 > Needs verification
 >
-> Exact valet assignment and trip state transitions.
+> Exact agent assignment and trip state transitions.
 
 ## Multi-App QA
 

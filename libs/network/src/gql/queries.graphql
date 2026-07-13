@@ -593,3 +593,37 @@ query AdminBrokerages($skip: Float, $take: Float, $where: BrokerageWhereInput) {
     createdAt
   }
 }
+
+query Property($where: PropertyWhereUniqueInput!) {
+  property(where: $where) {
+    id
+    displayName
+    description
+    propertyType
+    purpose
+    listPrice
+    images
+    address {
+      address
+      lat
+      lng
+    }
+    propertyFeatures {
+      type
+      quantity
+      displayName
+    }
+  }
+}
+
+mutation UpdateProperty($updatePropertyInput: UpdatePropertyInput!) {
+  updateProperty(updatePropertyInput: $updatePropertyInput) {
+    id
+  }
+}
+
+mutation RemoveProperty($where: PropertyWhereUniqueInput!) {
+  removeProperty(where: $where) {
+    id
+  }
+}
