@@ -106,7 +106,7 @@ Use:
 Stop before:
 
 - Touching more than one frontend app without confirming the affected persona/app.
-- Moving a flow between `apps/web`, `apps/web-admin`, `apps/web-manager`, and `apps/web-valet`.
+- Moving a flow between `apps/web`, `apps/web-admin`, `apps/web-manager`, and `apps/web-agent`.
 - Changing app ports or `NEXTAUTH_URL` assumptions.
 - Sharing behavior across apps without checking whether it contains domain logic.
 

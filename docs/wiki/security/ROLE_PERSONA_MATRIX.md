@@ -53,8 +53,8 @@ The Prisma schema includes user/persona-related models:
 | --- | --- | --- | --- | --- |
 | `web` | `apps/web` | `3001` | routes include `/search`, `/bookings`, `/login`, `/register` | General/customer-facing user |
 | `web-admin` | `apps/web-admin` | `3004` | routes include `/manageAdmins`, `/login`, `/register` | Admin |
-| `web-manager` | `apps/web-manager` | `3002` | routes include `/new-garage`, `/valets`, `/bookings` | Manager |
-| `web-valet` | `apps/web-valet` | `3003` | routes include `/my-trips`, `/login`, `/register` | Valet |
+| `web-manager` | `apps/web-manager` | `3002` | routes include `/new-garage`, `/agents`, `/bookings` | Manager |
+| `web-agent` | `apps/web-agent` | `3003` | routes include `/my-trips`, `/login`, `/register` | Agent |
 
 These app/persona mappings are inferred from route names and app names.
 
@@ -81,26 +81,26 @@ Evidence:
 - Backend role exists.
 - Manager Prisma model exists.
 - `apps/web-manager` exists.
-- Manager routes include `/new-garage`, `/valets`, and `/bookings`.
+- Manager routes include `/new-garage`, `/agents`, and `/bookings`.
 - Backend resolvers protect manager operations with `@AllowAuthenticated('manager')` and `@AllowAuthenticated('manager', 'admin')`.
 
 Likely app:
 
 - `apps/web-manager`
 
-### `valet`
+### `agent`
 
 Evidence:
 
 - Backend role exists.
 - Valet Prisma model exists.
-- `apps/web-valet` exists.
+- `apps/web-agent` exists.
 - Valet route `/my-trips` exists.
-- Backend resolvers protect valet operations with `@AllowAuthenticated('valet')`.
+- Backend resolvers protect valet operations with `@AllowAuthenticated('agent')`.
 
 Likely app:
 
-- `apps/web-valet`
+- `apps/web-agent`
 
 ### Customer/general user
 

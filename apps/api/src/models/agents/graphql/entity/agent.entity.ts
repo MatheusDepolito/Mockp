@@ -13,6 +13,5 @@ export class Agent implements RestrictProperties<Agent, AgentType> {
   @Field({ nullable: true })
   brokerageId: number;
   licenseID: string;
-  // Todo Add below to make optional fields optional.
-  // @Field({ nullable: true })
+  verified: boolean;
 }

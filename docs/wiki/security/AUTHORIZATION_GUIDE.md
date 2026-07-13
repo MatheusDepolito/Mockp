@@ -105,7 +105,7 @@ Current patterns:
 
 Examples verified in code:
 
-- `BookingsResolver` uses `@AllowAuthenticated('admin')`, `@AllowAuthenticated('valet')`, and `@AllowAuthenticated('manager', 'admin')`.
+- `BookingsResolver` uses `@AllowAuthenticated('admin')`, `@AllowAuthenticated('agent')`, and `@AllowAuthenticated('manager', 'admin')`.
 - `AdminsResolver` uses class-level `@AllowAuthenticated('admin')`.
 - `ManagersResolver`, `CustomersResolver`, and others call `checkRowLevelPermission`.
 

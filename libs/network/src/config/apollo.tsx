@@ -8,6 +8,8 @@ import {
 import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
+const LOCALE_COOKIE_KEY = 'locale';
+
 export interface IApolloProviderProps {
   children: ReactNode;
 }
@@ -19,11 +21,17 @@ export const ApolloProvider = ({ children }: IApolloProviderProps) => {
 
   const authLink = setContext(async (_, { headers }) => {
     const token = await fetch('/api/auth/token').then((res) => res.json());
+    const localeCookie = document.cookie
+      .split(';')
+      .map((part) => part.trim())
+      .find((part) => part.startsWith(`${LOCALE_COOKIE_KEY}=`))
+      ?.split('=')[1];
 
     return {
       headers: {
         ...headers,
         authorization: token ? `Bearer ${token}` : '',
+        'accept-language': localeCookie || 'pt-BR',
       },
     };
   });

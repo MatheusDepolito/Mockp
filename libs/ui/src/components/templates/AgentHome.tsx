@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Tab, TabPanel, Tabs } from '../molecules/Tabs';
-import { ShowAgentAllPickupTrips } from '../organisms/ShowValetAllPickupTrips';
-import { ShowAgentAllDropTrips } from '../organisms/ShowValetAllDropTrips';
+import { ShowAgentAllPickupTrips } from '../organisms/ShowAgentAllPickupTrips';
+import { ShowAgentAllDropTrips } from '../organisms/ShowAgentAllDropTrips';
 
 export const AgentHome = () => {
   const [value, setValue] = useState<0 | 1>(0);

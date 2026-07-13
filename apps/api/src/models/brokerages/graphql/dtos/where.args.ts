@@ -1,6 +1,7 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
 import { Prisma } from 'src/common/prisma/client';
 import {
+  BoolFilter,
   DateTimeFilter,
   IntFilter,
   RestrictProperties,
@@ -25,6 +26,7 @@ export class BrokerageWhereInputStrict
   updatedAt: DateTimeFilter;
   displayName: StringFilter;
   description: StringFilter;
+  verified: BoolFilter;
   Properties: PropertyListRelationFilter;
   BrokerageManagers: BrokerageManagerListRelationFilter;
   Agents: AgentListRelationFilter;

@@ -7,7 +7,7 @@ export const useTotalPrice = ({ listPriceAtInquiry }: TotalPriceType) => {
 
   return {
     parkingCharge: price,
-    valetChargePickup: 0,
-    valetChargeDropoff: 0,
+    agentChargePickup: 0,
+    agentChargeDropoff: 0,
   };
 };

@@ -22,7 +22,7 @@ Frontend apps use Next.js App Router:
 apps/web/src/app/*
 apps/web-admin/src/app/*
 apps/web-manager/src/app/*
-apps/web-valet/src/app/*
+apps/web-agent/src/app/*
 ```
 
 Verified app-local files are mostly:

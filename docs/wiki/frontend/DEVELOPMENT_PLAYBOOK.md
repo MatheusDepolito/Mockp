@@ -15,7 +15,7 @@ Operational checklist for **frontend** work. Supporting references: [[../ARCHITE
 
 ## Before Implementing
 
-- [ ] Decide which surface changes (`apps/web`, `apps/web-admin`, `apps/web-manager`, `apps/web-valet`).
+- [ ] Decide which surface changes (`apps/web`, `apps/web-admin`, `apps/web-manager`, `apps/web-agent`).
 - [ ] Locate affected routes in `src/app/<route>/`.
 - [ ] Reuse templates/components inside `libs/ui/src/components/**` when possible before inventing replacements.
 - [ ] Classify the work (bugfix, feature, refactor, contract sync).

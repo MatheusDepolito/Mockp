@@ -4,6 +4,7 @@
     "outDir": "dist",
     "rootDir": ".",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "jsx": "react-jsx"
   }
 }

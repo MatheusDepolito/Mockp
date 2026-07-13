@@ -15,7 +15,7 @@ This document is the **central reference** for the **Mockp** monorepo: architect
 - **Apps**
   - `apps/api`: NestJS API (GraphQL + REST).
   - `apps/web`: primary customer-facing Next.js app (App Router).
-  - `apps/web-admin`, `apps/web-manager`, `apps/web-valet`: additional Next.js apps (panels or role-specific areas).
+  - `apps/web-admin`, `apps/web-manager`, `apps/web-agent`: additional Next.js apps (panels or role-specific areas).
 - **Libs**
   - `libs/network`: GraphQL/network layer (Apollo config, `fetchGraphQL`, codegen, generated types).
   - `libs/ui`: shared UI and product templates (Atomic Design: `atoms/`, `molecules/`, `organisms/`, `templates/`).

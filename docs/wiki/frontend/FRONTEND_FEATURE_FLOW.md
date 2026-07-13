@@ -24,7 +24,7 @@ Before editing, identify the affected app:
 - `apps/web`
 - `apps/web-admin`
 - `apps/web-manager`
-- `apps/web-valet`
+- `apps/web-agent`
 
 Use [[WEB_APPS_GUIDE]] and [[../security/ROLE_PERSONA_MATRIX|Role Persona Matrix]].
 

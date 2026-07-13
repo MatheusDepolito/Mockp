@@ -37,8 +37,14 @@ import {
 } from '../organisms/CreatePropertyComponents';
 import { formatBrlAmount, parseBrlInput } from '@mockp/util/currency';
 import { toast } from 'react-toastify';
+import { getApiErrorMessage, useI18n } from '@mockp/util/i18n';
+import {
+  getPropertyPurposeLabel,
+  getPropertyTypeLabel,
+} from '../../i18n/enumLabels';
 
 const CreatePropertyContent = ({ brokerageId }: { brokerageId?: number }) => {
+  const { locale, t } = useI18n();
   const {
     register,
     handleSubmit,
@@ -74,10 +80,16 @@ const CreatePropertyContent = ({ brokerageId }: { brokerageId?: number }) => {
     refetchQueries: [namedOperations.Query.Properties],
     onCompleted: () => {
       reset();
-      toast('Imóvel criado com sucesso.');
+      toast(t('createProperty.success'));
     },
     onError(error) {
-      toast(error.message || 'Action failed.');
+      toast(
+        getApiErrorMessage({
+          error,
+          locale,
+          fallbackMessage: t('createProperty.actionFailed'),
+        }),
+      );
     },
   });
 
@@ -117,8 +129,11 @@ const CreatePropertyContent = ({ brokerageId }: { brokerageId?: number }) => {
                   },
                 });
               } catch (error) {
-                const message =
-                  error instanceof Error ? error.message : 'Action failed.';
+                const message = getApiErrorMessage({
+                  error,
+                  locale,
+                  fallbackMessage: t('createProperty.actionFailed'),
+                });
                 toast(message);
               }
             },
@@ -138,20 +153,26 @@ const CreatePropertyContent = ({ brokerageId }: { brokerageId?: number }) => {
             />
           </HtmlLabel>
           <div className="grid grid-cols-2 gap-2">
-            <HtmlLabel title="Tipo" error={errors.propertyType?.message}>
+            <HtmlLabel
+              title={t('createProperty.typeLabel')}
+              error={errors.propertyType?.message}
+            >
               <HtmlSelect {...register('propertyType')}>
                 {Object.values(PropertyType).map((type) => (
                   <option key={type} value={type}>
-                    {type}
+                    {getPropertyTypeLabel(type, locale)}
                   </option>
                 ))}
               </HtmlSelect>
             </HtmlLabel>
-            <HtmlLabel title="Finalidade" error={errors.purpose?.message}>
+            <HtmlLabel
+              title={t('createProperty.purposeLabel')}
+              error={errors.purpose?.message}
+            >
               <HtmlSelect {...register('purpose')}>
                 {Object.values(PropertyPurpose).map((purpose) => (
                   <option key={purpose} value={purpose}>
-                    {purpose}
+                    {getPropertyPurposeLabel(purpose, locale)}
                   </option>
                 ))}
               </HtmlSelect>

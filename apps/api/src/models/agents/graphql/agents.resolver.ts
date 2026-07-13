@@ -2,8 +2,10 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { AgentsService } from './agents.service';
 import { Agent } from './entity/agent.entity';
 import { CreateAgentPayload } from './entity/create-agent-payload.entity';
+import { RegisterSoloAgentPayload } from './entity/register-solo-agent-payload.entity';
 import { FindManyAgentArgs, FindUniqueAgentArgs } from './dtos/find.args';
 import { CreateAgentInput } from './dtos/create-agent.input';
+import { RegisterSoloAgentInput } from './dtos/register-solo-agent.input';
 import { UpdateAgentInput } from './dtos/update-agent.input';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 import { GetUserType } from 'src/common/types';
@@ -13,12 +15,14 @@ import { AgentWhereInput } from './dtos/where.args';
 import { Inquiry } from 'src/models/inquiries/graphql/entity/inquiry.entity';
 import { PaginationInput } from 'src/common/dtos/common.input';
 import { InquiryStatus } from 'src/common/prisma/client';
-import { BadGatewayException } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
+import { ErrorCodes } from 'src/common/errors/error-codes';
+import { appException } from 'src/common/errors/error-response';
 
 @Resolver(() => Agent)
 export class AgentsResolver {
   constructor(
-    private readonly valetsService: AgentsService,
+    private readonly agentsService: AgentsService,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -33,17 +37,28 @@ export class AgentsResolver {
     });
 
     if (!company) {
-      throw new BadGatewayException('You do not have a company.');
+      throw appException(
+        HttpStatus.BAD_GATEWAY,
+        ErrorCodes.BrokerageNotFoundForManager,
+        'You do not have a company.',
+      );
     }
-    return this.valetsService.createWithAccount({
+    return this.agentsService.createWithAccount({
       ...args,
       brokerageId: company.id,
     });
   }
 
-  @Query(() => [Agent], { name: 'valets' })
+  @Mutation(() => RegisterSoloAgentPayload)
+  registerSoloAgent(
+    @Args('registerSoloAgentInput') args: RegisterSoloAgentInput,
+  ) {
+    return this.agentsService.registerSoloAgent(args);
+  }
+
+  @Query(() => [Agent], { name: 'agents' })
   findAll(@Args() args: FindManyAgentArgs) {
-    return this.valetsService.findAll(args);
+    return this.agentsService.findAll(args);
   }
 
   @AllowAuthenticated()
@@ -68,10 +83,10 @@ export class AgentsResolver {
       ...booking.Property.Brokerage.BrokerageManagers.map(
         (manager) => manager.uid,
       ),
-      ...booking.Property.Brokerage.Agents.map((valet) => valet.uid),
+      ...booking.Property.Brokerage.Agents.map((agent) => agent.uid),
     ]);
 
-    const [updatedInquiry, bookingTimeline] = await this.prisma.$transaction([
+    const [updatedInquiry] = await this.prisma.$transaction([
       this.prisma.inquiry.update({
         where: { id: inquiryId },
         data: {
@@ -104,7 +119,7 @@ export class AgentsResolver {
     const company = await this.prisma.brokerage.findFirst({
       where: { BrokerageManagers: { some: { uid: user.uid } } },
     });
-    return this.valetsService.findAll({
+    return this.agentsService.findAll({
       ...args,
       where: { ...args.where, brokerageId: { equals: company.id } },
     });
@@ -127,27 +142,27 @@ export class AgentsResolver {
 
   @Query(() => Agent, { name: 'agent' })
   findOne(@Args() args: FindUniqueAgentArgs) {
-    return this.valetsService.findOne(args);
+    return this.agentsService.findOne(args);
   }
 
   @AllowAuthenticated()
-  @Query(() => Agent, { name: 'valetMe', nullable: true })
-  valetMe(@GetUser() user: GetUserType) {
-    return this.valetsService.findOne({ where: { uid: user.uid } });
+  @Query(() => Agent, { name: 'agentMe', nullable: true })
+  agentMe(@GetUser() user: GetUserType) {
+    return this.agentsService.findOne({ where: { uid: user.uid } });
   }
 
   @AllowAuthenticated('agent')
-  @Query(() => [Inquiry], { name: 'valetPickups' })
-  async valetPickups(
+  @Query(() => [Inquiry], { name: 'agentPickups' })
+  async agentPickups(
     @Args() { skip, take }: PaginationInput,
     @GetUser() user: GetUserType,
   ) {
-    const valet = await this.valetsService.validAgent(user.uid);
+    const agent = await this.agentsService.validAgent(user.uid);
     return this.prisma.inquiry.findMany({
       skip,
       take,
       where: {
-        Property: { brokerageId: valet.brokerageId },
+        Property: { brokerageId: agent.brokerageId },
         AgentAssignment: {
           visitLat: { not: undefined },
           assignedAgentId: null,
@@ -157,12 +172,12 @@ export class AgentsResolver {
   }
 
   @AllowAuthenticated()
-  @Query(() => Number)
-  async valetPickupsTotal(@GetUser() user: GetUserType) {
-    const valet = await this.valetsService.validAgent(user.uid);
+  @Query(() => Number, { name: 'agentPickupsTotal' })
+  async agentPickupsTotal(@GetUser() user: GetUserType) {
+    const agent = await this.agentsService.validAgent(user.uid);
     return this.prisma.inquiry.count({
       where: {
-        Property: { brokerageId: valet.brokerageId },
+        Property: { brokerageId: agent.brokerageId },
         AgentAssignment: {
           visitLat: { not: undefined },
           assignedAgentId: null,
@@ -172,18 +187,18 @@ export class AgentsResolver {
   }
 
   @AllowAuthenticated()
-  @Query(() => [Inquiry], { name: 'valetDrops' })
-  async valetDrops(
+  @Query(() => [Inquiry], { name: 'agentDrops' })
+  async agentDrops(
     @Args() { skip, take }: PaginationInput,
     @GetUser() user: GetUserType,
   ) {
-    const valet = await this.valetsService.validAgent(user.uid);
+    const agent = await this.agentsService.validAgent(user.uid);
 
     return this.prisma.inquiry.findMany({
       skip,
       take,
       where: {
-        Property: { brokerageId: valet.brokerageId },
+        Property: { brokerageId: agent.brokerageId },
         AgentAssignment: {
           visitLat: { not: null },
           assignedAgentId: null,
@@ -193,13 +208,13 @@ export class AgentsResolver {
   }
 
   @AllowAuthenticated()
-  @Query(() => Number)
-  async valetDropsTotal(@GetUser() user: GetUserType) {
-    const valet = await this.valetsService.validAgent(user.uid);
+  @Query(() => Number, { name: 'agentDropsTotal' })
+  async agentDropsTotal(@GetUser() user: GetUserType) {
+    const agent = await this.agentsService.validAgent(user.uid);
 
     return this.prisma.inquiry.count({
       where: {
-        Property: { brokerageId: valet.brokerageId },
+        Property: { brokerageId: agent.brokerageId },
         AgentAssignment: {
           visitLat: { not: null },
           assignedAgentId: null,
@@ -214,11 +229,11 @@ export class AgentsResolver {
     @Args('updateAgentInput') args: UpdateAgentInput,
     @GetUser() user: GetUserType,
   ) {
-    const valet = await this.prisma.agent.findUnique({
+    const agent = await this.prisma.agent.findUnique({
       where: { uid: args.uid },
     });
-    checkRowLevelPermission(user, valet.uid);
-    return this.valetsService.update(args);
+    checkRowLevelPermission(user, agent.uid);
+    return this.agentsService.update(args);
   }
 
   @AllowAuthenticated()
@@ -227,8 +242,8 @@ export class AgentsResolver {
     @Args() args: FindUniqueAgentArgs,
     @GetUser() user: GetUserType,
   ) {
-    const valet = await this.prisma.agent.findUnique(args);
-    checkRowLevelPermission(user, valet.uid);
-    return this.valetsService.remove(args);
+    const agent = await this.prisma.agent.findUnique(args);
+    checkRowLevelPermission(user, agent.uid);
+    return this.agentsService.remove(args);
   }
 }

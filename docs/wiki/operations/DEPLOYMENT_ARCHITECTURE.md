@@ -40,7 +40,7 @@ Some generated starter READMEs mention Vercel or NestJS deployment resources. Tr
 
 - The repo is a Yarn/Nx monorepo.
 - The backend app is `apps/api`.
-- Frontend apps are `apps/web`, `apps/web-admin`, `apps/web-manager`, and `apps/web-valet`.
+- Frontend apps are `apps/web`, `apps/web-admin`, `apps/web-manager`, and `apps/web-agent`.
 - Local PostgreSQL runs through `apps/api/docker-compose.yml`.
 - Nx Cloud has an ID in `nx.json`, but Nx Cloud is not CI by itself.
 - Root scripts can typecheck, lint, build, and validate locally.
@@ -76,7 +76,7 @@ Some generated starter READMEs mention Vercel or NestJS deployment resources. Tr
 
 - What platform hosts `apps/api`?
 - What platform hosts each frontend app?
-- Are `web`, `web-admin`, `web-manager`, and `web-valet` separate deployables?
+- Are `web`, `web-admin`, `web-manager`, and `web-agent` separate deployables?
 - What environments exist: development, staging, production?
 - Where are secrets stored?
 - How are migrations run?

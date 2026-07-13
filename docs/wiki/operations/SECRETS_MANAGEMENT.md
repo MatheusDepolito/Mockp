@@ -24,7 +24,7 @@ Verified examples:
 - `apps/web/.env.example`
 - `apps/web-admin/.env.example`
 - `apps/web-manager/.env.example`
-- `apps/web-valet/.env.example`
+- `apps/web-agent/.env.example`
 
 Local `.env` files are intentionally ignored and must not be committed.
 

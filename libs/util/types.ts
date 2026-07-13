@@ -19,8 +19,8 @@ export type LocationInfo = { placeName: string; latLng: [number, number] };
 
 export type TotalPrice = {
   parkingCharge: number;
-  valetChargeDropoff: number;
-  valetChargePickup: number;
+  agentChargeDropoff: number;
+  agentChargePickup: number;
 };
 
 export type LatLng = {

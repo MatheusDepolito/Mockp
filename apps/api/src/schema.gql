@@ -55,6 +55,7 @@ type Agent {
   updatedAt: DateTime!
   displayName: String!
   licenseID: String!
+  verified: Boolean!
 }
 
 type Customer {
@@ -116,6 +117,7 @@ type Brokerage {
   id: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
+  verified: Boolean!
   properties: [Property!]!
   brokerageManagers: [BrokerageManager!]!
 }
@@ -124,6 +126,12 @@ type CreateAgentPayload {
   agent: Agent!
   email: String!
   temporaryPassword: String!
+}
+
+type RegisterSoloAgentPayload {
+  token: String!
+  user: User!
+  agent: Agent!
 }
 
 type Property {
@@ -235,15 +243,15 @@ type Query {
   customer(where: CustomerWhereUniqueInput!): Customer!
   managers(distinct: [BrokerageManagerScalarFieldEnum!], where: BrokerageManagerWhereInput, orderBy: [BrokerageManagerOrderByWithRelationInput!], cursor: BrokerageManagerWhereUniqueInput, take: Float, skip: Float): [BrokerageManager!]!
   brokerageManager(where: BrokerageManagerWhereUniqueInput!): BrokerageManager!
-  valets(distinct: [AgentScalarFieldEnum!], where: AgentWhereInput, orderBy: [AgentOrderByWithRelationInput!], cursor: AgentWhereUniqueInput, take: Float, skip: Float): [Agent!]!
+  agents(distinct: [AgentScalarFieldEnum!], where: AgentWhereInput, orderBy: [AgentOrderByWithRelationInput!], cursor: AgentWhereUniqueInput, take: Float, skip: Float): [Agent!]!
   companyAgents(distinct: [AgentScalarFieldEnum!], where: AgentWhereInput, orderBy: [AgentOrderByWithRelationInput!], cursor: AgentWhereUniqueInput, take: Float, skip: Float): [Agent!]!
   companyAgentsTotal(where: AgentWhereInput): Float!
   agent(where: AgentWhereUniqueInput!): Agent!
-  valetMe: Agent
-  valetPickups(take: Float, skip: Float): [Inquiry!]!
-  valetPickupsTotal: Float!
-  valetDrops(take: Float, skip: Float): [Inquiry!]!
-  valetDropsTotal: Float!
+  agentMe: Agent
+  agentPickups(take: Float, skip: Float): [Inquiry!]!
+  agentPickupsTotal: Float!
+  agentDrops(take: Float, skip: Float): [Inquiry!]!
+  agentDropsTotal: Float!
   brokerages(distinct: [BrokerageScalarFieldEnum!], where: BrokerageWhereInput, orderBy: [BrokerageOrderByWithRelationInput!], cursor: BrokerageWhereUniqueInput, take: Float, skip: Float): [Brokerage!]!
   myBrokerage: Brokerage!
   brokerage(where: BrokerageWhereUniqueInput!): Brokerage!
@@ -462,6 +470,7 @@ input BrokerageWhereInput {
   updatedAt: DateTimeFilter
   displayName: StringFilter
   description: StringFilter
+  verified: BoolFilter
   Properties: PropertyListRelationFilter
   BrokerageManagers: BrokerageManagerListRelationFilter
   Agents: AgentListRelationFilter
@@ -588,6 +597,7 @@ input AgentWhereInput {
   displayName: StringFilter
   image: StringFilter
   licenseID: StringFilter
+  verified: BoolFilter
   brokerageId: IntFilter
   User: UserRelationFilter
   Brokerage: BrokerageRelationFilter
@@ -782,6 +792,7 @@ input BrokerageOrderByWithRelationInput {
   updatedAt: SortOrder
   displayName: SortOrder
   description: SortOrder
+  verified: SortOrder
   Properties: PropertyOrderByRelationAggregateInput
   BrokerageManagers: BrokerageManagerOrderByRelationAggregateInput
   Agents: AgentOrderByRelationAggregateInput
@@ -814,6 +825,7 @@ enum AgentScalarFieldEnum {
   displayName
   image
   licenseID
+  verified
   brokerageId
 }
 
@@ -824,6 +836,7 @@ input AgentOrderByWithRelationInput {
   displayName: SortOrder
   image: SortOrder
   licenseID: SortOrder
+  verified: SortOrder
   brokerageId: SortOrder
   User: UserOrderByWithRelationInput
   Brokerage: BrokerageOrderByWithRelationInput
@@ -846,6 +859,7 @@ enum BrokerageScalarFieldEnum {
   updatedAt
   displayName
   description
+  verified
 }
 
 input BrokerageWhereUniqueInput {
@@ -1117,6 +1131,7 @@ type Mutation {
   updateBrokerageManager(updateBrokerageManagerInput: UpdateBrokerageManagerInput!): BrokerageManager!
   removeBrokerageManager(where: BrokerageManagerWhereUniqueInput!): BrokerageManager!
   createAgent(createAgentInput: CreateAgentInput!): CreateAgentPayload!
+  registerSoloAgent(registerSoloAgentInput: RegisterSoloAgentInput!): RegisterSoloAgentPayload!
   assignAgent(inquiryId: Float!, status: String!): Inquiry!
   updateAgent(updateAgentInput: UpdateAgentInput!): Agent!
   removeAgent(where: AgentWhereUniqueInput!): Agent!
@@ -1210,11 +1225,20 @@ input CreateAgentInput {
   image: String
 }
 
+input RegisterSoloAgentInput {
+  email: String!
+  password: String!
+  displayName: String!
+  licenseID: String!
+  image: String
+}
+
 input UpdateAgentInput {
   email: String
   displayName: String
   licenseID: String
   image: String
+  verified: Boolean
   uid: String!
 }
 
@@ -1230,6 +1254,7 @@ input UpdateBrokerageInput {
   description: String
   brokerageManagerId: String
   managerName: String
+  verified: Boolean
   id: Float!
 }
 

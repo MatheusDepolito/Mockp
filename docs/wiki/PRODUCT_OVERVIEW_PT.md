@@ -35,9 +35,9 @@
 | Aplicação | Porta de dev | Interpretação provável |
 | --- | --- | --- |
 | **`apps/web`** (`@mockp/web`) | 3001 | App principal do usuário final: login/cadastro, busca, reservas e falha de reserva. |
-| **`apps/web-manager`** (`@mockp/web-manager`) | 3002 | Operação de gestão: nova garagem, valets e visão de bookings. |
+| **`apps/web-manager`** (`@mockp/web-manager`) | 3002 | Operação de gestão: nova garagem, agents e visão de bookings. |
 | **`apps/web-admin`** (`@mockp/web-admin`) | 3004 | Administração, incluindo gestão de administradores (`/manageAdmins`). |
-| **`apps/web-valet`** (`@mockp/web-valet`) | 3003 | Perfil valet com rotas de trabalho operacional (`/my-trips`). |
+| **`apps/web-agent`** (`@mockp/web-agent`) | 3003 | Perfil valet com rotas de trabalho operacional (`/my-trips`). |
 
 Os nomes exatos das personas devem ser alinhados com produto. Consulte [[security/ROLE_PERSONA_MATRIX]] para o status de confiança por papel.
 

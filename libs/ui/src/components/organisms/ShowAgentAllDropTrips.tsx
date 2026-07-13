@@ -1,15 +1,15 @@
 import {
   InquiryStatus,
-  ValetPickupsDocument,
+  AgentDropsDocument,
 } from '@mockp/network/src/gql/generated';
 import { useQuery } from '@apollo/client';
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { ShowData } from './ShowData';
-import { AgentTripCard } from './ValetTripCard';
-import { AssignAgentButton } from './AssignValetButton';
+import { AgentTripCard } from './AgentTripCard';
+import { AssignAgentButton } from './AssignAgentButton';
 
-export const ShowAgentAllPickupTrips = () => {
-  const { loading, data } = useQuery(ValetPickupsDocument);
+export const ShowAgentAllDropTrips = () => {
+  const { loading, data } = useQuery(AgentDropsDocument);
   const { setSkip, setTake, skip, take } = useTakeSkip();
   return (
     <ShowData
@@ -19,11 +19,11 @@ export const ShowAgentAllPickupTrips = () => {
         setTake,
         skip,
         take,
-        resultCount: data?.valetPickups.length || 0,
-        totalCount: data?.valetPickupsTotal || 0,
+        resultCount: data?.agentDrops.length || 0,
+        totalCount: data?.agentDropsTotal || 0,
       }}
     >
-      {data?.valetPickups.map((inquiry) => {
+      {data?.agentDrops.map((inquiry) => {
         const propertyAddress = inquiry.property.address;
         const visitLat =
           inquiry.agentAssignment?.visitLat ?? propertyAddress?.lat;
@@ -35,19 +35,19 @@ export const ShowAgentAllPickupTrips = () => {
             key={inquiry.id}
             booking={{
               id: inquiry.id,
-              time: inquiry.startTime,
+              time: inquiry.endTime,
             }}
-            start={{
+            start={propertyAddress}
+            end={{
               lat: visitLat,
               lng: visitLng,
             }}
-            end={propertyAddress}
           >
             <AssignAgentButton
               inquiryId={inquiry.id}
-              status={InquiryStatus.VisitScheduled}
+              status={InquiryStatus.Closed}
             >
-              Aceitar visita
+              Encerrar
             </AssignAgentButton>
           </AgentTripCard>
         );

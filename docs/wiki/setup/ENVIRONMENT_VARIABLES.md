@@ -112,11 +112,11 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="change-me"
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="change-me"
 ```
 
-## Valet Web App: `apps/web-valet`
+## Agent Web App: `apps/web-agent`
 
 Source file:
 
-- `apps/web-valet/.env.example`
+- `apps/web-agent/.env.example`
 
 Variables:
 

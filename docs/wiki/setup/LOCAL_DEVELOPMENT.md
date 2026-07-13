@@ -43,7 +43,7 @@ Copy-Item apps/api/.env.example apps/api/.env
 Copy-Item apps/web/.env.example apps/web/.env
 Copy-Item apps/web-admin/.env.example apps/web-admin/.env
 Copy-Item apps/web-manager/.env.example apps/web-manager/.env
-Copy-Item apps/web-valet/.env.example apps/web-valet/.env
+Copy-Item apps/web-agent/.env.example apps/web-agent/.env
 ```
 
 See [[ENVIRONMENT_VARIABLES]] for each variable and its source.
@@ -111,7 +111,7 @@ Run each app from the repository root in a separate terminal:
 ```powershell
 yarn nx run @mockp/web:dev
 yarn nx run @mockp/web-manager:dev
-yarn nx run @mockp/web-valet:dev
+yarn nx run @mockp/web-agent:dev
 yarn nx run @mockp/web-admin:dev
 ```
 
@@ -119,7 +119,7 @@ Ports:
 
 - `@mockp/web`: `http://localhost:3001`
 - `@mockp/web-manager`: `http://localhost:3002`
-- `@mockp/web-valet`: `http://localhost:3003`
+- `@mockp/web-agent`: `http://localhost:3003`
 - `@mockp/web-admin`: `http://localhost:3004`
 
 ## Common Failure Points
@@ -194,7 +194,7 @@ For web lint validation:
 ```powershell
 yarn nx run @mockp/web:lint
 yarn nx run @mockp/web-manager:lint
-yarn nx run @mockp/web-valet:lint
+yarn nx run @mockp/web-agent:lint
 yarn nx run @mockp/web-admin:lint
 ```
 

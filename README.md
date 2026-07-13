@@ -61,7 +61,7 @@ yarn dev
 ```
 #### Valets
 ```sh
-cd apps/web-valet
+cd apps/web-agent
 yarn dev
 ```
 

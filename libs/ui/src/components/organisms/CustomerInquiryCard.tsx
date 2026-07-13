@@ -6,6 +6,8 @@ import { TitleStrongValue, TitleValue } from '../atoms/TitleValue';
 import { Reveal } from '../molecules/Reveal';
 import { Accordion } from '../atoms/Accordion';
 import { format } from 'date-fns';
+import { useI18n } from '@mockp/util/i18n';
+import { getInquiryStatusLabel } from '../../i18n/enumLabels';
 
 export interface IInquiryCardProps {
   inquiry: NonNullable<
@@ -14,6 +16,7 @@ export interface IInquiryCardProps {
 }
 
 export const CustomerInquiryCard = ({ inquiry }: IInquiryCardProps) => {
+  const { locale, t } = useI18n();
   const lat = inquiry.property.address?.lat || 0;
   const lng = inquiry.property.address?.lng || 0;
 
@@ -35,14 +38,14 @@ export const CustomerInquiryCard = ({ inquiry }: IInquiryCardProps) => {
         </MapLink>
       </div>
       <div className="grid grid-cols-2 w-full gap-2 mt-2  ">
-        <TitleStrongValue title={'Imóvel'}>
+        <TitleStrongValue title={t('inquiry.property')}>
           {inquiry.property.displayName}
         </TitleStrongValue>
-        <TitleStrongValue title={'Observações'}>
+        <TitleStrongValue title={t('inquiry.notes')}>
           {inquiry.contactNotes}
         </TitleStrongValue>
 
-        <TitleStrongValue title={'Address'}>
+        <TitleStrongValue title={t('inquiry.address')}>
           <div>
             {inquiry.property.address?.address}
             <div className="text-gray text-xs">
@@ -50,16 +53,16 @@ export const CustomerInquiryCard = ({ inquiry }: IInquiryCardProps) => {
             </div>
           </div>
         </TitleStrongValue>
-        <TitleStrongValue title={'Code'}>
+        <TitleStrongValue title={t('inquiry.code')}>
           <Reveal secret={inquiry.passcode || ''} />
         </TitleStrongValue>
       </div>
       <Accordion
         defaultOpen={false}
         title={
-          <TitleStrongValue title={'Status'}>
+          <TitleStrongValue title={t('inquiry.status')}>
             <div className="font-bold">
-              {inquiry.status.split('_').join(' ')}
+              {getInquiryStatusLabel(inquiry.status, locale)}
             </div>
           </TitleStrongValue>
         }
@@ -67,7 +70,9 @@ export const CustomerInquiryCard = ({ inquiry }: IInquiryCardProps) => {
         <div className="flex flex-col gap-2">
           {inquiry.inquiryTimeline.map((timeline) => (
             <div key={timeline.timestamp}>
-              <TitleValue title={timeline.status}>
+              <TitleValue
+                title={getInquiryStatusLabel(timeline.status, locale)}
+              >
                 {format(new Date(timeline.timestamp), 'PPp')}
               </TitleValue>
             </div>

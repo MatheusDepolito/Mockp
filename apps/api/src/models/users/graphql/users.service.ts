@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { UpdateUserInput } from './dtos/update-user.input';
@@ -15,6 +11,8 @@ import {
 import * as bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
+import { ErrorCodes } from 'src/common/errors/error-codes';
+import { appException } from 'src/common/errors/error-response';
 
 @Injectable()
 export class UsersService {
@@ -34,7 +32,11 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid email or password.');
+      throw appException(
+        HttpStatus.UNAUTHORIZED,
+        ErrorCodes.AuthInvalidCredentials,
+        'Invalid email or password.',
+      );
     }
 
     const isPasswordValid = bcrypt.compareSync(
@@ -43,7 +45,11 @@ export class UsersService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid email or password.');
+      throw appException(
+        HttpStatus.UNAUTHORIZED,
+        ErrorCodes.AuthInvalidCredentials,
+        'Invalid email or password.',
+      );
     }
 
     const jwtToken = this.jwtService.sign(
@@ -67,7 +73,11 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new BadRequestException('User already exists with this email.');
+      throw appException(
+        HttpStatus.BAD_REQUEST,
+        ErrorCodes.UserEmailAlreadyExists,
+        'User already exists with this email.',
+      );
     }
 
     const salt = bcrypt.genSaltSync();

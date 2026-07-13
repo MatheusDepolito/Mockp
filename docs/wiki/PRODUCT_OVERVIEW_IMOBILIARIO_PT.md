@@ -68,7 +68,7 @@ As **fotos já suportadas** podem ser narradas como fotos do imóvel no anúncio
 | **`apps/web`** | Portal do cliente: descoberta de imóveis, interesse e jornadas principais de usuário final. |
 | **`apps/web-manager`** | Operação da corretora: cadastro e gestão de carteira de imóveis, organização do trabalho comercial. |
 | **`apps/web-admin`** | Administração de contas, usuários administrativos e governança da plataforma. |
-| **`apps/web-valet`** | Camada operacional de campo (ex.: apoio a visitas/rotinas presenciais), apenas como analogia de papel. |
+| **`apps/web-agent`** | Camada operacional de campo (ex.: apoio a visitas/rotinas presenciais), apenas como analogia de papel. |
 
 > As rotas e labels atuais ainda podem mostrar terminologia de parking/valet. Esta tabela é uma interpretação de produto, não garantia de UX já renomeada.
 

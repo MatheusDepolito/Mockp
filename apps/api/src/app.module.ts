@@ -22,6 +22,7 @@ import { InquiryTimelinesModule } from './models/inquiry-timelines/inquiry-timel
 import { ReviewsModule } from './models/reviews/reviews.module';
 import { VerificationsModule } from './models/verifications/verifications.module';
 import { StripeModule } from './models/stripe/stripe.module';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 
 // todo move this to util lib
 const MAX_AGE = 24 * 60 * 60;
@@ -39,6 +40,35 @@ const MAX_AGE = 24 * 60 * 60;
       introspection: true,
       fieldResolverEnhancers: ['guards'],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      formatError: (error: GraphQLError): GraphQLFormattedError => {
+        const originalError = error.extensions?.originalError as
+          | {
+              code?: string;
+              message?: string;
+              response?: {
+                code?: string;
+                message?: string;
+              };
+            }
+          | undefined;
+
+        const appCode = originalError?.response?.code ?? originalError?.code;
+        const fallbackMessage =
+          originalError?.response?.message ??
+          originalError?.message ??
+          error.message;
+
+        return {
+          message: fallbackMessage,
+          locations: error.locations,
+          path: error.path,
+          extensions: {
+            ...error.extensions,
+            appCode,
+            fallbackMessage,
+          },
+        };
+      },
     }),
     PrismaModule,
     UsersModule,

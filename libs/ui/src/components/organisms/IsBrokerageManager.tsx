@@ -1,9 +1,9 @@
 'use client';
 import { MyBrokerageDocument } from '@mockp/network/src/gql/generated';
-import { BaseComponent } from '@mockp/util/types';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { Loader, LoaderPanel } from '../molecules/Loader';
+import { useQuery } from '@apollo/client';
+import { LoaderPanel } from '../molecules/Loader';
 import { AlertSection } from '../molecules/AlertSection';
+import { UnverifiedProfileBanner } from '../molecules/VerificationBadge';
 import { ReactNode } from 'react';
 import { CreateBrokerage } from './CreateBrokerage';
 
@@ -30,6 +30,12 @@ export const IsBrokerageManager = ({
   }
   return (
     <div>
+      {!data.myBrokerage.verified ? (
+        <UnverifiedProfileBanner>
+          Sua imobiliária está em análise. Imóveis e corretores só aparecem como
+          verificados após aprovação.
+        </UnverifiedProfileBanner>
+      ) : null}
       {typeof children === 'function'
         ? (children as RenderPropChild)(data.myBrokerage.id)
         : children}

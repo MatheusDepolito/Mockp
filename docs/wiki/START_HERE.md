@@ -166,7 +166,7 @@ For keeping the wiki consistent after edits, see [[agents/WIKI_REVIEW_CHECKLIST|
 - `apps/api`: NestJS API with GraphQL, REST, Prisma, PostgreSQL, Swagger.
 - `apps/web`: main customer-facing Next.js app on port `3001`.
 - `apps/web-manager`: manager Next.js app on port `3002`.
-- `apps/web-valet`: valet Next.js app on port `3003`.
+- `apps/web-agent`: agent Next.js app on port `3003`.
 - `apps/web-admin`: admin Next.js app on port `3004`.
 - `libs/network`: GraphQL documents, generated types, Apollo config, `fetchGraphQL`, NextAuth config.
 - `libs/ui`: shared UI components and templates.

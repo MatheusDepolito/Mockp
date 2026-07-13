@@ -24,7 +24,7 @@ Verified files:
 - `apps/web/src/app/layout.tsx`
 - `apps/web-admin/src/app/layout.tsx`
 - `apps/web-manager/src/app/layout.tsx`
-- `apps/web-valet/src/app/layout.tsx`
+- `apps/web-agent/src/app/layout.tsx`
 
 Verified package:
 

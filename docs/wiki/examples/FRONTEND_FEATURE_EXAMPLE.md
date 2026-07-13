@@ -9,7 +9,7 @@ Read [[../frontend/FRONTEND_FEATURE_FLOW|Frontend Feature Flow]], [[../frontend/
 ## Choose the Correct App
 
 - This route lives under **`apps/web`** (`apps/web/src/app/search/page.tsx`).
-- Other personas use **`apps/web-manager`** / **`apps/web-admin`** / **`apps/web-valet`** ([[../frontend/WEB_APPS_GUIDE|Web Apps Guide]], [[../security/ROLE_PERSONA_MATRIX|Role Persona Matrix]]). Do not copy `web` routes into another app without verifying persona impact.
+- Other personas use **`apps/web-manager`** / **`apps/web-admin`** / **`apps/web-agent`** ([[../frontend/WEB_APPS_GUIDE|Web Apps Guide]], [[../security/ROLE_PERSONA_MATRIX|Role Persona Matrix]]). Do not copy `web` routes into another app without verifying persona impact.
 
 ## Route / Page Composition
 

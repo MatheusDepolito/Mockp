@@ -6,11 +6,14 @@ import {
   SortOrder,
 } from '@mockp/network/src/gql/generated';
 import { ShowData } from './ShowData';
-import { AgentTripCard } from './ValetTripCard';
+import { AgentTripCard } from './AgentTripCard';
 import { Reveal } from '../molecules/Reveal';
-import { AssignAgentButton } from './AssignValetButton';
+import { AssignAgentButton } from './AssignAgentButton';
+import { useI18n } from '@mockp/util/i18n';
+import { getInquiryStatusLabel } from '../../i18n/enumLabels';
 
 export const ShowAgentMyPickupTrips = ({ uid }: { uid: string }) => {
+  const { locale } = useI18n();
   const { setSkip, setTake, skip, take } = useTakeSkip();
 
   const { data, loading } = useQuery(MyPickupTripsDocument, {
@@ -81,7 +84,7 @@ export const ShowAgentMyPickupTrips = ({ uid }: { uid: string }) => {
               </div>
 
               <div className="text-sm">
-                {inquiry.status?.split('_').join(' ')}
+                {getInquiryStatusLabel(inquiry.status, locale)}
               </div>
 
               {inquiry.status === InquiryStatus.Interested ? (

@@ -12,4 +12,5 @@ export class BrokerageEntity
   displayName: string;
   @IsOptional()
   description: string;
+  verified: boolean;
 }

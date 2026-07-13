@@ -23,6 +23,8 @@ export class BrokerageOrderByWithRelationInputStrict
   displayName: Prisma.SortOrder;
   @Field(() => Prisma.SortOrder)
   description: Prisma.SortOrder;
+  @Field(() => Prisma.SortOrder)
+  verified: Prisma.SortOrder;
   Properties: PropertyOrderByRelationAggregateInput;
   BrokerageManagers: BrokerageManagerOrderByRelationAggregateInput;
   Agents: AgentOrderByRelationAggregateInput;

@@ -1,6 +1,6 @@
 # i18n Guide
 
-> Status: Not implemented
+> Status: Baseline in progress (`pt-BR` + `en-US`)
 
 Project-wide i18n is not confirmed as a standard. This guide documents the current internationalization state. Do not introduce i18n frameworks or locale behavior without an architectural decision.
 
@@ -12,46 +12,40 @@ Read with:
 
 ## Current State
 
-No confirmed project-wide i18n standard was verified.
+Project-wide i18n is being introduced with a lightweight shared layer:
 
-No usage was verified for common i18n libraries or patterns such as:
+- Locales: `pt-BR` (default) and `en-US`
+- Locale source (MVP): `lang` query or `locale` cookie, with fallback to `pt-BR`
+- Shared frontend i18n utilities in `libs/util/i18n/`
+- GraphQL API errors now expose stable `code` + fallback `message` (hybrid strategy)
+- Enum/status values remain technical English keys in Prisma/GraphQL; UI shows localized labels
 
-- `next-intl`
-- `react-i18next`
-- `i18next`
-- `useTranslation`
-- locale route folders
-- message catalogs
-- translation JSON dictionaries
+## Current Rules
 
-Frontend layouts currently use:
-
-```tsx
-<html lang="en">
-```
-
-Visible UI strings are currently hardcoded in components, routes, layouts, and shared UI.
-
-## What Agents Must Not Assume
-
-- Do not assume English is the final product language standard.
-- Do not assume Portuguese or English copy should be translated automatically.
 - Do not introduce locale routing without a decision.
-- Do not add message catalogs ad hoc.
-- Do not wrap isolated strings in a new translation helper unless i18n has been approved.
-- Do not mix copy cleanup with i18n architecture.
+- Do not change enum values in Prisma/GraphQL for translation purposes.
+- Do not remove fallback behavior (`pt-BR` default, API fallback message).
 
 ## Stop Condition
 
-If a feature requires multi-language behavior, stop and ask for an architectural decision before implementation.
+If a feature requires locale routing or more than `pt-BR`/`en-US`, stop and ask for an architectural decision before implementation.
 
 Examples:
 
-- User-selectable language.
 - Locale-specific routes.
-- Translated validation messages.
 - Translated emails or notifications.
 - Currency/date/number localization beyond local formatting needs.
+
+## Implemented Baseline Checklist
+
+- [x] Shared locale, provider, and message catalog foundation
+- [x] Layouts reading locale and setting `<html lang>`
+- [x] Enum/status label mapping in key UI surfaces
+- [x] Backend error codes for critical auth/agent flows
+- [x] Frontend error translation by `code` with fallback
+- [ ] Complete migration of hardcoded copy in all apps/components
+- [ ] Locale switcher component in header/profile
+- [ ] Automated test suite for i18n mapping and fallbacks
 
 ## Future Recommendation
 

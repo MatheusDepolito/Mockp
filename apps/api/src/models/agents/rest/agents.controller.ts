@@ -24,8 +24,8 @@ import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 
-@ApiTags('valets')
-@Controller('valets')
+@ApiTags('agents')
+@Controller('agents')
 export class AgentsController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -63,8 +63,8 @@ export class AgentsController {
     @Body() updateAgentDto: UpdateAgent,
     @GetUser() user: GetUserType,
   ) {
-    const valet = await this.prisma.agent.findUnique({ where: { uid } });
-    checkRowLevelPermission(user, valet.uid);
+    const agent = await this.prisma.agent.findUnique({ where: { uid } });
+    checkRowLevelPermission(user, agent.uid);
     return this.prisma.agent.update({
       where: { uid },
       data: updateAgentDto,
@@ -75,8 +75,8 @@ export class AgentsController {
   @AllowAuthenticated()
   @Delete(':uid')
   async remove(@Param('uid') uid: string, @GetUser() user: GetUserType) {
-    const valet = await this.prisma.agent.findUnique({ where: { uid } });
-    checkRowLevelPermission(user, valet.uid);
+    const agent = await this.prisma.agent.findUnique({ where: { uid } });
+    checkRowLevelPermission(user, agent.uid);
     return this.prisma.agent.delete({ where: { uid } });
   }
 }

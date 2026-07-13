@@ -121,7 +121,7 @@ Changing `libs/ui` can affect:
 - `apps/web`
 - `apps/web-admin`
 - `apps/web-manager`
-- `apps/web-valet`
+- `apps/web-agent`
 
 It can also affect form behavior through `libs/forms`, network behavior through `libs/network`, and shared utilities through `libs/util`.
 

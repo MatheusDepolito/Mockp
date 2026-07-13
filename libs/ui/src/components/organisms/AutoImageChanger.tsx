@@ -42,7 +42,9 @@ export const AutoImageChanger = ({
       <Image
         src={images[currentImageIndex]}
         alt="Property"
-        className="object-cover h-full w-full"
+        fill
+        sizes="(max-width: 768px) 100vw, 400px"
+        className="object-cover"
       />
       <div className="absolute bottom-0 left-0 right-0 flex justify-center p-1 space-x-2">
         {images.map((_, index) => (

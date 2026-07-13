@@ -7,7 +7,7 @@ const roots = [
   'apps/web',
   'apps/web-manager',
   'apps/web-admin',
-  'apps/web-valet',
+  'apps/web-agent',
 ].map((p) => path.join(__dirname, '..', p));
 
 const fixes = [

@@ -27,7 +27,6 @@ export const Brand = ({
                 <div>Mockp</div>
                 {type ? <span className="text-xs">{type}</span> : null}
               </div>
-              <div className="text-xs text-gray">Matheus Depolito</div>
             </div>
           </div>
         )}

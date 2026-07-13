@@ -17,15 +17,15 @@ export const AssignAgentButton = ({
   status: InquiryStatus;
   children: ReactNode;
 }) => {
-  const [assignPickup, { data, loading }] = useMutation(AssignAgentDocument, {
+  const [assignPickup, { loading }] = useMutation(AssignAgentDocument, {
     awaitRefetchQueries: true,
     refetchQueries: [
-      namedOperations.Query.valetDrops,
-      namedOperations.Query.valetPickups,
+      namedOperations.Query.agentDrops,
+      namedOperations.Query.agentPickups,
       namedOperations.Query.myDropTrips,
       namedOperations.Query.myPickupTrips,
     ],
-    onCompleted(data, clientOptions) {
+    onCompleted(data) {
       toast(`Action successful.
             ID: ${data.assignAgent.id}`);
     },

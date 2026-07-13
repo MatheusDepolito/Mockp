@@ -1944,9 +1944,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mockp/web-manager@workspace:apps/web-manager":
+"@mockp/web-agent@workspace:apps/web-agent":
   version: 0.0.0-use.local
-  resolution: "@mockp/web-manager@workspace:apps/web-manager"
+  resolution: "@mockp/web-agent@workspace:apps/web-agent"
   dependencies:
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
@@ -1962,9 +1962,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mockp/web-valet@workspace:apps/web-valet":
+"@mockp/web-manager@workspace:apps/web-manager":
   version: 0.0.0-use.local
-  resolution: "@mockp/web-valet@workspace:apps/web-valet"
+  resolution: "@mockp/web-manager@workspace:apps/web-manager"
   dependencies:
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"

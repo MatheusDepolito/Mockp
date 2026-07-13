@@ -1,0 +1,79 @@
+{
+  "menu": {
+    "search": "Buscar",
+    "inquiries": "Visitas",
+    "properties": "Imoveis",
+    "verifications": "Verificacoes",
+    "admins": "Admins",
+    "newProperty": "Novo imovel",
+    "agents": "Corretores",
+    "myProperties": "Meus imoveis",
+    "myTrips": "Minhas visitas"
+  },
+  "header": {
+    "register": "Cadastrar",
+    "login": "Entrar"
+  },
+  "inquiry": {
+    "notes": "Observacoes",
+    "property": "Imovel",
+    "code": "Codigo",
+    "status": "Status",
+    "address": "Endereco"
+  },
+  "createProperty": {
+    "success": "Imovel criado com sucesso.",
+    "actionFailed": "Acao falhou.",
+    "typeLabel": "Tipo",
+    "purposeLabel": "Finalidade"
+  },
+  "registerSoloAgent": {
+    "accountCreatedLoginFailed": "Conta criada, mas falha ao entrar. Faca login manualmente.",
+    "accountCreateFailed": "Falha ao criar conta.",
+    "profilePending": "Seu perfil ficara em analise ate aprovacao. Voce ja pode cadastrar imoveis, mas eles so serao exibidos apos verificacao.",
+    "createAccount": "Criar conta de corretor",
+    "alreadyHasAccount": "Ja tem conta?",
+    "enterAgentPanel": "Entrar no painel do corretor",
+    "email": "E-mail",
+    "password": "Senha",
+    "name": "Nome",
+    "license": "CRECI",
+    "emailPlaceholder": "seu@email.com",
+    "passwordPlaceholder": "Minimo 6 caracteres",
+    "namePlaceholder": "Seu nome",
+    "licensePlaceholder": "Numero do CRECI"
+  },
+  "professionalAgentPage": {
+    "back": "Voltar",
+    "title": "Corretor autonomo",
+    "subtitle": "Crie sua conta e comece a anunciar imoveis. Seu perfil passara por verificacao antes de aparecer como verificado."
+  },
+  "adminVerifications": {
+    "titleProperties": "Imoveis",
+    "titleAgents": "Corretores",
+    "titleBrokerages": "Imobiliarias",
+    "propertiesHint": "Verificacao de imoveis na pagina inicial (Imoveis).",
+    "brokerageLabelPrefix": "Imobiliaria",
+    "independentAgent": "Autonomo",
+    "verifyAgent": "Verificar corretor",
+    "revokeAgent": "Revogar verificacao",
+    "verifyBrokerage": "Verificar imobiliaria",
+    "revokeBrokerage": "Revogar verificacao"
+  },
+  "forms": {
+    "validEmail": "Informe um e-mail valido",
+    "passwordMin": "A senha deve ter pelo menos 6 caracteres",
+    "requiredName": "Nome e obrigatorio",
+    "requiredLicense": "CRECI/licenca e obrigatorio"
+  },
+  "apiErrors": {
+    "AUTH_NO_TOKEN": "Token nao informado.",
+    "AUTH_INVALID_TOKEN": "Token invalido.",
+    "AUTH_INVALID_CREDENTIALS": "E-mail ou senha invalidos.",
+    "USER_EMAIL_ALREADY_EXISTS": "Ja existe usuario com esse e-mail.",
+    "AGENT_CREATE_FAILED": "Nao foi possivel criar o corretor.",
+    "AGENT_NOT_FOUND": "Voce nao e um corretor.",
+    "BROKERAGE_NOT_FOUND_FOR_MANAGER": "Voce nao possui imobiliaria vinculada.",
+    "UNKNOWN": "Nao foi possivel concluir a acao."
+  }
+}

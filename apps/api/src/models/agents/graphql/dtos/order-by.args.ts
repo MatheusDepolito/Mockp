@@ -29,6 +29,8 @@ export class AgentOrderByWithRelationInputStrict
   @Field(() => Prisma.SortOrder)
   licenseID: Prisma.SortOrder;
   @Field(() => Prisma.SortOrder)
+  verified: Prisma.SortOrder;
+  @Field(() => Prisma.SortOrder)
   brokerageId: Prisma.SortOrder;
   Brokerage: BrokerageOrderByWithRelationInput;
   InquiryTimeline: InquiryTimelineOrderByRelationAggregateInput;

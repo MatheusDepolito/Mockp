@@ -12,4 +12,5 @@ export class AgentEntity implements RestrictProperties<AgentEntity, Agent> {
   updatedAt: Date;
   displayName: string;
   licenseID: string;
+  verified: boolean;
 }

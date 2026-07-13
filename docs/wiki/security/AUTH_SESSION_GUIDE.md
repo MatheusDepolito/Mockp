@@ -21,12 +21,12 @@ The frontend apps use NextAuth through shared config:
   - `apps/web/types.d.ts`
   - `apps/web-admin/types.d.ts`
   - `apps/web-manager/types.d.ts`
-  - `apps/web-valet/types.d.ts`
+  - `apps/web-agent/types.d.ts`
 - App route handlers:
   - `apps/web/src/app/api/auth/[...nextauth]/route.ts`
   - `apps/web-admin/src/app/api/auth/[...nextauth]/route.ts`
   - `apps/web-manager/src/app/api/auth/[...nextauth]/route.ts`
-  - `apps/web-valet/src/app/api/auth/[...nextauth]/route.ts`
+  - `apps/web-agent/src/app/api/auth/[...nextauth]/route.ts`
 - Session provider wrapper: `libs/ui/src/components/molecules/SessionProvider.tsx`
 
 Each app route handler imports `authOptions` and passes it to `NextAuth`.

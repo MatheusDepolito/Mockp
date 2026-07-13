@@ -6,10 +6,13 @@ import {
   SortOrder,
 } from '@mockp/network/src/gql/generated';
 import { ShowData } from './ShowData';
-import { AgentTripCard } from './ValetTripCard';
+import { AgentTripCard } from './AgentTripCard';
 import { Reveal } from '../molecules/Reveal';
+import { useI18n } from '@mockp/util/i18n';
+import { getInquiryStatusLabel } from '../../i18n/enumLabels';
 
 export const ShowAgentMyDropTrips = ({ uid }: { uid: string }) => {
+  const { locale } = useI18n();
   const { setSkip, setTake, skip, take } = useTakeSkip();
 
   const { data, loading } = useQuery(MyDropTripsDocument, {
@@ -74,7 +77,7 @@ export const ShowAgentMyDropTrips = ({ uid }: { uid: string }) => {
               </div>
 
               <div className="text-sm">
-                {inquiry.status?.split('_').join(' ')}
+                {getInquiryStatusLabel(inquiry.status, locale)}
               </div>
             </div>
           </AgentTripCard>

@@ -134,20 +134,20 @@ QA placeholders:
 
 ### `apps/web-manager`
 
-Routes verified from repo include `/`, `/login`, `/register`, `/new-garage`, `/valets`, and `/bookings`.
+Routes verified from repo include `/`, `/login`, `/register`, `/new-garage`, `/agents`, and `/bookings`.
 
 QA placeholders:
 
 - Manager login/register.
 - Create garage.
-- Manage valets.
+- Manage agents.
 - View bookings.
 
 > Needs verification
 >
 > Exact manager/company ownership rules and garage visibility behavior.
 
-### `apps/web-valet`
+### `apps/web-agent`
 
 Routes verified from repo include `/`, `/login`, `/register`, and `/my-trips`.
 

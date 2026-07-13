@@ -107,12 +107,12 @@ Stop and confirm when:
   - `/login`
   - `/register`
   - `/new-garage`
-  - `/valets`
+  - `/agents`
   - `/bookings`
 
 Likely purpose based on route evidence:
 
-- Manager-oriented app for garage registration/management, valets, and bookings.
+- Manager-oriented app for garage registration/management, agents, and bookings.
 
 When to edit:
 
@@ -125,15 +125,15 @@ Stop and confirm when:
 - The requested flow could belong to admin, valet, or customer-facing app instead.
 - The change affects garage visibility across apps.
 
-## `apps/web-valet`
+## `apps/web-agent`
 
 > Status: Current project state
 
-- Workspace: `@mockp/web-valet`
-- Path: `apps/web-valet`
+- Workspace: `@mockp/web-agent`
+- Path: `apps/web-agent`
 - Dev port: `3003`
-- Dev command: `yarn nx run @mockp/web-valet:dev`
-- Env example: `apps/web-valet/.env.example`
+- Dev command: `yarn nx run @mockp/web-agent:dev`
+- Env example: `apps/web-agent/.env.example`
 - Routes found:
   - `/`
   - `/login`
@@ -142,17 +142,17 @@ Stop and confirm when:
 
 Likely purpose based on route evidence:
 
-- Valet-oriented app for login/register and trip-related work.
+- Agent-oriented app for login/register and trip-related work.
 
 When to edit:
 
-- Valet login/register flow.
-- Valet trip views.
+- Agent login/register flow.
+- Agent trip views.
 
 Stop and confirm when:
 
 - The requested behavior could affect manager-controlled assignments or customer bookings.
-- The expected valet workflow is not clear from current routes.
+- The expected agent workflow is not clear from current routes.
 
 ## Cross-App Changes
 

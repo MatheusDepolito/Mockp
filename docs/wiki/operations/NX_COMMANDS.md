@@ -89,9 +89,9 @@ yarn nx run @mockp/web-manager:dev
 yarn nx run @mockp/web-manager:lint
 yarn nx run @mockp/web-manager:build
 
-yarn nx run @mockp/web-valet:dev
-yarn nx run @mockp/web-valet:lint
-yarn nx run @mockp/web-valet:build
+yarn nx run @mockp/web-agent:dev
+yarn nx run @mockp/web-agent:lint
+yarn nx run @mockp/web-agent:build
 ```
 
 GraphQL network codegen:
@@ -109,7 +109,7 @@ Use this selection rule:
 - Prisma changed: run `prisma:generate`, `prisma:status`, and inspect migration SQL if migration changed.
 - GraphQL schema/operations changed: run API validation and network codegen.
 - `apps/web` changed: run `@mockp/web` `tsc`, `lint`, `build` as needed.
-- `apps/web-admin`, `apps/web-manager`, or `apps/web-valet` changed: run that app's `lint` and `build`.
+- `apps/web-admin`, `apps/web-manager`, or `apps/web-agent` changed: run that app's `lint` and `build`.
 - Shared frontend libs changed: validate every app that consumes the changed package when practical.
 
 Use [[VALIDATION_CHECKLIST]] for the full checklist.
@@ -136,7 +136,7 @@ yarn nx affected -t build
 
 > Needs verification
 
-- `@mockp/web-admin`, `@mockp/web-manager`, and `@mockp/web-valet` do not define `tsc` scripts in their package files.
+- `@mockp/web-admin`, `@mockp/web-manager`, and `@mockp/web-agent` do not define `tsc` scripts in their package files.
 - No test scripts were verified in the app package files.
 - `libs/ui` defines Next-style `dev`, `build`, `start`, and `lint`, but not `tsc`.
 - `libs/forms` and `libs/util` do not define validation scripts in package files.

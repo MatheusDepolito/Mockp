@@ -42,7 +42,7 @@ If the affected persona/app is unclear, stop and ask for confirmation.
 Check which layers are involved:
 
 - Backend: NestJS module, resolver, controller, service, DTO, guard.
-- Frontend: one of `apps/web`, `apps/web-admin`, `apps/web-manager`, `apps/web-valet`.
+- Frontend: one of `apps/web`, `apps/web-admin`, `apps/web-manager`, `apps/web-agent`.
 - GraphQL: schema, resolver, operations, generated frontend types.
 - REST: only if the use case matches current REST-style project patterns.
 - Database: Prisma schema, migration, seed, generated client.

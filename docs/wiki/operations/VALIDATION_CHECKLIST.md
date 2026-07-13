@@ -100,7 +100,7 @@ yarn nx run @mockp/web:build
 
 > Needs verification
 >
-> `@mockp/web-admin`, `@mockp/web-manager`, and `@mockp/web-valet` package scripts currently define `lint` and `build`, but not `tsc`. Verify the Nx target exists before running `yarn nx run <project>:tsc` for those apps.
+> `@mockp/web-admin`, `@mockp/web-manager`, and `@mockp/web-agent` package scripts currently define `lint` and `build`, but not `tsc`. Verify the Nx target exists before running `yarn nx run <project>:tsc` for those apps.
 
 See [[NX_COMMANDS]] for the current command map and missing/uncertain targets.
 
@@ -143,8 +143,8 @@ yarn workspace @mockp/web-admin lint
 yarn workspace @mockp/web-admin build
 yarn workspace @mockp/web-manager lint
 yarn workspace @mockp/web-manager build
-yarn workspace @mockp/web-valet lint
-yarn workspace @mockp/web-valet build
+yarn workspace @mockp/web-agent lint
+yarn workspace @mockp/web-agent build
 ```
 
 Use frontend validation when touching:
@@ -152,7 +152,7 @@ Use frontend validation when touching:
 - `apps/web`
 - `apps/web-admin`
 - `apps/web-manager`
-- `apps/web-valet`
+- `apps/web-agent`
 - `libs/ui`
 - `libs/forms`
 - `libs/util`

@@ -34,7 +34,7 @@ Companion: [[../operations/VALIDATION_CHECKLIST|Validation Checklist]], [[../ope
 | **`yarn nx run @mockp/web:lint`** | App lint |
 | **`yarn nx run @mockp/web:build`** | `next build` |
 
-Repeat pattern for **`@mockp/web-admin`**, **`@mockp/web-manager`**, **`@mockp/web-valet`** **only after** verifying each package exposes those targets (**see `apps/*/package.json` + Nx inference**).
+Repeat pattern for **`@mockp/web-admin`**, **`@mockp/web-manager`**, **`@mockp/web-agent`** **only after** verifying each package exposes those targets (**see `apps/*/package.json` + Nx inference**).
 
 ## GraphQL Contract Change
 

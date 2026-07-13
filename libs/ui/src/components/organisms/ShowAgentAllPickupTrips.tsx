@@ -1,15 +1,15 @@
 import {
   InquiryStatus,
-  ValetDropsDocument,
+  AgentPickupsDocument,
 } from '@mockp/network/src/gql/generated';
 import { useQuery } from '@apollo/client';
 import { useTakeSkip } from '@mockp/util/hooks/pagination';
 import { ShowData } from './ShowData';
-import { AgentTripCard } from './ValetTripCard';
-import { AssignAgentButton } from './AssignValetButton';
+import { AgentTripCard } from './AgentTripCard';
+import { AssignAgentButton } from './AssignAgentButton';
 
-export const ShowAgentAllDropTrips = () => {
-  const { loading, data } = useQuery(ValetDropsDocument);
+export const ShowAgentAllPickupTrips = () => {
+  const { loading, data } = useQuery(AgentPickupsDocument);
   const { setSkip, setTake, skip, take } = useTakeSkip();
   return (
     <ShowData
@@ -19,11 +19,11 @@ export const ShowAgentAllDropTrips = () => {
         setTake,
         skip,
         take,
-        resultCount: data?.valetDrops.length || 0,
-        totalCount: data?.valetDropsTotal || 0,
+        resultCount: data?.agentPickups.length || 0,
+        totalCount: data?.agentPickupsTotal || 0,
       }}
     >
-      {data?.valetDrops.map((inquiry) => {
+      {data?.agentPickups.map((inquiry) => {
         const propertyAddress = inquiry.property.address;
         const visitLat =
           inquiry.agentAssignment?.visitLat ?? propertyAddress?.lat;
@@ -35,19 +35,19 @@ export const ShowAgentAllDropTrips = () => {
             key={inquiry.id}
             booking={{
               id: inquiry.id,
-              time: inquiry.endTime,
+              time: inquiry.startTime,
             }}
-            start={propertyAddress}
-            end={{
+            start={{
               lat: visitLat,
               lng: visitLng,
             }}
+            end={propertyAddress}
           >
             <AssignAgentButton
               inquiryId={inquiry.id}
-              status={InquiryStatus.Closed}
+              status={InquiryStatus.VisitScheduled}
             >
-              Encerrar
+              Aceitar visita
             </AssignAgentButton>
           </AgentTripCard>
         );

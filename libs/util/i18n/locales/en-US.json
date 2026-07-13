@@ -1,0 +1,79 @@
+{
+  "menu": {
+    "search": "Search",
+    "inquiries": "Inquiries",
+    "properties": "Properties",
+    "verifications": "Verifications",
+    "admins": "Admins",
+    "newProperty": "New property",
+    "agents": "Agents",
+    "myProperties": "My properties",
+    "myTrips": "My trips"
+  },
+  "header": {
+    "register": "Register",
+    "login": "Log in"
+  },
+  "inquiry": {
+    "notes": "Notes",
+    "property": "Property",
+    "code": "Code",
+    "status": "Status",
+    "address": "Address"
+  },
+  "createProperty": {
+    "success": "Property created successfully.",
+    "actionFailed": "Action failed.",
+    "typeLabel": "Type",
+    "purposeLabel": "Purpose"
+  },
+  "registerSoloAgent": {
+    "accountCreatedLoginFailed": "Account created, but sign-in failed. Please log in manually.",
+    "accountCreateFailed": "Failed to create account.",
+    "profilePending": "Your profile will stay under review until approval. You can already add properties, but they are shown only after verification.",
+    "createAccount": "Create agent account",
+    "alreadyHasAccount": "Already have an account?",
+    "enterAgentPanel": "Open agent dashboard",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "license": "License",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "At least 6 characters",
+    "namePlaceholder": "Your name",
+    "licensePlaceholder": "License number"
+  },
+  "professionalAgentPage": {
+    "back": "Back",
+    "title": "Solo agent",
+    "subtitle": "Create your account and start listing properties. Your profile will be reviewed before showing as verified."
+  },
+  "adminVerifications": {
+    "titleProperties": "Properties",
+    "titleAgents": "Agents",
+    "titleBrokerages": "Brokerages",
+    "propertiesHint": "Property verification appears on the home page.",
+    "brokerageLabelPrefix": "Brokerage",
+    "independentAgent": "Independent",
+    "verifyAgent": "Verify agent",
+    "revokeAgent": "Revoke verification",
+    "verifyBrokerage": "Verify brokerage",
+    "revokeBrokerage": "Revoke verification"
+  },
+  "forms": {
+    "validEmail": "Please provide a valid email",
+    "passwordMin": "Password must have at least 6 characters",
+    "requiredName": "Name is required",
+    "requiredLicense": "License is required"
+  },
+  "apiErrors": {
+    "AUTH_NO_TOKEN": "No token provided.",
+    "AUTH_INVALID_TOKEN": "Invalid token.",
+    "AUTH_INVALID_CREDENTIALS": "Invalid email or password.",
+    "USER_EMAIL_ALREADY_EXISTS": "A user with this email already exists.",
+    "AGENT_CREATE_FAILED": "Failed to create agent.",
+    "AGENT_NOT_FOUND": "You are not an agent.",
+    "BROKERAGE_NOT_FOUND_FOR_MANAGER": "You do not have a company.",
+    "UNKNOWN": "Action failed."
+  }
+}

@@ -4,6 +4,7 @@ import { Brand } from '../atoms/Brand';
 import { Container } from '../atoms/Container';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { UserInfo } from '../molecules/UserInfo';
 import { LogoutButton } from '../molecules/LogoutButton';
@@ -11,6 +12,7 @@ import { Button } from '../atoms/Button';
 import { useDialogState } from '@mockp/util/hooks/dialog';
 import { NavSidebar } from './NavSidebar';
 import { Menus } from './Menus';
+import { useI18n } from '@mockp/util/i18n';
 
 export type IHeaderProps = {
   type?: Role;
@@ -18,9 +20,13 @@ export type IHeaderProps = {
 } & BaseComponent;
 
 export const Header = ({ type, menuItems }: IHeaderProps) => {
+  const { t } = useI18n();
   const session = useSession();
+  const pathname = usePathname();
   const uid = session?.data?.user?.uid;
   let [open, setOpen] = useDialogState(false);
+  const hideGuestRegister =
+    pathname === '/' || pathname?.startsWith('/profissional');
 
   return (
     <header>
@@ -41,13 +47,15 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
               </div>
             ) : (
               <>
-                <Link href="/register">
-                  <Button variant="outlined" className="hidden md:block">
-                    Register
-                  </Button>
-                </Link>
+                {!hideGuestRegister ? (
+                  <Link href="/register">
+                    <Button variant="outlined" className="hidden md:block">
+                      {t('header.register')}
+                    </Button>
+                  </Link>
+                ) : null}
                 <Link href="/login">
-                  <Button>Log in</Button>
+                  <Button>{t('header.login')}</Button>
                 </Link>
               </>
             )}

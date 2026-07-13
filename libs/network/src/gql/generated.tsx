@@ -1,33 +1,20 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: { input: any; output: any };
+  DateTime: { input: any; output: any; }
 };
 
 export type Address = {
@@ -65,7 +52,7 @@ export enum AddressScalarFieldEnum {
   Lat = 'lat',
   Lng = 'lng',
   PropertyId = 'propertyId',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type AddressWhereInput = {
@@ -112,7 +99,7 @@ export type AdminRelationFilter = {
 export enum AdminScalarFieldEnum {
   CreatedAt = 'createdAt',
   Uid = 'uid',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type AdminWhereInput = {
@@ -139,6 +126,7 @@ export type Agent = {
   licenseID: Scalars['String']['output'];
   uid: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  verified: Scalars['Boolean']['output'];
 };
 
 export type AgentAssignment = {
@@ -184,7 +172,7 @@ export enum AgentAssignmentScalarFieldEnum {
   InquiryId = 'inquiryId',
   UpdatedAt = 'updatedAt',
   VisitLat = 'visitLat',
-  VisitLng = 'visitLng',
+  VisitLng = 'visitLng'
 }
 
 export type AgentAssignmentWhereInput = {
@@ -228,6 +216,7 @@ export type AgentOrderByWithRelationInput = {
   licenseID?: InputMaybe<SortOrder>;
   uid?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
 };
 
 export type AgentRelationFilter = {
@@ -243,6 +232,7 @@ export enum AgentScalarFieldEnum {
   LicenseId = 'licenseID',
   Uid = 'uid',
   UpdatedAt = 'updatedAt',
+  Verified = 'verified'
 }
 
 export type AgentWhereInput = {
@@ -261,6 +251,7 @@ export type AgentWhereInput = {
   licenseID?: InputMaybe<StringFilter>;
   uid?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+  verified?: InputMaybe<BoolFilter>;
 };
 
 export type AgentWhereUniqueInput = {
@@ -280,7 +271,7 @@ export type AuthProvider = {
 
 export enum AuthProviderType {
   Credentials = 'CREDENTIALS',
-  Google = 'GOOGLE',
+  Google = 'GOOGLE'
 }
 
 export type BoolFilter = {
@@ -297,6 +288,7 @@ export type Brokerage = {
   id: Scalars['Float']['output'];
   properties: Array<Property>;
   updatedAt: Scalars['DateTime']['output'];
+  verified: Scalars['Boolean']['output'];
 };
 
 export type BrokerageManager = {
@@ -340,7 +332,7 @@ export enum BrokerageManagerScalarFieldEnum {
   CreatedAt = 'createdAt',
   DisplayName = 'displayName',
   Uid = 'uid',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type BrokerageManagerWhereInput = {
@@ -370,6 +362,7 @@ export type BrokerageOrderByWithRelationInput = {
   displayName?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+  verified?: InputMaybe<SortOrder>;
 };
 
 export type BrokerageRelationFilter = {
@@ -383,6 +376,7 @@ export enum BrokerageScalarFieldEnum {
   DisplayName = 'displayName',
   Id = 'id',
   UpdatedAt = 'updatedAt',
+  Verified = 'verified'
 }
 
 export type BrokerageWhereInput = {
@@ -397,6 +391,7 @@ export type BrokerageWhereInput = {
   displayName?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+  verified?: InputMaybe<BoolFilter>;
 };
 
 export type BrokerageWhereUniqueInput = {
@@ -548,7 +543,7 @@ export enum CustomerScalarFieldEnum {
   CreatedAt = 'createdAt',
   DisplayName = 'displayName',
   Uid = 'uid',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type CustomerWhereInput = {
@@ -689,14 +684,14 @@ export enum InquiryScalarFieldEnum {
   StartTime = 'startTime',
   Status = 'status',
   TotalPrice = 'totalPrice',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export enum InquiryStatus {
   Closed = 'CLOSED',
   Interested = 'INTERESTED',
   Proposal = 'PROPOSAL',
-  VisitScheduled = 'VISIT_SCHEDULED',
+  VisitScheduled = 'VISIT_SCHEDULED'
 }
 
 export type InquiryTimeline = {
@@ -737,7 +732,7 @@ export enum InquiryTimelineScalarFieldEnum {
   InquiryId = 'inquiryId',
   ManagerId = 'managerId',
   Status = 'status',
-  Timestamp = 'timestamp',
+  Timestamp = 'timestamp'
 }
 
 export type InquiryTimelineWhereInput = {
@@ -829,6 +824,7 @@ export type Mutation = {
   createReview: Review;
   createVerification: Verification;
   login: LoginOutput;
+  registerSoloAgent: RegisterSoloAgentPayload;
   registerWithCredentials: User;
   registerWithProvider: User;
   removeAddress: Address;
@@ -861,182 +857,232 @@ export type Mutation = {
   updateVerification: Verification;
 };
 
+
 export type MutationAssignAgentArgs = {
   inquiryId: Scalars['Float']['input'];
   status: Scalars['String']['input'];
 };
 
+
 export type MutationCreateAddressArgs = {
   createAddressInput: CreateAddressInput;
 };
+
 
 export type MutationCreateAdminArgs = {
   createAdminInput: CreateAdminInput;
 };
 
+
 export type MutationCreateAgentArgs = {
   createAgentInput: CreateAgentInput;
 };
+
 
 export type MutationCreateAgentAssignmentArgs = {
   createAgentAssignmentInput: CreateAgentAssignmentInput;
 };
 
+
 export type MutationCreateBrokerageArgs = {
   createBrokerageInput: CreateBrokerageInput;
 };
+
 
 export type MutationCreateBrokerageManagerArgs = {
   createBrokerageManagerInput: CreateBrokerageManagerInput;
 };
 
+
 export type MutationCreateCustomerArgs = {
   createCustomerInput: CreateCustomerInput;
 };
+
 
 export type MutationCreateInquiryArgs = {
   createInquiryInput: CreateInquiryInput;
 };
 
+
 export type MutationCreateInquiryTimelineArgs = {
   createInquiryTimelineInput: CreateInquiryTimelineInput;
 };
+
 
 export type MutationCreatePropertyArgs = {
   createPropertyInput: CreatePropertyInput;
 };
 
+
 export type MutationCreatePropertyFeatureArgs = {
   createPropertyFeatureInput: CreatePropertyFeatureInput;
 };
+
 
 export type MutationCreateReviewArgs = {
   createReviewInput: CreateReviewInput;
 };
 
+
 export type MutationCreateVerificationArgs = {
   createVerificationInput: CreateVerificationInput;
 };
+
 
 export type MutationLoginArgs = {
   loginInput: LoginInput;
 };
 
+
+export type MutationRegisterSoloAgentArgs = {
+  registerSoloAgentInput: RegisterSoloAgentInput;
+};
+
+
 export type MutationRegisterWithCredentialsArgs = {
   registerWithCredentialsInput: RegisterWithCredentialsInput;
 };
+
 
 export type MutationRegisterWithProviderArgs = {
   registerWithProviderInput: RegisterWithProviderInput;
 };
 
+
 export type MutationRemoveAddressArgs = {
   where: AddressWhereUniqueInput;
 };
+
 
 export type MutationRemoveAdminArgs = {
   where: AdminWhereUniqueInput;
 };
 
+
 export type MutationRemoveAgentArgs = {
   where: AgentWhereUniqueInput;
 };
+
 
 export type MutationRemoveAgentAssignmentArgs = {
   where: AgentAssignmentWhereUniqueInput;
 };
 
+
 export type MutationRemoveBrokerageArgs = {
   where: BrokerageWhereUniqueInput;
 };
+
 
 export type MutationRemoveBrokerageManagerArgs = {
   where: BrokerageManagerWhereUniqueInput;
 };
 
+
 export type MutationRemoveCustomerArgs = {
   where: CustomerWhereUniqueInput;
 };
+
 
 export type MutationRemoveInquiryArgs = {
   where: InquiryWhereUniqueInput;
 };
 
+
 export type MutationRemoveInquiryTimelineArgs = {
   where: InquiryTimelineWhereUniqueInput;
 };
+
 
 export type MutationRemovePropertyArgs = {
   where: PropertyWhereUniqueInput;
 };
 
+
 export type MutationRemovePropertyFeatureArgs = {
   where: PropertyFeatureWhereUniqueInput;
 };
+
 
 export type MutationRemoveReviewArgs = {
   where: ReviewWhereUniqueInput;
 };
 
+
 export type MutationRemoveUserArgs = {
   where: UserWhereUniqueInput;
 };
+
 
 export type MutationRemoveVerificationArgs = {
   where: VerificationWhereUniqueInput;
 };
 
+
 export type MutationUpdateAddressArgs = {
   updateAddressInput: UpdateAddressInput;
 };
+
 
 export type MutationUpdateAdminArgs = {
   updateAdminInput: UpdateAdminInput;
 };
 
+
 export type MutationUpdateAgentArgs = {
   updateAgentInput: UpdateAgentInput;
 };
+
 
 export type MutationUpdateAgentAssignmentArgs = {
   updateAgentAssignmentInput: UpdateAgentAssignmentInput;
 };
 
+
 export type MutationUpdateBrokerageArgs = {
   updateBrokerageInput: UpdateBrokerageInput;
 };
+
 
 export type MutationUpdateBrokerageManagerArgs = {
   updateBrokerageManagerInput: UpdateBrokerageManagerInput;
 };
 
+
 export type MutationUpdateCustomerArgs = {
   updateCustomerInput: UpdateCustomerInput;
 };
+
 
 export type MutationUpdateInquiryArgs = {
   updateInquiryInput: UpdateInquiryInput;
 };
 
+
 export type MutationUpdateInquiryTimelineArgs = {
   updateInquiryTimelineInput: UpdateInquiryTimelineInput;
 };
+
 
 export type MutationUpdatePropertyArgs = {
   updatePropertyInput: UpdatePropertyInput;
 };
 
+
 export type MutationUpdatePropertyFeatureArgs = {
   updatePropertyFeatureInput: UpdatePropertyFeatureInput;
 };
+
 
 export type MutationUpdateReviewArgs = {
   updateReviewInput: UpdateReviewInput;
 };
 
+
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
+
 
 export type MutationUpdateVerificationArgs = {
   updateVerificationInput: UpdateVerificationInput;
@@ -1102,7 +1148,7 @@ export enum PropertyFeatureScalarFieldEnum {
   PropertyId = 'propertyId',
   Quantity = 'quantity',
   Type = 'type',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export enum PropertyFeatureType {
@@ -1112,7 +1158,7 @@ export enum PropertyFeatureType {
   BuiltInWardrobe = 'BUILT_IN_WARDROBE',
   FurnishedKitchen = 'FURNISHED_KITCHEN',
   Other = 'OTHER',
-  ParkingSpot = 'PARKING_SPOT',
+  ParkingSpot = 'PARKING_SPOT'
 }
 
 export type PropertyFeatureTypeCount = {
@@ -1180,7 +1226,7 @@ export type PropertyOrderByWithRelationInput = {
 export enum PropertyPurpose {
   Rent = 'RENT',
   RentAndSale = 'RENT_AND_SALE',
-  Sale = 'SALE',
+  Sale = 'SALE'
 }
 
 export type PropertyRelationFilter = {
@@ -1199,12 +1245,12 @@ export enum PropertyScalarFieldEnum {
   PropertyType = 'propertyType',
   Purpose = 'purpose',
   ResponsibleAgentId = 'responsibleAgentId',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export enum PropertyType {
   Apartment = 'APARTMENT',
-  House = 'HOUSE',
+  House = 'HOUSE'
 }
 
 export type PropertyWhereInput = {
@@ -1246,6 +1292,12 @@ export type Query = {
   agent: Agent;
   agentAssignment: AgentAssignment;
   agentAssignments: Array<AgentAssignment>;
+  agentDrops: Array<Inquiry>;
+  agentDropsTotal: Scalars['Float']['output'];
+  agentMe?: Maybe<Agent>;
+  agentPickups: Array<Inquiry>;
+  agentPickupsTotal: Scalars['Float']['output'];
+  agents: Array<Agent>;
   bookingTimeline: InquiryTimeline;
   bookingTimelines: Array<InquiryTimeline>;
   brokerage: Brokerage;
@@ -1276,20 +1328,16 @@ export type Query = {
   searchProperties: Array<Property>;
   user: User;
   users: Array<User>;
-  valetDrops: Array<Inquiry>;
-  valetDropsTotal: Scalars['Float']['output'];
-  valetMe?: Maybe<Agent>;
-  valetPickups: Array<Inquiry>;
-  valetPickupsTotal: Scalars['Float']['output'];
-  valets: Array<Agent>;
   verification: Verification;
   verifications: Array<Verification>;
   whoami: User;
 };
 
+
 export type QueryAddressArgs = {
   where: AddressWhereUniqueInput;
 };
+
 
 export type QueryAddressesArgs = {
   cursor?: InputMaybe<AddressWhereUniqueInput>;
@@ -1300,9 +1348,11 @@ export type QueryAddressesArgs = {
   where?: InputMaybe<AddressWhereInput>;
 };
 
+
 export type QueryAdminArgs = {
   where: AdminWhereUniqueInput;
 };
+
 
 export type QueryAdminsArgs = {
   cursor?: InputMaybe<AdminWhereUniqueInput>;
@@ -1313,17 +1363,21 @@ export type QueryAdminsArgs = {
   where?: InputMaybe<AdminWhereInput>;
 };
 
+
 export type QueryAdminsCountArgs = {
   where?: InputMaybe<AdminWhereInput>;
 };
+
 
 export type QueryAgentArgs = {
   where: AgentWhereUniqueInput;
 };
 
+
 export type QueryAgentAssignmentArgs = {
   where: AgentAssignmentWhereUniqueInput;
 };
+
 
 export type QueryAgentAssignmentsArgs = {
   cursor?: InputMaybe<AgentAssignmentWhereUniqueInput>;
@@ -1334,9 +1388,33 @@ export type QueryAgentAssignmentsArgs = {
   where?: InputMaybe<AgentAssignmentWhereInput>;
 };
 
+
+export type QueryAgentDropsArgs = {
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type QueryAgentPickupsArgs = {
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type QueryAgentsArgs = {
+  cursor?: InputMaybe<AgentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AgentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AgentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<AgentWhereInput>;
+};
+
+
 export type QueryBookingTimelineArgs = {
   where: InquiryTimelineWhereUniqueInput;
 };
+
 
 export type QueryBookingTimelinesArgs = {
   cursor?: InputMaybe<InquiryTimelineWhereUniqueInput>;
@@ -1347,13 +1425,16 @@ export type QueryBookingTimelinesArgs = {
   where?: InputMaybe<InquiryTimelineWhereInput>;
 };
 
+
 export type QueryBrokerageArgs = {
   where: BrokerageWhereUniqueInput;
 };
 
+
 export type QueryBrokerageManagerArgs = {
   where: BrokerageManagerWhereUniqueInput;
 };
+
 
 export type QueryBrokeragesArgs = {
   cursor?: InputMaybe<BrokerageWhereUniqueInput>;
@@ -1364,6 +1445,7 @@ export type QueryBrokeragesArgs = {
   where?: InputMaybe<BrokerageWhereInput>;
 };
 
+
 export type QueryCompanyAgentsArgs = {
   cursor?: InputMaybe<AgentWhereUniqueInput>;
   distinct?: InputMaybe<Array<AgentScalarFieldEnum>>;
@@ -1373,13 +1455,16 @@ export type QueryCompanyAgentsArgs = {
   where?: InputMaybe<AgentWhereInput>;
 };
 
+
 export type QueryCompanyAgentsTotalArgs = {
   where?: InputMaybe<AgentWhereInput>;
 };
 
+
 export type QueryCustomerArgs = {
   where: CustomerWhereUniqueInput;
 };
+
 
 export type QueryCustomersArgs = {
   cursor?: InputMaybe<CustomerWhereUniqueInput>;
@@ -1390,9 +1475,11 @@ export type QueryCustomersArgs = {
   where?: InputMaybe<CustomerWhereInput>;
 };
 
+
 export type QueryGetAuthProviderArgs = {
   uid: Scalars['String']['input'];
 };
+
 
 export type QueryInquiriesArgs = {
   cursor?: InputMaybe<InquiryWhereUniqueInput>;
@@ -1403,9 +1490,11 @@ export type QueryInquiriesArgs = {
   where?: InputMaybe<InquiryWhereInput>;
 };
 
+
 export type QueryInquiriesCountArgs = {
   where?: InputMaybe<InquiryWhereInput>;
 };
+
 
 export type QueryInquiriesForAgentArgs = {
   cursor?: InputMaybe<InquiryWhereUniqueInput>;
@@ -1416,6 +1505,7 @@ export type QueryInquiriesForAgentArgs = {
   where?: InputMaybe<InquiryWhereInput>;
 };
 
+
 export type QueryInquiriesForCustomerArgs = {
   cursor?: InputMaybe<InquiryWhereUniqueInput>;
   distinct?: InputMaybe<Array<InquiryScalarFieldEnum>>;
@@ -1424,6 +1514,7 @@ export type QueryInquiriesForCustomerArgs = {
   take?: InputMaybe<Scalars['Float']['input']>;
   where?: InputMaybe<InquiryWhereInput>;
 };
+
 
 export type QueryInquiriesForPropertyArgs = {
   cursor?: InputMaybe<InquiryWhereUniqueInput>;
@@ -1434,9 +1525,11 @@ export type QueryInquiriesForPropertyArgs = {
   where?: InputMaybe<InquiryWhereInput>;
 };
 
+
 export type QueryInquiryArgs = {
   where: InquiryWhereUniqueInput;
 };
+
 
 export type QueryManagersArgs = {
   cursor?: InputMaybe<BrokerageManagerWhereUniqueInput>;
@@ -1447,6 +1540,7 @@ export type QueryManagersArgs = {
   where?: InputMaybe<BrokerageManagerWhereInput>;
 };
 
+
 export type QueryMyPropertiesAsAgentArgs = {
   cursor?: InputMaybe<PropertyWhereUniqueInput>;
   distinct?: InputMaybe<Array<PropertyScalarFieldEnum>>;
@@ -1455,6 +1549,7 @@ export type QueryMyPropertiesAsAgentArgs = {
   take?: InputMaybe<Scalars['Float']['input']>;
   where?: InputMaybe<PropertyWhereInput>;
 };
+
 
 export type QueryPropertiesArgs = {
   cursor?: InputMaybe<PropertyWhereUniqueInput>;
@@ -1465,17 +1560,21 @@ export type QueryPropertiesArgs = {
   where?: InputMaybe<PropertyWhereInput>;
 };
 
+
 export type QueryPropertiesCountArgs = {
   where?: InputMaybe<PropertyWhereInput>;
 };
+
 
 export type QueryPropertyArgs = {
   where: PropertyWhereUniqueInput;
 };
 
+
 export type QueryPropertyFeatureArgs = {
   where: PropertyFeatureWhereUniqueInput;
 };
+
 
 export type QueryPropertyFeaturesArgs = {
   cursor?: InputMaybe<PropertyFeatureWhereUniqueInput>;
@@ -1486,9 +1585,11 @@ export type QueryPropertyFeaturesArgs = {
   where?: InputMaybe<PropertyFeatureWhereInput>;
 };
 
+
 export type QueryReviewArgs = {
   where: ReviewWhereUniqueInput;
 };
+
 
 export type QueryReviewsArgs = {
   cursor?: InputMaybe<ReviewWhereUniqueInput>;
@@ -1499,6 +1600,7 @@ export type QueryReviewsArgs = {
   where?: InputMaybe<ReviewWhereInput>;
 };
 
+
 export type QuerySearchPropertiesArgs = {
   dateFilter: DateFilterInput;
   featuresFilter?: InputMaybe<PropertyFeatureWhereInput>;
@@ -1506,9 +1608,11 @@ export type QuerySearchPropertiesArgs = {
   propertyFilter?: InputMaybe<PropertyFilter>;
 };
 
+
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
+
 
 export type QueryUsersArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -1519,28 +1623,11 @@ export type QueryUsersArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
-export type QueryValetDropsArgs = {
-  skip?: InputMaybe<Scalars['Float']['input']>;
-  take?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type QueryValetPickupsArgs = {
-  skip?: InputMaybe<Scalars['Float']['input']>;
-  take?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type QueryValetsArgs = {
-  cursor?: InputMaybe<AgentWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AgentScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AgentOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Float']['input']>;
-  take?: InputMaybe<Scalars['Float']['input']>;
-  where?: InputMaybe<AgentWhereInput>;
-};
 
 export type QueryVerificationArgs = {
   where: VerificationWhereUniqueInput;
 };
+
 
 export type QueryVerificationsArgs = {
   cursor?: InputMaybe<VerificationWhereUniqueInput>;
@@ -1553,8 +1640,23 @@ export type QueryVerificationsArgs = {
 
 export enum QueryMode {
   Default = 'default',
-  Insensitive = 'insensitive',
+  Insensitive = 'insensitive'
 }
+
+export type RegisterSoloAgentInput = {
+  displayName: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  licenseID: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type RegisterSoloAgentPayload = {
+  __typename?: 'RegisterSoloAgentPayload';
+  agent: Agent;
+  token: Scalars['String']['output'];
+  user: User;
+};
 
 export type RegisterWithCredentialsInput = {
   email: Scalars['String']['input'];
@@ -1610,7 +1712,7 @@ export enum ReviewScalarFieldEnum {
   Id = 'id',
   PropertyId = 'propertyId',
   Rating = 'rating',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type ReviewWhereInput = {
@@ -1634,7 +1736,7 @@ export type ReviewWhereUniqueInput = {
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type StringFilter = {
@@ -1685,6 +1787,7 @@ export type UpdateAgentInput = {
   image?: InputMaybe<Scalars['String']['input']>;
   licenseID?: InputMaybe<Scalars['String']['input']>;
   uid: Scalars['String']['input'];
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateBrokerageInput = {
@@ -1693,6 +1796,7 @@ export type UpdateBrokerageInput = {
   displayName?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Float']['input'];
   managerName?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateBrokerageManagerInput = {
@@ -1734,9 +1838,7 @@ export type UpdatePropertyFeatureInput = {
 
 export type UpdatePropertyInput = {
   Address?: InputMaybe<CreateAddressInputWithoutPropertyId>;
-  PropertyFeatures?: InputMaybe<
-    Array<CreatePropertyFeatureInputWithoutPropertyId>
-  >;
+  PropertyFeatures?: InputMaybe<Array<CreatePropertyFeatureInputWithoutPropertyId>>;
   brokerageId?: InputMaybe<Scalars['Float']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   displayName?: InputMaybe<Scalars['String']['input']>;
@@ -1798,7 +1900,7 @@ export enum UserScalarFieldEnum {
   Image = 'image',
   Name = 'name',
   Uid = 'uid',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type UserWhereInput = {
@@ -1854,7 +1956,7 @@ export enum VerificationScalarFieldEnum {
   CreatedAt = 'createdAt',
   PropertyId = 'propertyId',
   UpdatedAt = 'updatedAt',
-  Verified = 'verified',
+  Verified = 'verified'
 }
 
 export type VerificationWhereInput = {
@@ -1878,84 +1980,41 @@ export type RegisterWithCredentialsMutationVariables = Exact<{
   registerWithCredentialsInput: RegisterWithCredentialsInput;
 }>;
 
-export type RegisterWithCredentialsMutation = {
-  __typename?: 'Mutation';
-  registerWithCredentials: {
-    __typename?: 'User';
-    updatedAt: any;
-    uid: string;
-    name?: string | null;
-    image?: string | null;
-    createdAt: any;
-  };
-};
+
+export type RegisterWithCredentialsMutation = { __typename?: 'Mutation', registerWithCredentials: { __typename?: 'User', updatedAt: any, uid: string, name?: string | null, image?: string | null, createdAt: any } };
 
 export type BrokeragesQueryVariables = Exact<{
-  distinct?: InputMaybe<
-    Array<BrokerageScalarFieldEnum> | BrokerageScalarFieldEnum
-  >;
-  orderBy?: InputMaybe<
-    Array<BrokerageOrderByWithRelationInput> | BrokerageOrderByWithRelationInput
-  >;
+  distinct?: InputMaybe<Array<BrokerageScalarFieldEnum> | BrokerageScalarFieldEnum>;
+  orderBy?: InputMaybe<Array<BrokerageOrderByWithRelationInput> | BrokerageOrderByWithRelationInput>;
   where?: InputMaybe<BrokerageWhereInput>;
   cursor?: InputMaybe<BrokerageWhereUniqueInput>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
-export type BrokeragesQuery = {
-  __typename?: 'Query';
-  brokerages: Array<{
-    __typename?: 'Brokerage';
-    createdAt: any;
-    description?: string | null;
-    displayName?: string | null;
-    id: number;
-    updatedAt: any;
-    properties: Array<{ __typename?: 'Property'; id: number }>;
-    brokerageManagers: Array<{ __typename?: 'BrokerageManager'; uid: string }>;
-  }>;
-};
+
+export type BrokeragesQuery = { __typename?: 'Query', brokerages: Array<{ __typename?: 'Brokerage', createdAt: any, description?: string | null, displayName?: string | null, id: number, updatedAt: any, verified: boolean, properties: Array<{ __typename?: 'Property', id: number }>, brokerageManagers: Array<{ __typename?: 'BrokerageManager', uid: string }> }> };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
 
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login: {
-    __typename?: 'LoginOutput';
-    token: string;
-    user: {
-      __typename?: 'User';
-      uid: string;
-      name?: string | null;
-      image?: string | null;
-    };
-  };
-};
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', token: string, user: { __typename?: 'User', uid: string, name?: string | null, image?: string | null } } };
 
 export type GetAuthProviderQueryVariables = Exact<{
   uid: Scalars['String']['input'];
 }>;
 
-export type GetAuthProviderQuery = {
-  __typename?: 'Query';
-  getAuthProvider?: {
-    __typename?: 'AuthProvider';
-    uid: string;
-    type: AuthProviderType;
-  } | null;
-};
+
+export type GetAuthProviderQuery = { __typename?: 'Query', getAuthProvider?: { __typename?: 'AuthProvider', uid: string, type: AuthProviderType } | null };
 
 export type RegisterWithProviderMutationVariables = Exact<{
   registerWithProviderInput: RegisterWithProviderInput;
 }>;
 
-export type RegisterWithProviderMutation = {
-  __typename?: 'Mutation';
-  registerWithProvider: { __typename?: 'User'; uid: string };
-};
+
+export type RegisterWithProviderMutation = { __typename?: 'Mutation', registerWithProvider: { __typename?: 'User', uid: string } };
 
 export type SearchPropertiesQueryVariables = Exact<{
   dateFilter: DateFilterInput;
@@ -1964,606 +2023,244 @@ export type SearchPropertiesQueryVariables = Exact<{
   propertyFilter?: InputMaybe<PropertyFilter>;
 }>;
 
-export type SearchPropertiesQuery = {
-  __typename?: 'Query';
-  searchProperties: Array<{
-    __typename?: 'Property';
-    id: number;
-    images: Array<string>;
-    displayName?: string | null;
-    listPrice?: number | null;
-    address?: {
-      __typename?: 'Address';
-      lat: number;
-      lng: number;
-      address: string;
-    } | null;
-    featureCounts: Array<{
-      __typename?: 'PropertyFeatureTypeCount';
-      type: PropertyFeatureType;
-      count?: number | null;
-    }>;
-    verification?: { __typename?: 'Verification'; verified: boolean } | null;
-  }>;
-};
+
+export type SearchPropertiesQuery = { __typename?: 'Query', searchProperties: Array<{ __typename?: 'Property', id: number, images: Array<string>, displayName?: string | null, listPrice?: number | null, address?: { __typename?: 'Address', lat: number, lng: number, address: string } | null, featureCounts: Array<{ __typename?: 'PropertyFeatureTypeCount', type: PropertyFeatureType, count?: number | null }>, verification?: { __typename?: 'Verification', verified: boolean } | null }> };
 
 export type CreatePropertyFeatureMutationVariables = Exact<{
   createPropertyFeatureInput: CreatePropertyFeatureInput;
 }>;
 
-export type CreatePropertyFeatureMutation = {
-  __typename?: 'Mutation';
-  createPropertyFeature: { __typename?: 'PropertyFeature'; id: number };
-};
 
-export type MyBrokerageQueryVariables = Exact<{ [key: string]: never }>;
+export type CreatePropertyFeatureMutation = { __typename?: 'Mutation', createPropertyFeature: { __typename?: 'PropertyFeature', id: number } };
 
-export type MyBrokerageQuery = {
-  __typename?: 'Query';
-  myBrokerage: {
-    __typename?: 'Brokerage';
-    id: number;
-    createdAt: any;
-    displayName?: string | null;
-    properties: Array<{
-      __typename?: 'Property';
-      displayName?: string | null;
-      id: number;
-      description?: string | null;
-      address?: {
-        __typename?: 'Address';
-        id: number;
-        address: string;
-        lat: number;
-        lng: number;
-      } | null;
-    }>;
-  };
-};
+export type MyBrokerageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyBrokerageQuery = { __typename?: 'Query', myBrokerage: { __typename?: 'Brokerage', id: number, createdAt: any, displayName?: string | null, verified: boolean, properties: Array<{ __typename?: 'Property', displayName?: string | null, id: number, description?: string | null, address?: { __typename?: 'Address', id: number, address: string, lat: number, lng: number } | null }> } };
 
 export type CreateBrokerageMutationVariables = Exact<{
   createBrokerageInput: CreateBrokerageInput;
 }>;
 
-export type CreateBrokerageMutation = {
-  __typename?: 'Mutation';
-  createBrokerage: { __typename?: 'Brokerage'; id: number };
-};
+
+export type CreateBrokerageMutation = { __typename?: 'Mutation', createBrokerage: { __typename?: 'Brokerage', id: number } };
 
 export type PropertiesQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
   cursor?: InputMaybe<PropertyWhereUniqueInput>;
-  orderBy?: InputMaybe<
-    Array<PropertyOrderByWithRelationInput> | PropertyOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<PropertyOrderByWithRelationInput> | PropertyOrderByWithRelationInput>;
   where?: InputMaybe<PropertyWhereInput>;
 }>;
 
-export type PropertiesQuery = {
-  __typename?: 'Query';
-  properties: Array<{
-    __typename?: 'Property';
-    id: number;
-    displayName?: string | null;
-    description?: string | null;
-    images: Array<string>;
-    verification?: { __typename?: 'Verification'; verified: boolean } | null;
-    address?: {
-      __typename?: 'Address';
-      id: number;
-      lat: number;
-      lng: number;
-      address: string;
-    } | null;
-    featureCounts: Array<{
-      __typename?: 'PropertyFeatureTypeCount';
-      type: PropertyFeatureType;
-      count?: number | null;
-    }>;
-  }>;
-  propertiesCount: { __typename?: 'AggregateCountOutput'; count: number };
-};
+
+export type PropertiesQuery = { __typename?: 'Query', properties: Array<{ __typename?: 'Property', id: number, displayName?: string | null, description?: string | null, images: Array<string>, verification?: { __typename?: 'Verification', verified: boolean } | null, address?: { __typename?: 'Address', id: number, lat: number, lng: number, address: string } | null, featureCounts: Array<{ __typename?: 'PropertyFeatureTypeCount', type: PropertyFeatureType, count?: number | null }> }>, propertiesCount: { __typename?: 'AggregateCountOutput', count: number } };
 
 export type CreatePropertyMutationVariables = Exact<{
   createPropertyInput: CreatePropertyInput;
 }>;
 
-export type CreatePropertyMutation = {
-  __typename?: 'Mutation';
-  createProperty: { __typename?: 'Property'; id: number };
-};
 
-export type AgentFieldsFragment = {
-  __typename?: 'Agent';
-  image?: string | null;
-  uid: string;
-  displayName: string;
-};
+export type CreatePropertyMutation = { __typename?: 'Mutation', createProperty: { __typename?: 'Property', id: number } };
 
-export type InquiryFieldsFragment = {
-  __typename?: 'Inquiry';
-  id: number;
-  listPriceAtInquiry?: number | null;
-  endTime: any;
-  startTime: any;
-  contactNotes: string;
-  passcode?: string | null;
-  status: InquiryStatus;
-  inquiryTimeline: Array<{
-    __typename?: 'InquiryTimeline';
-    status: InquiryStatus;
-    timestamp: any;
-  }>;
-  agentAssignment?: {
-    __typename?: 'AgentAssignment';
-    assignedAgent?: {
-      __typename?: 'Agent';
-      image?: string | null;
-      uid: string;
-      displayName: string;
-    } | null;
-  } | null;
-  property: {
-    __typename?: 'Property';
-    displayName?: string | null;
-    images: Array<string>;
-    address?: {
-      __typename?: 'Address';
-      address: string;
-      lat: number;
-      lng: number;
-    } | null;
-  };
-};
+export type AgentFieldsFragment = { __typename?: 'Agent', image?: string | null, uid: string, displayName: string };
+
+export type InquiryFieldsFragment = { __typename?: 'Inquiry', id: number, listPriceAtInquiry?: number | null, endTime: any, startTime: any, contactNotes: string, passcode?: string | null, status: InquiryStatus, inquiryTimeline: Array<{ __typename?: 'InquiryTimeline', status: InquiryStatus, timestamp: any }>, agentAssignment?: { __typename?: 'AgentAssignment', assignedAgent?: { __typename?: 'Agent', image?: string | null, uid: string, displayName: string } | null } | null, property: { __typename?: 'Property', displayName?: string | null, images: Array<string>, address?: { __typename?: 'Address', address: string, lat: number, lng: number } | null } };
 
 export type InquiriesForCustomerQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
   cursor?: InputMaybe<InquiryWhereUniqueInput>;
-  orderBy?: InputMaybe<
-    Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput>;
   where?: InputMaybe<InquiryWhereInput>;
   distinct?: InputMaybe<Array<InquiryScalarFieldEnum> | InquiryScalarFieldEnum>;
 }>;
 
-export type InquiriesForCustomerQuery = {
-  __typename?: 'Query';
-  inquiriesForCustomer: Array<{
-    __typename?: 'Inquiry';
-    id: number;
-    listPriceAtInquiry?: number | null;
-    endTime: any;
-    startTime: any;
-    contactNotes: string;
-    passcode?: string | null;
-    status: InquiryStatus;
-    inquiryTimeline: Array<{
-      __typename?: 'InquiryTimeline';
-      status: InquiryStatus;
-      timestamp: any;
-    }>;
-    agentAssignment?: {
-      __typename?: 'AgentAssignment';
-      assignedAgent?: {
-        __typename?: 'Agent';
-        image?: string | null;
-        uid: string;
-        displayName: string;
-      } | null;
-    } | null;
-    property: {
-      __typename?: 'Property';
-      displayName?: string | null;
-      images: Array<string>;
-      address?: {
-        __typename?: 'Address';
-        address: string;
-        lat: number;
-        lng: number;
-      } | null;
-    };
-  }>;
-  inquiriesCount: { __typename?: 'AggregateCountOutput'; count: number };
-};
+
+export type InquiriesForCustomerQuery = { __typename?: 'Query', inquiriesForCustomer: Array<{ __typename?: 'Inquiry', id: number, listPriceAtInquiry?: number | null, endTime: any, startTime: any, contactNotes: string, passcode?: string | null, status: InquiryStatus, inquiryTimeline: Array<{ __typename?: 'InquiryTimeline', status: InquiryStatus, timestamp: any }>, agentAssignment?: { __typename?: 'AgentAssignment', assignedAgent?: { __typename?: 'Agent', image?: string | null, uid: string, displayName: string } | null } | null, property: { __typename?: 'Property', displayName?: string | null, images: Array<string>, address?: { __typename?: 'Address', address: string, lat: number, lng: number } | null } }>, inquiriesCount: { __typename?: 'AggregateCountOutput', count: number } };
 
 export type InquiriesForPropertyQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
   cursor?: InputMaybe<InquiryWhereUniqueInput>;
-  orderBy?: InputMaybe<
-    Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput>;
   where?: InputMaybe<InquiryWhereInput>;
   distinct?: InputMaybe<Array<InquiryScalarFieldEnum> | InquiryScalarFieldEnum>;
 }>;
 
-export type InquiriesForPropertyQuery = {
-  __typename?: 'Query';
-  inquiriesForProperty: Array<{
-    __typename?: 'Inquiry';
-    id: number;
-    listPriceAtInquiry?: number | null;
-    endTime: any;
-    startTime: any;
-    contactNotes: string;
-    passcode?: string | null;
-    status: InquiryStatus;
-    inquiryTimeline: Array<{
-      __typename?: 'InquiryTimeline';
-      status: InquiryStatus;
-      timestamp: any;
-    }>;
-    agentAssignment?: {
-      __typename?: 'AgentAssignment';
-      assignedAgent?: {
-        __typename?: 'Agent';
-        image?: string | null;
-        uid: string;
-        displayName: string;
-      } | null;
-    } | null;
-    property: {
-      __typename?: 'Property';
-      displayName?: string | null;
-      images: Array<string>;
-      address?: {
-        __typename?: 'Address';
-        address: string;
-        lat: number;
-        lng: number;
-      } | null;
-    };
-  }>;
-  inquiriesCount: { __typename?: 'AggregateCountOutput'; count: number };
-};
+
+export type InquiriesForPropertyQuery = { __typename?: 'Query', inquiriesForProperty: Array<{ __typename?: 'Inquiry', id: number, listPriceAtInquiry?: number | null, endTime: any, startTime: any, contactNotes: string, passcode?: string | null, status: InquiryStatus, inquiryTimeline: Array<{ __typename?: 'InquiryTimeline', status: InquiryStatus, timestamp: any }>, agentAssignment?: { __typename?: 'AgentAssignment', assignedAgent?: { __typename?: 'Agent', image?: string | null, uid: string, displayName: string } | null } | null, property: { __typename?: 'Property', displayName?: string | null, images: Array<string>, address?: { __typename?: 'Address', address: string, lat: number, lng: number } | null } }>, inquiriesCount: { __typename?: 'AggregateCountOutput', count: number } };
 
 export type CreateInquiryTimelineMutationVariables = Exact<{
   createInquiryTimelineInput: CreateInquiryTimelineInput;
 }>;
 
-export type CreateInquiryTimelineMutation = {
-  __typename?: 'Mutation';
-  createInquiryTimeline: {
-    __typename?: 'InquiryTimeline';
-    inquiryId: number;
-    id: number;
-    managerId?: string | null;
-    status: InquiryStatus;
-    timestamp: any;
-  };
-};
 
-export type AgentMeQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateInquiryTimelineMutation = { __typename?: 'Mutation', createInquiryTimeline: { __typename?: 'InquiryTimeline', inquiryId: number, id: number, managerId?: string | null, status: InquiryStatus, timestamp: any } };
 
-export type AgentMeQuery = {
-  __typename?: 'Query';
-  valetMe?: {
-    __typename?: 'Agent';
-    uid: string;
-    brokerageId?: number | null;
-  } | null;
-};
+export type AgentMeQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type AdminMeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AdminMeQuery = {
-  __typename?: 'Query';
-  adminMe: { __typename?: 'Admin'; uid: string };
-};
+export type AgentMeQuery = { __typename?: 'Query', agentMe?: { __typename?: 'Agent', uid: string, brokerageId?: number | null, verified: boolean, displayName: string } | null };
+
+export type AdminMeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AdminMeQuery = { __typename?: 'Query', adminMe: { __typename?: 'Admin', uid: string } };
 
 export type CreateAgentMutationVariables = Exact<{
   createAgentInput: CreateAgentInput;
 }>;
 
-export type CreateAgentMutation = {
-  __typename?: 'Mutation';
-  createAgent: {
-    __typename?: 'CreateAgentPayload';
-    email: string;
-    temporaryPassword: string;
-    agent: {
-      __typename?: 'Agent';
-      uid: string;
-      displayName: string;
-      licenseID: string;
-      image?: string | null;
-      brokerageId?: number | null;
-    };
-  };
-};
+
+export type CreateAgentMutation = { __typename?: 'Mutation', createAgent: { __typename?: 'CreateAgentPayload', email: string, temporaryPassword: string, agent: { __typename?: 'Agent', uid: string, displayName: string, licenseID: string, image?: string | null, brokerageId?: number | null } } };
 
 export type MyPropertiesAsAgentQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
-export type MyPropertiesAsAgentQuery = {
-  __typename?: 'Query';
-  myPropertiesAsAgent: Array<{
-    __typename?: 'Property';
-    id: number;
-    displayName?: string | null;
-    description?: string | null;
-    images: Array<string>;
-    verification?: { __typename?: 'Verification'; verified: boolean } | null;
-    address?: {
-      __typename?: 'Address';
-      id: number;
-      lat: number;
-      lng: number;
-      address: string;
-    } | null;
-    featureCounts: Array<{
-      __typename?: 'PropertyFeatureTypeCount';
-      type: PropertyFeatureType;
-      count?: number | null;
-    }>;
-  }>;
-  myPropertiesAsAgentCount: {
-    __typename?: 'AggregateCountOutput';
-    count: number;
-  };
-};
+
+export type MyPropertiesAsAgentQuery = { __typename?: 'Query', myPropertiesAsAgent: Array<{ __typename?: 'Property', id: number, displayName?: string | null, description?: string | null, images: Array<string>, verification?: { __typename?: 'Verification', verified: boolean } | null, address?: { __typename?: 'Address', id: number, lat: number, lng: number, address: string } | null, featureCounts: Array<{ __typename?: 'PropertyFeatureTypeCount', type: PropertyFeatureType, count?: number | null }> }>, myPropertiesAsAgentCount: { __typename?: 'AggregateCountOutput', count: number } };
 
 export type CompanyAgentsQueryVariables = Exact<{
   distinct?: InputMaybe<Array<AgentScalarFieldEnum> | AgentScalarFieldEnum>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
   cursor?: InputMaybe<AgentWhereUniqueInput>;
-  orderBy?: InputMaybe<
-    Array<AgentOrderByWithRelationInput> | AgentOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<AgentOrderByWithRelationInput> | AgentOrderByWithRelationInput>;
   where?: InputMaybe<AgentWhereInput>;
 }>;
 
-export type CompanyAgentsQuery = {
-  __typename?: 'Query';
-  companyAgentsTotal: number;
-  companyAgents: Array<{
-    __typename?: 'Agent';
-    displayName: string;
-    uid: string;
-    createdAt: any;
-    updatedAt: any;
-    brokerageId?: number | null;
-    image?: string | null;
-    licenseID: string;
-  }>;
-};
 
-export type ValetPickupsQueryVariables = Exact<{
+export type CompanyAgentsQuery = { __typename?: 'Query', companyAgentsTotal: number, companyAgents: Array<{ __typename?: 'Agent', displayName: string, uid: string, createdAt: any, updatedAt: any, brokerageId?: number | null, image?: string | null, licenseID: string, verified: boolean }> };
+
+export type AgentPickupsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
-export type ValetPickupsQuery = {
-  __typename?: 'Query';
-  valetPickupsTotal: number;
-  valetPickups: Array<{
-    __typename?: 'Inquiry';
-    id: number;
-    contactNotes: string;
-    startTime: any;
-    endTime: any;
-    agentAssignment?: {
-      __typename?: 'AgentAssignment';
-      visitLat?: number | null;
-      visitLng?: number | null;
-      assignedAgentId?: string | null;
-    } | null;
-    property: {
-      __typename?: 'Property';
-      address?: { __typename?: 'Address'; lat: number; lng: number } | null;
-    };
-  }>;
-};
 
-export type ValetDropsQueryVariables = Exact<{
+export type AgentPickupsQuery = { __typename?: 'Query', agentPickupsTotal: number, agentPickups: Array<{ __typename?: 'Inquiry', id: number, contactNotes: string, startTime: any, endTime: any, agentAssignment?: { __typename?: 'AgentAssignment', visitLat?: number | null, visitLng?: number | null, assignedAgentId?: string | null } | null, property: { __typename?: 'Property', address?: { __typename?: 'Address', lat: number, lng: number } | null } }> };
+
+export type AgentDropsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
-export type ValetDropsQuery = {
-  __typename?: 'Query';
-  valetDropsTotal: number;
-  valetDrops: Array<{
-    __typename?: 'Inquiry';
-    id: number;
-    contactNotes: string;
-    startTime: any;
-    endTime: any;
-    agentAssignment?: {
-      __typename?: 'AgentAssignment';
-      visitLat?: number | null;
-      visitLng?: number | null;
-      assignedAgentId?: string | null;
-    } | null;
-    property: {
-      __typename?: 'Property';
-      address?: { __typename?: 'Address'; lat: number; lng: number } | null;
-    };
-  }>;
-};
+
+export type AgentDropsQuery = { __typename?: 'Query', agentDropsTotal: number, agentDrops: Array<{ __typename?: 'Inquiry', id: number, contactNotes: string, startTime: any, endTime: any, agentAssignment?: { __typename?: 'AgentAssignment', visitLat?: number | null, visitLng?: number | null, assignedAgentId?: string | null } | null, property: { __typename?: 'Property', address?: { __typename?: 'Address', lat: number, lng: number } | null } }> };
 
 export type AssignAgentMutationVariables = Exact<{
   inquiryId: Scalars['Float']['input'];
   status: Scalars['String']['input'];
 }>;
 
-export type AssignAgentMutation = {
-  __typename?: 'Mutation';
-  assignAgent: { __typename?: 'Inquiry'; id: number };
-};
 
-export type AgentInquiryFieldsFragment = {
-  __typename?: 'Inquiry';
-  id: number;
-  contactNotes: string;
-  passcode?: string | null;
-  status: InquiryStatus;
-  startTime: any;
-  endTime: any;
-  property: {
-    __typename?: 'Property';
-    address?: { __typename?: 'Address'; lat: number; lng: number } | null;
-  };
-};
+export type AssignAgentMutation = { __typename?: 'Mutation', assignAgent: { __typename?: 'Inquiry', id: number } };
+
+export type AgentInquiryFieldsFragment = { __typename?: 'Inquiry', id: number, contactNotes: string, passcode?: string | null, status: InquiryStatus, startTime: any, endTime: any, property: { __typename?: 'Property', address?: { __typename?: 'Address', lat: number, lng: number } | null } };
 
 export type MyPickupTripsQueryVariables = Exact<{
   distinct?: InputMaybe<Array<InquiryScalarFieldEnum> | InquiryScalarFieldEnum>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
-  orderBy?: InputMaybe<
-    Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput>;
   where?: InputMaybe<InquiryWhereInput>;
 }>;
 
-export type MyPickupTripsQuery = {
-  __typename?: 'Query';
-  inquiriesForAgent: Array<{
-    __typename?: 'Inquiry';
-    id: number;
-    contactNotes: string;
-    passcode?: string | null;
-    status: InquiryStatus;
-    startTime: any;
-    endTime: any;
-    agentAssignment?: {
-      __typename?: 'AgentAssignment';
-      visitLat?: number | null;
-      visitLng?: number | null;
-      assignedAgentId?: string | null;
-    } | null;
-    property: {
-      __typename?: 'Property';
-      address?: { __typename?: 'Address'; lat: number; lng: number } | null;
-    };
-  }>;
-  inquiriesCount: { __typename?: 'AggregateCountOutput'; count: number };
-};
+
+export type MyPickupTripsQuery = { __typename?: 'Query', inquiriesForAgent: Array<{ __typename?: 'Inquiry', id: number, contactNotes: string, passcode?: string | null, status: InquiryStatus, startTime: any, endTime: any, agentAssignment?: { __typename?: 'AgentAssignment', visitLat?: number | null, visitLng?: number | null, assignedAgentId?: string | null } | null, property: { __typename?: 'Property', address?: { __typename?: 'Address', lat: number, lng: number } | null } }>, inquiriesCount: { __typename?: 'AggregateCountOutput', count: number } };
 
 export type MyDropTripsQueryVariables = Exact<{
   distinct?: InputMaybe<Array<InquiryScalarFieldEnum> | InquiryScalarFieldEnum>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
-  orderBy?: InputMaybe<
-    Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<InquiryOrderByWithRelationInput> | InquiryOrderByWithRelationInput>;
   where?: InputMaybe<InquiryWhereInput>;
 }>;
 
-export type MyDropTripsQuery = {
-  __typename?: 'Query';
-  inquiriesForAgent: Array<{
-    __typename?: 'Inquiry';
-    id: number;
-    contactNotes: string;
-    passcode?: string | null;
-    status: InquiryStatus;
-    startTime: any;
-    endTime: any;
-    agentAssignment?: {
-      __typename?: 'AgentAssignment';
-      visitLat?: number | null;
-      visitLng?: number | null;
-      assignedAgentId?: string | null;
-    } | null;
-    property: {
-      __typename?: 'Property';
-      address?: { __typename?: 'Address'; lat: number; lng: number } | null;
-    };
-  }>;
-  inquiriesCount: { __typename?: 'AggregateCountOutput'; count: number };
-};
+
+export type MyDropTripsQuery = { __typename?: 'Query', inquiriesForAgent: Array<{ __typename?: 'Inquiry', id: number, contactNotes: string, passcode?: string | null, status: InquiryStatus, startTime: any, endTime: any, agentAssignment?: { __typename?: 'AgentAssignment', visitLat?: number | null, visitLng?: number | null, assignedAgentId?: string | null } | null, property: { __typename?: 'Property', address?: { __typename?: 'Address', lat: number, lng: number } | null } }>, inquiriesCount: { __typename?: 'AggregateCountOutput', count: number } };
 
 export type CreateVerificationMutationVariables = Exact<{
   createVerificationInput: CreateVerificationInput;
 }>;
 
-export type CreateVerificationMutation = {
-  __typename?: 'Mutation';
-  createVerification: {
-    __typename?: 'Verification';
-    adminId: string;
-    createdAt: any;
-    propertyId: number;
-    updatedAt: any;
-    verified: boolean;
-  };
-};
+
+export type CreateVerificationMutation = { __typename?: 'Mutation', createVerification: { __typename?: 'Verification', adminId: string, createdAt: any, propertyId: number, updatedAt: any, verified: boolean } };
 
 export type RemoveVerificationMutationVariables = Exact<{
   where: VerificationWhereUniqueInput;
 }>;
 
-export type RemoveVerificationMutation = {
-  __typename?: 'Mutation';
-  removeVerification: {
-    __typename?: 'Verification';
-    adminId: string;
-    createdAt: any;
-    propertyId: number;
-    updatedAt: any;
-    verified: boolean;
-  };
-};
+
+export type RemoveVerificationMutation = { __typename?: 'Mutation', removeVerification: { __typename?: 'Verification', adminId: string, createdAt: any, propertyId: number, updatedAt: any, verified: boolean } };
 
 export type AdminsQueryVariables = Exact<{
   distinct?: InputMaybe<Array<AdminScalarFieldEnum> | AdminScalarFieldEnum>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
   cursor?: InputMaybe<AdminWhereUniqueInput>;
-  orderBy?: InputMaybe<
-    Array<AdminOrderByWithRelationInput> | AdminOrderByWithRelationInput
-  >;
+  orderBy?: InputMaybe<Array<AdminOrderByWithRelationInput> | AdminOrderByWithRelationInput>;
   where?: InputMaybe<AdminWhereInput>;
 }>;
 
-export type AdminsQuery = {
-  __typename?: 'Query';
-  adminsCount: number;
-  admins: Array<{
-    __typename?: 'Admin';
-    uid: string;
-    updatedAt: any;
-    createdAt: any;
-    verificationsCount: number;
-    user?: { __typename?: 'User'; name?: string | null } | null;
-  }>;
-};
+
+export type AdminsQuery = { __typename?: 'Query', adminsCount: number, admins: Array<{ __typename?: 'Admin', uid: string, updatedAt: any, createdAt: any, verificationsCount: number, user?: { __typename?: 'User', name?: string | null } | null }> };
 
 export type RemoveAdminMutationVariables = Exact<{
   where: AdminWhereUniqueInput;
 }>;
 
-export type RemoveAdminMutation = {
-  __typename?: 'Mutation';
-  removeAdmin: {
-    __typename?: 'Admin';
-    createdAt: any;
-    updatedAt: any;
-    uid: string;
-    user?: { __typename?: 'User'; name?: string | null } | null;
-  };
-};
+
+export type RemoveAdminMutation = { __typename?: 'Mutation', removeAdmin: { __typename?: 'Admin', createdAt: any, updatedAt: any, uid: string, user?: { __typename?: 'User', name?: string | null } | null } };
 
 export type CreateAdminMutationVariables = Exact<{
   createAdminInput: CreateAdminInput;
 }>;
 
-export type CreateAdminMutation = {
-  __typename?: 'Mutation';
-  createAdmin: {
-    __typename?: 'Admin';
-    createdAt: any;
-    uid: string;
-    updatedAt: any;
-    user?: { __typename?: 'User'; name?: string | null } | null;
-  };
-};
+
+export type CreateAdminMutation = { __typename?: 'Mutation', createAdmin: { __typename?: 'Admin', createdAt: any, uid: string, updatedAt: any, user?: { __typename?: 'User', name?: string | null } | null } };
+
+export type RegisterSoloAgentMutationVariables = Exact<{
+  registerSoloAgentInput: RegisterSoloAgentInput;
+}>;
+
+
+export type RegisterSoloAgentMutation = { __typename?: 'Mutation', registerSoloAgent: { __typename?: 'RegisterSoloAgentPayload', token: string, user: { __typename?: 'User', uid: string, name?: string | null }, agent: { __typename?: 'Agent', uid: string, displayName: string, licenseID: string, verified: boolean, brokerageId?: number | null } } };
+
+export type UpdateAgentMutationVariables = Exact<{
+  updateAgentInput: UpdateAgentInput;
+}>;
+
+
+export type UpdateAgentMutation = { __typename?: 'Mutation', updateAgent: { __typename?: 'Agent', uid: string, verified: boolean, displayName: string } };
+
+export type UpdateBrokerageMutationVariables = Exact<{
+  updateBrokerageInput: UpdateBrokerageInput;
+}>;
+
+
+export type UpdateBrokerageMutation = { __typename?: 'Mutation', updateBrokerage: { __typename?: 'Brokerage', id: number, verified: boolean, displayName?: string | null } };
+
+export type AdminAgentsQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<AgentWhereInput>;
+}>;
+
+
+export type AdminAgentsQuery = { __typename?: 'Query', agents: Array<{ __typename?: 'Agent', uid: string, displayName: string, licenseID: string, verified: boolean, brokerageId?: number | null, createdAt: any }> };
+
+export type AdminBrokeragesQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<BrokerageWhereInput>;
+}>;
+
+
+export type AdminBrokeragesQuery = { __typename?: 'Query', brokerages: Array<{ __typename?: 'Brokerage', id: number, displayName?: string | null, description?: string | null, verified: boolean, createdAt: any }> };
 
 export const namedOperations = {
   Query: {
@@ -2578,11 +2275,13 @@ export const namedOperations = {
     AdminMe: 'AdminMe',
     myPropertiesAsAgent: 'myPropertiesAsAgent',
     companyAgents: 'companyAgents',
-    valetPickups: 'valetPickups',
-    valetDrops: 'valetDrops',
+    AgentPickups: 'AgentPickups',
+    AgentDrops: 'AgentDrops',
     myPickupTrips: 'myPickupTrips',
     myDropTrips: 'myDropTrips',
     admins: 'admins',
+    AdminAgents: 'AdminAgents',
+    AdminBrokerages: 'AdminBrokerages'
   },
   Mutation: {
     RegisterWithCredentials: 'RegisterWithCredentials',
@@ -2598,3271 +2297,50 @@ export const namedOperations = {
     RemoveVerification: 'RemoveVerification',
     RemoveAdmin: 'RemoveAdmin',
     CreateAdmin: 'CreateAdmin',
+    RegisterSoloAgent: 'RegisterSoloAgent',
+    UpdateAgent: 'UpdateAgent',
+    UpdateBrokerage: 'UpdateBrokerage'
   },
   Fragment: {
     AgentFields: 'AgentFields',
     InquiryFields: 'InquiryFields',
-    AgentInquiryFields: 'AgentInquiryFields',
-  },
-};
-export const AgentFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Agent' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AgentFieldsFragment, unknown>;
-export const InquiryFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'InquiryFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Inquiry' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listPriceAtInquiry' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contactNotes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'passcode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiryTimeline' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'agentAssignment' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'assignedAgent' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'AgentFields' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Agent' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<InquiryFieldsFragment, unknown>;
-export const AgentInquiryFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentInquiryFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Inquiry' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contactNotes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'passcode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AgentInquiryFieldsFragment, unknown>;
-export const RegisterWithCredentialsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'RegisterWithCredentials' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'registerWithCredentialsInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'RegisterWithCredentialsInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'registerWithCredentials' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'registerWithCredentialsInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'registerWithCredentialsInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  RegisterWithCredentialsMutation,
-  RegisterWithCredentialsMutationVariables
->;
-export const BrokeragesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'Brokerages' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'BrokerageScalarFieldEnum' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: {
-                  kind: 'Name',
-                  value: 'BrokerageOrderByWithRelationInput',
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'BrokerageWhereInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cursor' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'BrokerageWhereUniqueInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'brokerages' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'cursor' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'cursor' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'properties' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'brokerageManagers' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<BrokeragesQuery, BrokeragesQueryVariables>;
-export const LoginDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'Login' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'loginInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'LoginInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'login' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'loginInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'loginInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'token' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
-export const GetAuthProviderDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetAuthProvider' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'uid' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'getAuthProvider' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'uid' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'uid' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetAuthProviderQuery,
-  GetAuthProviderQueryVariables
->;
-export const RegisterWithProviderDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'RegisterWithProvider' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'registerWithProviderInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'RegisterWithProviderInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'registerWithProvider' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'registerWithProviderInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'registerWithProviderInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  RegisterWithProviderMutation,
-  RegisterWithProviderMutationVariables
->;
-export const SearchPropertiesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SearchProperties' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'dateFilter' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'DateFilterInput' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'locationFilter' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'LocationFilterInput' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'featuresFilter' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'PropertyFeatureWhereInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'propertyFilter' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'PropertyFilter' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'searchProperties' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'dateFilter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'dateFilter' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'locationFilter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'locationFilter' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'featuresFilter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'featuresFilter' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'propertyFilter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'propertyFilter' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listPrice' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'featureCounts' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'verification' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'verified' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  SearchPropertiesQuery,
-  SearchPropertiesQueryVariables
->;
-export const CreatePropertyFeatureDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreatePropertyFeature' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createPropertyFeatureInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreatePropertyFeatureInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createPropertyFeature' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createPropertyFeatureInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createPropertyFeatureInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreatePropertyFeatureMutation,
-  CreatePropertyFeatureMutationVariables
->;
-export const MyBrokerageDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'myBrokerage' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'myBrokerage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'properties' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'displayName' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'address' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lat' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lng' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<MyBrokerageQuery, MyBrokerageQueryVariables>;
-export const CreateBrokerageDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateBrokerage' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createBrokerageInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateBrokerageInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createBrokerage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createBrokerageInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createBrokerageInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreateBrokerageMutation,
-  CreateBrokerageMutationVariables
->;
-export const PropertiesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'Properties' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cursor' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'PropertyWhereUniqueInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: {
-                  kind: 'Name',
-                  value: 'PropertyOrderByWithRelationInput',
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'PropertyWhereInput' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'properties' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'cursor' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'cursor' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'verification' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'verified' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'featureCounts' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesCount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<PropertiesQuery, PropertiesQueryVariables>;
-export const CreatePropertyDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateProperty' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createPropertyInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreatePropertyInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createProperty' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createPropertyInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createPropertyInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreatePropertyMutation,
-  CreatePropertyMutationVariables
->;
-export const InquiriesForCustomerDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'InquiriesForCustomer' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cursor' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'InquiryWhereUniqueInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: {
-                  kind: 'Name',
-                  value: 'InquiryOrderByWithRelationInput',
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'InquiryWhereInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'InquiryScalarFieldEnum' },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesForCustomer' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'cursor' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'cursor' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'InquiryFields' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesCount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Agent' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'InquiryFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Inquiry' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listPriceAtInquiry' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contactNotes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'passcode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiryTimeline' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'agentAssignment' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'assignedAgent' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'AgentFields' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  InquiriesForCustomerQuery,
-  InquiriesForCustomerQueryVariables
->;
-export const InquiriesForPropertyDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'InquiriesForProperty' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cursor' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'InquiryWhereUniqueInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: {
-                  kind: 'Name',
-                  value: 'InquiryOrderByWithRelationInput',
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'InquiryWhereInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'InquiryScalarFieldEnum' },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesForProperty' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'cursor' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'cursor' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'InquiryFields' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesCount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Agent' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'InquiryFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Inquiry' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listPriceAtInquiry' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contactNotes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'passcode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiryTimeline' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'agentAssignment' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'assignedAgent' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'AgentFields' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  InquiriesForPropertyQuery,
-  InquiriesForPropertyQueryVariables
->;
-export const CreateInquiryTimelineDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'createInquiryTimeline' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createInquiryTimelineInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateInquiryTimelineInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createInquiryTimeline' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createInquiryTimelineInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createInquiryTimelineInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'inquiryId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreateInquiryTimelineMutation,
-  CreateInquiryTimelineMutationVariables
->;
-export const AgentMeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AgentMe' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'valetMe' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'brokerageId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AgentMeQuery, AgentMeQueryVariables>;
-export const AdminMeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AdminMe' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'adminMe' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AdminMeQuery, AdminMeQueryVariables>;
-export const CreateAgentDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateAgent' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createAgentInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateAgentInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createAgent' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createAgentInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createAgentInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'agent' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'displayName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'licenseID' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'brokerageId' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'temporaryPassword' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CreateAgentMutation, CreateAgentMutationVariables>;
-export const MyPropertiesAsAgentDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'myPropertiesAsAgent' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'myPropertiesAsAgent' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'verification' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'verified' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'featureCounts' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'myPropertiesAsAgentCount' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  MyPropertiesAsAgentQuery,
-  MyPropertiesAsAgentQueryVariables
->;
-export const CompanyAgentsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'companyAgents' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'AgentScalarFieldEnum' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cursor' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'AgentWhereUniqueInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'AgentOrderByWithRelationInput' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'AgentWhereInput' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'companyAgents' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'cursor' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'cursor' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'brokerageId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'licenseID' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'companyAgentsTotal' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CompanyAgentsQuery, CompanyAgentsQueryVariables>;
-export const ValetPickupsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'valetPickups' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'valetPickups' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'contactNotes' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'agentAssignment' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLat' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLng' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignedAgentId' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'property' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lat' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lng' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'valetPickupsTotal' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ValetPickupsQuery, ValetPickupsQueryVariables>;
-export const ValetDropsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'valetDrops' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'valetDrops' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'contactNotes' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'agentAssignment' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLat' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLng' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignedAgentId' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'property' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lat' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lng' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'valetDropsTotal' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ValetDropsQuery, ValetDropsQueryVariables>;
-export const AssignAgentDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AssignAgent' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'inquiryId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'status' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'assignAgent' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'inquiryId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'inquiryId' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'status' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'status' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AssignAgentMutation, AssignAgentMutationVariables>;
-export const MyPickupTripsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'myPickupTrips' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'InquiryScalarFieldEnum' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: {
-                  kind: 'Name',
-                  value: 'InquiryOrderByWithRelationInput',
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'InquiryWhereInput' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesForAgent' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AgentInquiryFields' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'agentAssignment' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLat' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLng' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignedAgentId' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesCount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentInquiryFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Inquiry' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contactNotes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'passcode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<MyPickupTripsQuery, MyPickupTripsQueryVariables>;
-export const MyDropTripsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'myDropTrips' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'InquiryScalarFieldEnum' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: {
-                  kind: 'Name',
-                  value: 'InquiryOrderByWithRelationInput',
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'InquiryWhereInput' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesForAgent' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AgentInquiryFields' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'agentAssignment' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLat' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'visitLng' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignedAgentId' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'inquiriesCount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AgentInquiryFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Inquiry' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contactNotes' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'passcode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'lat' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'lng' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<MyDropTripsQuery, MyDropTripsQueryVariables>;
-export const CreateVerificationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateVerification' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createVerificationInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateVerificationInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createVerification' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createVerificationInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createVerificationInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'adminId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'verified' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreateVerificationMutation,
-  CreateVerificationMutationVariables
->;
-export const RemoveVerificationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'RemoveVerification' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'VerificationWhereUniqueInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'removeVerification' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'adminId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'verified' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  RemoveVerificationMutation,
-  RemoveVerificationMutationVariables
->;
-export const AdminsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'admins' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'distinct' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'AdminScalarFieldEnum' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'skip' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cursor' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'AdminWhereUniqueInput' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'AdminOrderByWithRelationInput' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'AdminWhereInput' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'admins' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'distinct' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'skip' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skip' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'take' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'take' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'cursor' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'cursor' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'verificationsCount' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'adminsCount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AdminsQuery, AdminsQueryVariables>;
-export const RemoveAdminDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'RemoveAdmin' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'AdminWhereUniqueInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'removeAdmin' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<RemoveAdminMutation, RemoveAdminMutationVariables>;
-export const CreateAdminDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateAdmin' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createAdminInput' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateAdminInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createAdmin' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createAdminInput' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createAdminInput' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'uid' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CreateAdminMutation, CreateAdminMutationVariables>;
+    AgentInquiryFields: 'AgentInquiryFields'
+  }
+}
+export const AgentFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Agent"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]} as unknown as DocumentNode<AgentFieldsFragment, unknown>;
+export const InquiryFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InquiryFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Inquiry"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"listPriceAtInquiry"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"passcode"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"inquiryTimeline"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignedAgent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AgentFields"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Agent"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]} as unknown as DocumentNode<InquiryFieldsFragment, unknown>;
+export const AgentInquiryFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentInquiryFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Inquiry"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"passcode"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}}]} as unknown as DocumentNode<AgentInquiryFieldsFragment, unknown>;
+export const RegisterWithCredentialsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterWithCredentials"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerWithCredentialsInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterWithCredentialsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerWithCredentials"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerWithCredentialsInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerWithCredentialsInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<RegisterWithCredentialsMutation, RegisterWithCredentialsMutationVariables>;
+export const BrokeragesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Brokerages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BrokerageScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BrokerageOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BrokerageWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BrokerageWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brokerages"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageManagers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]}}]} as unknown as DocumentNode<BrokeragesQuery, BrokeragesQueryVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const GetAuthProviderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAuthProvider"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"uid"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAuthProvider"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"uid"},"value":{"kind":"Variable","name":{"kind":"Name","value":"uid"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<GetAuthProviderQuery, GetAuthProviderQueryVariables>;
+export const RegisterWithProviderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterWithProvider"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerWithProviderInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterWithProviderInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerWithProvider"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerWithProviderInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerWithProviderInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}}]}}]} as unknown as DocumentNode<RegisterWithProviderMutation, RegisterWithProviderMutationVariables>;
+export const SearchPropertiesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SearchProperties"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"dateFilter"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DateFilterInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locationFilter"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationFilterInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"featuresFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PropertyFeatureWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"propertyFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PropertyFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchProperties"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"dateFilter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"dateFilter"}}},{"kind":"Argument","name":{"kind":"Name","value":"locationFilter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locationFilter"}}},{"kind":"Argument","name":{"kind":"Name","value":"featuresFilter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"featuresFilter"}}},{"kind":"Argument","name":{"kind":"Name","value":"propertyFilter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"propertyFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}},{"kind":"Field","name":{"kind":"Name","value":"address"}}]}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"listPrice"}},{"kind":"Field","name":{"kind":"Name","value":"featureCounts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"verification"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]}}]}}]} as unknown as DocumentNode<SearchPropertiesQuery, SearchPropertiesQueryVariables>;
+export const CreatePropertyFeatureDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreatePropertyFeature"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createPropertyFeatureInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePropertyFeatureInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPropertyFeature"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createPropertyFeatureInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createPropertyFeatureInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreatePropertyFeatureMutation, CreatePropertyFeatureMutationVariables>;
+export const MyBrokerageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myBrokerage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myBrokerage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"properties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]}}]} as unknown as DocumentNode<MyBrokerageQuery, MyBrokerageQueryVariables>;
+export const CreateBrokerageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBrokerage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createBrokerageInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateBrokerageInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBrokerage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createBrokerageInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createBrokerageInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateBrokerageMutation, CreateBrokerageMutationVariables>;
+export const PropertiesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Properties"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PropertyWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PropertyOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PropertyWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"properties"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"verification"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}},{"kind":"Field","name":{"kind":"Name","value":"address"}}]}},{"kind":"Field","name":{"kind":"Name","value":"featureCounts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"propertiesCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<PropertiesQuery, PropertiesQueryVariables>;
+export const CreatePropertyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateProperty"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createPropertyInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePropertyInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createProperty"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createPropertyInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createPropertyInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreatePropertyMutation, CreatePropertyMutationVariables>;
+export const InquiriesForCustomerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"InquiriesForCustomer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryScalarFieldEnum"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inquiriesForCustomer"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"InquiryFields"}}]}},{"kind":"Field","name":{"kind":"Name","value":"inquiriesCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Agent"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InquiryFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Inquiry"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"listPriceAtInquiry"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"passcode"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"inquiryTimeline"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignedAgent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AgentFields"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}}]} as unknown as DocumentNode<InquiriesForCustomerQuery, InquiriesForCustomerQueryVariables>;
+export const InquiriesForPropertyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"InquiriesForProperty"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryScalarFieldEnum"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inquiriesForProperty"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"InquiryFields"}}]}},{"kind":"Field","name":{"kind":"Name","value":"inquiriesCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Agent"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InquiryFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Inquiry"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"listPriceAtInquiry"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"passcode"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"inquiryTimeline"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignedAgent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AgentFields"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}}]} as unknown as DocumentNode<InquiriesForPropertyQuery, InquiriesForPropertyQueryVariables>;
+export const CreateInquiryTimelineDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createInquiryTimeline"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createInquiryTimelineInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateInquiryTimelineInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createInquiryTimeline"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createInquiryTimelineInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createInquiryTimelineInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inquiryId"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"managerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<CreateInquiryTimelineMutation, CreateInquiryTimelineMutationVariables>;
+export const AgentMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AgentMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agentMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<AgentMeQuery, AgentMeQueryVariables>;
+export const AdminMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AdminMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"adminMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}}]}}]} as unknown as DocumentNode<AdminMeQuery, AdminMeQueryVariables>;
+export const CreateAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createAgentInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAgentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createAgentInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createAgentInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"temporaryPassword"}}]}}]}}]} as unknown as DocumentNode<CreateAgentMutation, CreateAgentMutationVariables>;
+export const MyPropertiesAsAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myPropertiesAsAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myPropertiesAsAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"verification"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}},{"kind":"Field","name":{"kind":"Name","value":"address"}}]}},{"kind":"Field","name":{"kind":"Name","value":"featureCounts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"myPropertiesAsAgentCount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<MyPropertiesAsAgentQuery, MyPropertiesAsAgentQueryVariables>;
+export const CompanyAgentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"companyAgents"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"companyAgents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"companyAgentsTotal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<CompanyAgentsQuery, CompanyAgentsQueryVariables>;
+export const AgentPickupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AgentPickups"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agentPickups"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"visitLat"}},{"kind":"Field","name":{"kind":"Name","value":"visitLng"}},{"kind":"Field","name":{"kind":"Name","value":"assignedAgentId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentPickupsTotal"}}]}}]} as unknown as DocumentNode<AgentPickupsQuery, AgentPickupsQueryVariables>;
+export const AgentDropsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AgentDrops"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agentDrops"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"visitLat"}},{"kind":"Field","name":{"kind":"Name","value":"visitLng"}},{"kind":"Field","name":{"kind":"Name","value":"assignedAgentId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentDropsTotal"}}]}}]} as unknown as DocumentNode<AgentDropsQuery, AgentDropsQueryVariables>;
+export const AssignAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"inquiryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"inquiryId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"inquiryId"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignAgentMutation, AssignAgentMutationVariables>;
+export const MyPickupTripsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myPickupTrips"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inquiriesForAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AgentInquiryFields"}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"visitLat"}},{"kind":"Field","name":{"kind":"Name","value":"visitLng"}},{"kind":"Field","name":{"kind":"Name","value":"assignedAgentId"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"inquiriesCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentInquiryFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Inquiry"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"passcode"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}}]} as unknown as DocumentNode<MyPickupTripsQuery, MyPickupTripsQueryVariables>;
+export const MyDropTripsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myDropTrips"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"InquiryWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inquiriesForAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AgentInquiryFields"}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"visitLat"}},{"kind":"Field","name":{"kind":"Name","value":"visitLng"}},{"kind":"Field","name":{"kind":"Name","value":"assignedAgentId"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"inquiriesCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AgentInquiryFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Inquiry"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"passcode"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}}]} as unknown as DocumentNode<MyDropTripsQuery, MyDropTripsQueryVariables>;
+export const CreateVerificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateVerification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createVerificationInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateVerificationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createVerification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createVerificationInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createVerificationInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"propertyId"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]}}]} as unknown as DocumentNode<CreateVerificationMutation, CreateVerificationMutationVariables>;
+export const RemoveVerificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveVerification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerificationWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeVerification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"propertyId"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]}}]} as unknown as DocumentNode<RemoveVerificationMutation, RemoveVerificationMutationVariables>;
+export const AdminsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"admins"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"admins"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"verificationsCount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"adminsCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<AdminsQuery, AdminsQueryVariables>;
+export const RemoveAdminDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveAdmin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeAdmin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}}]}}]} as unknown as DocumentNode<RemoveAdminMutation, RemoveAdminMutationVariables>;
+export const CreateAdminDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAdmin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createAdminInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAdminInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAdmin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createAdminInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createAdminInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateAdminMutation, CreateAdminMutationVariables>;
+export const RegisterSoloAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterSoloAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerSoloAgentInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterSoloAgentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerSoloAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerSoloAgentInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerSoloAgentInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"agent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}}]}}]}}]}}]} as unknown as DocumentNode<RegisterSoloAgentMutation, RegisterSoloAgentMutationVariables>;
+export const UpdateAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAgentInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAgentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateAgentInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAgentInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<UpdateAgentMutation, UpdateAgentMutationVariables>;
+export const UpdateBrokerageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateBrokerage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateBrokerageInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateBrokerageInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateBrokerage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateBrokerageInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateBrokerageInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<UpdateBrokerageMutation, UpdateBrokerageMutationVariables>;
+export const AdminAgentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AdminAgents"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<AdminAgentsQuery, AdminAgentsQueryVariables>;
+export const AdminBrokeragesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AdminBrokerages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BrokerageWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brokerages"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<AdminBrokeragesQuery, AdminBrokeragesQueryVariables>;

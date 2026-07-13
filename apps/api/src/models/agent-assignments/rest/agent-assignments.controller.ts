@@ -24,8 +24,8 @@ import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 
-@ApiTags('valet-assignments')
-@Controller('valet-assignments')
+@ApiTags('agent-assignments')
+@Controller('agent-assignments')
 export class AgentAssignmentsController {
   constructor(private readonly prisma: PrismaService) {}
 

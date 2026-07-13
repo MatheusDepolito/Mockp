@@ -39,6 +39,7 @@ query Brokerages(
       uid
     }
     updatedAt
+    verified
   }
 }
 
@@ -121,6 +122,7 @@ query myBrokerage {
     }
     createdAt
     displayName
+    verified
   }
 }
 
@@ -271,9 +273,11 @@ mutation createInquiryTimeline(
 }
 
 query AgentMe {
-  valetMe {
+  agentMe {
     uid
     brokerageId
+    verified
+    displayName
   }
 }
 
@@ -345,13 +349,14 @@ query companyAgents(
     brokerageId
     image
     licenseID
+    verified
   }
 
   companyAgentsTotal(where: $where)
 }
 
-query valetPickups($skip: Float, $take: Float) {
-  valetPickups(skip: $skip, take: $take) {
+query AgentPickups($skip: Float, $take: Float) {
+  agentPickups(skip: $skip, take: $take) {
     id
     contactNotes
     agentAssignment {
@@ -368,11 +373,11 @@ query valetPickups($skip: Float, $take: Float) {
       }
     }
   }
-  valetPickupsTotal
+  agentPickupsTotal
 }
 
-query valetDrops($skip: Float, $take: Float) {
-  valetDrops(skip: $skip, take: $take) {
+query AgentDrops($skip: Float, $take: Float) {
+  agentDrops(skip: $skip, take: $take) {
     id
     contactNotes
     startTime
@@ -389,7 +394,7 @@ query valetDrops($skip: Float, $take: Float) {
       }
     }
   }
-  valetDropsTotal
+  agentDropsTotal
 }
 
 mutation AssignAgent($inquiryId: Float!, $status: String!) {
@@ -532,5 +537,59 @@ mutation CreateAdmin($createAdminInput: CreateAdminInput!) {
     }
     uid
     updatedAt
+  }
+}
+
+mutation RegisterSoloAgent($registerSoloAgentInput: RegisterSoloAgentInput!) {
+  registerSoloAgent(registerSoloAgentInput: $registerSoloAgentInput) {
+    token
+    user {
+      uid
+      name
+    }
+    agent {
+      uid
+      displayName
+      licenseID
+      verified
+      brokerageId
+    }
+  }
+}
+
+mutation UpdateAgent($updateAgentInput: UpdateAgentInput!) {
+  updateAgent(updateAgentInput: $updateAgentInput) {
+    uid
+    verified
+    displayName
+  }
+}
+
+mutation UpdateBrokerage($updateBrokerageInput: UpdateBrokerageInput!) {
+  updateBrokerage(updateBrokerageInput: $updateBrokerageInput) {
+    id
+    verified
+    displayName
+  }
+}
+
+query AdminAgents($skip: Float, $take: Float, $where: AgentWhereInput) {
+  agents(skip: $skip, take: $take, where: $where) {
+    uid
+    displayName
+    licenseID
+    verified
+    brokerageId
+    createdAt
+  }
+}
+
+query AdminBrokerages($skip: Float, $take: Float, $where: BrokerageWhereInput) {
+  brokerages(skip: $skip, take: $take, where: $where) {
+    id
+    displayName
+    description
+    verified
+    createdAt
   }
 }

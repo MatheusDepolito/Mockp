@@ -9,6 +9,8 @@ import { PropertyFeatureType } from '@mockp/network/src/gql/generated';
 import { HtmlLabel } from '../atoms/HtmlLabel';
 import { HtmlSelect } from '../atoms/HtmlSelect';
 import { HtmlInput } from '../atoms/HtmlInput';
+import { useI18n } from '@mockp/util/i18n';
+import { getPropertyFeatureTypeLabel } from '../../i18n/enumLabels';
 
 export const PropertyMapMarker = () => {
   const { location } = useWatch<FormTypeCreateProperty>();
@@ -32,6 +34,7 @@ export const PropertyMapMarker = () => {
 };
 
 export const AddPropertyFeatures = () => {
+  const { locale } = useI18n();
   const {
     control,
     register,
@@ -52,8 +55,13 @@ export const AddPropertyFeatures = () => {
           key={item.id}
           title={
             <div>
-              {propertyFeatures?.[featureIndex]?.type} x{' '}
-              {propertyFeatures?.[featureIndex]?.quantity}
+              {propertyFeatures?.[featureIndex]?.type
+                ? getPropertyFeatureTypeLabel(
+                    propertyFeatures[featureIndex].type,
+                    locale,
+                  )
+                : ''}{' '}
+              x {propertyFeatures?.[featureIndex]?.quantity}
             </div>
           }
         >
@@ -80,7 +88,7 @@ export const AddPropertyFeatures = () => {
               >
                 {Object.values(PropertyFeatureType).map((type) => (
                   <option key={type} value={type}>
-                    {type}
+                    {getPropertyFeatureTypeLabel(type, locale)}
                   </option>
                 ))}
               </HtmlSelect>

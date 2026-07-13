@@ -11,4 +11,5 @@ export class Brokerage implements RestrictProperties<Brokerage, BrokerageType> {
   displayName: string;
   @Field({ nullable: true })
   description: string;
+  verified: boolean;
 }

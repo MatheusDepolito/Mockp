@@ -1,14 +1,16 @@
 import {
   CanActivate,
   ExecutionContext,
+  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { Role } from 'src/common/types';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { ErrorCodes } from 'src/common/errors/error-codes';
+import { appException } from 'src/common/errors/error-response';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -31,7 +33,11 @@ export class AuthGuard implements CanActivate {
     const token = bearerHeader?.split(' ')[1];
 
     if (!token) {
-      throw new UnauthorizedException('No token provided.');
+      throw appException(
+        HttpStatus.UNAUTHORIZED,
+        ErrorCodes.AuthNoToken,
+        'No token provided.',
+      );
     }
 
     try {
@@ -42,7 +48,11 @@ export class AuthGuard implements CanActivate {
     }
 
     if (!req.user) {
-      throw new UnauthorizedException('Invalid token.');
+      throw appException(
+        HttpStatus.UNAUTHORIZED,
+        ErrorCodes.AuthInvalidToken,
+        'Invalid token.',
+      );
     }
   }
 
