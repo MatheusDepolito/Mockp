@@ -30,13 +30,13 @@ export class AddressesResolver {
     @Args('createAddressInput') args: CreateAddressInput,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.property.findUnique({
+    const property = await this.prisma.property.findUnique({
       where: { id: args.propertyId },
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Brokerage.BrokerageManagers.map((man) => man.uid),
+      property.Brokerage.BrokerageManagers.map((man) => man.uid),
     );
     return this.addressesService.create(args);
   }
@@ -94,8 +94,8 @@ export class AddressesResolver {
   }
 
   @ResolveField(() => Property, { nullable: true })
-  garage(@Parent() address: Address) {
-    return this.prisma.brokerage.findFirst({
+  property(@Parent() address: Address) {
+    return this.prisma.property.findFirst({
       where: { id: address.propertyId },
     });
   }

@@ -24,7 +24,7 @@ import { Property } from 'src/models/properties/graphql/entity/property.entity';
 @Resolver(() => Brokerage)
 export class BrokeragesResolver {
   constructor(
-    private readonly companiesService: BrokeragesService,
+    private readonly brokeragesService: BrokeragesService,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -37,13 +37,13 @@ export class BrokeragesResolver {
     const brokerageManagerId = args.brokerageManagerId;
 
     checkRowLevelPermission(user, brokerageManagerId);
-    return this.companiesService.create(args);
+    return this.brokeragesService.create(args);
   }
 
   @AllowAuthenticated()
   @Query(() => [Brokerage], { name: 'brokerages' })
   findAll(@Args() args: FindManyBrokerageArgs) {
-    return this.companiesService.findAll(args);
+    return this.brokeragesService.findAll(args);
   }
 
   @AllowAuthenticated()
@@ -56,7 +56,7 @@ export class BrokeragesResolver {
 
   @Query(() => Brokerage, { name: 'brokerage' })
   findOne(@Args() args: FindUniqueBrokerageArgs) {
-    return this.companiesService.findOne(args);
+    return this.brokeragesService.findOne(args);
   }
 
   @AllowAuthenticated()
@@ -65,15 +65,15 @@ export class BrokeragesResolver {
     @Args('updateBrokerageInput') args: UpdateBrokerageInput,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findUnique({
+    const brokerage = await this.prisma.brokerage.findUnique({
       where: { id: args.id },
       include: { BrokerageManagers: true },
     });
     checkRowLevelPermission(
       user,
-      company.BrokerageManagers.map((man) => man.uid),
+      brokerage.BrokerageManagers.map((man) => man.uid),
     );
-    return this.companiesService.update(args);
+    return this.brokeragesService.update(args);
   }
 
   @AllowAuthenticated()
@@ -82,28 +82,28 @@ export class BrokeragesResolver {
     @Args() args: FindUniqueBrokerageArgs,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findUnique({
+    const brokerage = await this.prisma.brokerage.findUnique({
       ...args,
       include: { BrokerageManagers: true },
     });
     checkRowLevelPermission(
       user,
-      company.BrokerageManagers.map((man) => man.uid),
+      brokerage.BrokerageManagers.map((man) => man.uid),
     );
-    return this.companiesService.remove(args);
+    return this.brokeragesService.remove(args);
   }
 
   @ResolveField(() => [Property])
-  properties(@Parent() company: Brokerage) {
+  properties(@Parent() brokerage: Brokerage) {
     return this.prisma.property.findMany({
-      where: { brokerageId: company.id },
+      where: { brokerageId: brokerage.id },
     });
   }
 
   @ResolveField(() => [BrokerageManager])
-  brokerageManagers(@Parent() company: Brokerage) {
+  brokerageManagers(@Parent() brokerage: Brokerage) {
     return this.prisma.brokerageManager.findMany({
-      where: { brokerageId: company.id },
+      where: { brokerageId: brokerage.id },
     });
   }
 }

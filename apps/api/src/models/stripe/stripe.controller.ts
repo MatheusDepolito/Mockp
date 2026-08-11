@@ -43,8 +43,8 @@ export class StripeController {
 
     const { uid, inquiryData } = session.metadata;
 
-    const bookingInput: CreateInquiryInput = JSON.parse(inquiryData);
-    const newInquiry = await this.inquiriesService.create(bookingInput);
+    const inquiryInput: CreateInquiryInput = JSON.parse(inquiryData);
+    const newInquiry = await this.inquiriesService.create(inquiryInput);
     res.redirect(process.env.BOOKINGS_REDIRECT_URL);
   }
 }

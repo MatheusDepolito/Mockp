@@ -64,7 +64,7 @@ type Customer {
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User
-  bookings: [Inquiry!]!
+  inquiries: [Inquiry!]!
 }
 
 type BrokerageManager {
@@ -73,7 +73,7 @@ type BrokerageManager {
   createdAt: DateTime!
   updatedAt: DateTime!
   brokerageId: Float!
-  company: Brokerage
+  brokerage: Brokerage
 }
 
 type Verification {
@@ -187,7 +187,7 @@ type Address {
   address: String!
   lat: Float!
   lng: Float!
-  garage: Property
+  property: Property
 }
 
 type PropertyFeature {
@@ -244,8 +244,8 @@ type Query {
   managers(distinct: [BrokerageManagerScalarFieldEnum!], where: BrokerageManagerWhereInput, orderBy: [BrokerageManagerOrderByWithRelationInput!], cursor: BrokerageManagerWhereUniqueInput, take: Float, skip: Float): [BrokerageManager!]!
   brokerageManager(where: BrokerageManagerWhereUniqueInput!): BrokerageManager!
   agents(distinct: [AgentScalarFieldEnum!], where: AgentWhereInput, orderBy: [AgentOrderByWithRelationInput!], cursor: AgentWhereUniqueInput, take: Float, skip: Float): [Agent!]!
-  companyAgents(distinct: [AgentScalarFieldEnum!], where: AgentWhereInput, orderBy: [AgentOrderByWithRelationInput!], cursor: AgentWhereUniqueInput, take: Float, skip: Float): [Agent!]!
-  companyAgentsTotal(where: AgentWhereInput): Float!
+  brokerageAgents(distinct: [AgentScalarFieldEnum!], where: AgentWhereInput, orderBy: [AgentOrderByWithRelationInput!], cursor: AgentWhereUniqueInput, take: Float, skip: Float): [Agent!]!
+  brokerageAgentsTotal(where: AgentWhereInput): Float!
   agent(where: AgentWhereUniqueInput!): Agent!
   agentMe: Agent
   agentPickups(take: Float, skip: Float): [Inquiry!]!
@@ -273,8 +273,8 @@ type Query {
   inquiry(where: InquiryWhereUniqueInput!): Inquiry!
   agentAssignments(distinct: [AgentAssignmentScalarFieldEnum!], where: AgentAssignmentWhereInput, orderBy: [AgentAssignmentOrderByWithRelationInput!], cursor: AgentAssignmentWhereUniqueInput, take: Float, skip: Float): [AgentAssignment!]!
   agentAssignment(where: AgentAssignmentWhereUniqueInput!): AgentAssignment!
-  bookingTimelines(distinct: [InquiryTimelineScalarFieldEnum!], where: InquiryTimelineWhereInput, orderBy: [InquiryTimelineOrderByWithRelationInput!], cursor: InquiryTimelineWhereUniqueInput, take: Float, skip: Float): [InquiryTimeline!]!
-  bookingTimeline(where: InquiryTimelineWhereUniqueInput!): InquiryTimeline!
+  inquiryTimelines(distinct: [InquiryTimelineScalarFieldEnum!], where: InquiryTimelineWhereInput, orderBy: [InquiryTimelineOrderByWithRelationInput!], cursor: InquiryTimelineWhereUniqueInput, take: Float, skip: Float): [InquiryTimeline!]!
+  inquiryTimeline(where: InquiryTimelineWhereUniqueInput!): InquiryTimeline!
   reviews(distinct: [ReviewScalarFieldEnum!], where: ReviewWhereInput, orderBy: [ReviewOrderByWithRelationInput!], cursor: ReviewWhereUniqueInput, take: Float, skip: Float): [Review!]!
   review(where: ReviewWhereUniqueInput!): Review!
   verifications(distinct: [VerificationScalarFieldEnum!], where: VerificationWhereInput, orderBy: [VerificationOrderByWithRelationInput!], cursor: VerificationWhereUniqueInput, take: Float, skip: Float): [Verification!]!

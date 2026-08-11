@@ -37,13 +37,13 @@ export class AddressesController {
     @Body() createAddressDto: CreateAddress,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.property.findUnique({
+    const property = await this.prisma.property.findUnique({
       where: { id: createAddressDto.propertyId },
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Brokerage.BrokerageManagers.map((manager) => manager.uid),
+      property.Brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.address.create({ data: createAddressDto });
   }

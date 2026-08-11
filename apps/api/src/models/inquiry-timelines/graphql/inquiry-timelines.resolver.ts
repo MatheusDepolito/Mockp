@@ -26,7 +26,7 @@ export class InquiryTimelinesResolver {
     { inquiryId, status }: CreateInquiryTimelineInput,
     @GetUser() user: GetUserType,
   ) {
-    const booking = await this.prisma.inquiry.findUnique({
+    const inquiry = await this.prisma.inquiry.findUnique({
       where: { id: inquiryId },
       select: {
         Property: {
@@ -40,12 +40,12 @@ export class InquiryTimelinesResolver {
     });
     checkRowLevelPermission(
       user,
-      booking.Property.Brokerage.BrokerageManagers.map(
+      inquiry.Property.Brokerage.BrokerageManagers.map(
         (manager) => manager.uid,
       ),
     );
 
-    const [updatedInquiry, bookingTimeline] = await this.prisma.$transaction([
+    const [updatedInquiry, inquiryTimeline] = await this.prisma.$transaction([
       this.prisma.inquiry.update({
         data: { status: status },
         where: { id: inquiryId },
@@ -54,15 +54,15 @@ export class InquiryTimelinesResolver {
         data: { inquiryId, managerId: user.uid, status },
       }),
     ]);
-    return bookingTimeline;
+    return inquiryTimeline;
   }
 
-  @Query(() => [InquiryTimeline], { name: 'bookingTimelines' })
+  @Query(() => [InquiryTimeline], { name: 'inquiryTimelines' })
   findAll(@Args() args: FindManyInquiryTimelineArgs) {
     return this.inquiryTimelinesService.findAll(args);
   }
 
-  @Query(() => InquiryTimeline, { name: 'bookingTimeline' })
+  @Query(() => InquiryTimeline, { name: 'inquiryTimeline' })
   findOne(@Args() args: FindUniqueInquiryTimelineArgs) {
     return this.inquiryTimelinesService.findOne(args);
   }

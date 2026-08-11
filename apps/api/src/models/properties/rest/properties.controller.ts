@@ -37,13 +37,13 @@ export class PropertiesController {
     @Body() createPropertyDto: CreateProperty,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findUnique({
+    const brokerage = await this.prisma.brokerage.findUnique({
       where: { id: createPropertyDto.brokerageId },
       include: { BrokerageManagers: true },
     });
     checkRowLevelPermission(
       user,
-      company.BrokerageManagers.map((manager) => manager.uid),
+      brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.property.create({ data: createPropertyDto });
   }
@@ -73,13 +73,13 @@ export class PropertiesController {
     @Body() updatePropertyDto: UpdateProperty,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.property.findUnique({
+    const property = await this.prisma.property.findUnique({
       where: { id },
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Brokerage.BrokerageManagers.map((manager) => manager.uid),
+      property.Brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
 
     return this.prisma.property.update({
@@ -92,13 +92,13 @@ export class PropertiesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const garage = await this.prisma.property.findUnique({
+    const property = await this.prisma.property.findUnique({
       where: { id },
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Brokerage.BrokerageManagers.map((manager) => manager.uid),
+      property.Brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.property.delete({ where: { id } });
   }

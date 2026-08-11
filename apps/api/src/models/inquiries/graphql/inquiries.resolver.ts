@@ -103,16 +103,15 @@ export class InquiriesResolver {
     if (!propertyId) {
       throw new BadRequestException('Pass property id in where.propertyId');
     }
-    const garage = await this.prisma.property.findUnique({
+    const property = await this.prisma.property.findUnique({
       where: { id: propertyId },
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
 
-    if (garage.responsibleAgentId !== user.uid) {
+    if (property.responsibleAgentId !== user.uid) {
       checkRowLevelPermission(
         user,
-        garage.Brokerage?.BrokerageManagers.map((manager) => manager.uid) ??
-          [],
+        property.Brokerage?.BrokerageManagers.map((manager) => manager.uid) ?? [],
       );
     }
 
@@ -134,11 +133,11 @@ export class InquiriesResolver {
     @Args('where', { nullable: true })
     where: InquiryWhereInput,
   ) {
-    const bookings = await this.prisma.inquiry.aggregate({
+    const inquiryAggregate = await this.prisma.inquiry.aggregate({
       where,
       _count: { _all: true },
     });
-    return { count: bookings._count._all };
+    return { count: inquiryAggregate._count._all };
   }
 
   @Query(() => Inquiry, { name: 'inquiry' })
@@ -152,10 +151,10 @@ export class InquiriesResolver {
     @Args('updateInquiryInput') args: UpdateInquiryInput,
     @GetUser() user: GetUserType,
   ) {
-    const booking = await this.prisma.inquiry.findUnique({
+    const inquiry = await this.prisma.inquiry.findUnique({
       where: { id: args.id },
     });
-    checkRowLevelPermission(user, booking.customerId);
+    checkRowLevelPermission(user, inquiry.customerId);
     return this.inquiriesService.update(args);
   }
 
@@ -165,36 +164,36 @@ export class InquiriesResolver {
     @Args() args: FindUniqueInquiryArgs,
     @GetUser() user: GetUserType,
   ) {
-    const booking = await this.prisma.inquiry.findUnique(args);
-    checkRowLevelPermission(user, booking.customerId);
+    const inquiry = await this.prisma.inquiry.findUnique(args);
+    checkRowLevelPermission(user, inquiry.customerId);
     return this.inquiriesService.remove(args);
   }
 
   @ResolveField(() => Property)
-  property(@Parent() booking: Inquiry) {
+  property(@Parent() inquiry: Inquiry) {
     return this.prisma.property.findFirst({
-      where: { id: booking.propertyId },
+      where: { id: inquiry.propertyId },
     });
   }
 
   @ResolveField(() => Customer)
-  customer(@Parent() booking: Inquiry) {
+  customer(@Parent() inquiry: Inquiry) {
     return this.prisma.customer.findFirst({
-      where: { uid: booking.customerId },
+      where: { uid: inquiry.customerId },
     });
   }
 
   @ResolveField(() => [InquiryTimeline])
-  inquiryTimeline(@Parent() booking: Inquiry) {
+  inquiryTimeline(@Parent() inquiry: Inquiry) {
     return this.prisma.inquiryTimeline.findMany({
-      where: { inquiryId: booking.id },
+      where: { inquiryId: inquiry.id },
     });
   }
 
   @ResolveField(() => AgentAssignment, { nullable: true })
-  agentAssignment(@Parent() booking: Inquiry) {
+  agentAssignment(@Parent() inquiry: Inquiry) {
     return this.prisma.agentAssignment.findFirst({
-      where: { inquiryId: booking.id },
+      where: { inquiryId: inquiry.id },
     });
   }
 }

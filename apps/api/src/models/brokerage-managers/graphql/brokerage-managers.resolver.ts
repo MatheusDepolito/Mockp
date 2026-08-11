@@ -72,7 +72,7 @@ export class BrokerageManagersResolver {
   }
 
   @ResolveField(() => Brokerage, { nullable: true })
-  company(@Parent() manager: BrokerageManager) {
+  brokerage(@Parent() manager: BrokerageManager) {
     return this.prisma.brokerage.findUnique({
       where: { id: manager.brokerageId },
     });

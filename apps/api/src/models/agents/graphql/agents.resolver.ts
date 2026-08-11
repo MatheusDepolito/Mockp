@@ -32,11 +32,11 @@ export class AgentsResolver {
     @Args('createAgentInput') args: CreateAgentInput,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findFirst({
+    const brokerage = await this.prisma.brokerage.findFirst({
       where: { BrokerageManagers: { some: { uid: user.uid } } },
     });
 
-    if (!company) {
+    if (!brokerage) {
       throw appException(
         HttpStatus.BAD_GATEWAY,
         ErrorCodes.BrokerageNotFoundForManager,
@@ -45,7 +45,7 @@ export class AgentsResolver {
     }
     return this.agentsService.createWithAccount({
       ...args,
-      brokerageId: company.id,
+      brokerageId: brokerage.id,
     });
   }
 
@@ -68,7 +68,7 @@ export class AgentsResolver {
     @Args('status') status: InquiryStatus,
     @GetUser() user: GetUserType,
   ) {
-    const booking = await this.prisma.inquiry.findUnique({
+    const inquiry = await this.prisma.inquiry.findUnique({
       where: { id: inquiryId },
       select: {
         Property: {
@@ -81,13 +81,13 @@ export class AgentsResolver {
     });
 
     const allowedUids = [
-      booking.Property.responsibleAgentId,
-      ...(booking.Property.Brokerage
+      inquiry.Property.responsibleAgentId,
+      ...(inquiry.Property.Brokerage
         ? [
-            ...booking.Property.Brokerage.BrokerageManagers.map(
+            ...inquiry.Property.Brokerage.BrokerageManagers.map(
               (manager) => manager.uid,
             ),
-            ...booking.Property.Brokerage.Agents.map((agent) => agent.uid),
+            ...inquiry.Property.Brokerage.Agents.map((agent) => agent.uid),
           ]
         : []),
     ];
@@ -119,32 +119,32 @@ export class AgentsResolver {
   }
 
   @AllowAuthenticated('brokerageManager', 'admin')
-  @Query(() => [Agent], { name: 'companyAgents' })
-  async companyAgents(
+  @Query(() => [Agent], { name: 'brokerageAgents' })
+  async brokerageAgents(
     @Args() args: FindManyAgentArgs,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findFirst({
+    const brokerage = await this.prisma.brokerage.findFirst({
       where: { BrokerageManagers: { some: { uid: user.uid } } },
     });
     return this.agentsService.findAll({
       ...args,
-      where: { ...args.where, brokerageId: { equals: company.id } },
+      where: { ...args.where, brokerageId: { equals: brokerage.id } },
     });
   }
 
   @AllowAuthenticated()
   @Query(() => Number)
-  async companyAgentsTotal(
+  async brokerageAgentsTotal(
     @Args('where', { nullable: true }) where: AgentWhereInput,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findFirst({
+    const brokerage = await this.prisma.brokerage.findFirst({
       where: { BrokerageManagers: { some: { uid: user.uid } } },
     });
 
     return this.prisma.agent.count({
-      where: { ...where, brokerageId: { equals: company.id } },
+      where: { ...where, brokerageId: { equals: brokerage.id } },
     });
   }
 

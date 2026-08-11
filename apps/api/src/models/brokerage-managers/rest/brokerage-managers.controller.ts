@@ -24,8 +24,8 @@ import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 
-@ApiTags('managers')
-@Controller('managers')
+@ApiTags('brokerage-managers')
+@Controller('brokerage-managers')
 export class BrokerageManagersController {
   constructor(private readonly prisma: PrismaService) {}
 

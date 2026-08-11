@@ -24,8 +24,8 @@ import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 
-@ApiTags('bookings')
-@Controller('bookings')
+@ApiTags('inquiries')
+@Controller('inquiries')
 export class InquiriesController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -66,8 +66,8 @@ export class InquiriesController {
     @Body() updateInquiryDto: UpdateInquiry,
     @GetUser() user: GetUserType,
   ) {
-    const booking = await this.prisma.inquiry.findUnique({ where: { id } });
-    checkRowLevelPermission(user, booking.customerId);
+    const inquiry = await this.prisma.inquiry.findUnique({ where: { id } });
+    checkRowLevelPermission(user, inquiry.customerId);
     return this.prisma.inquiry.update({
       where: { id },
       data: updateInquiryDto,
@@ -78,8 +78,8 @@ export class InquiriesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const booking = await this.prisma.inquiry.findUnique({ where: { id } });
-    checkRowLevelPermission(user, booking.customerId);
+    const inquiry = await this.prisma.inquiry.findUnique({ where: { id } });
+    checkRowLevelPermission(user, inquiry.customerId);
     return this.prisma.inquiry.delete({ where: { id } });
   }
 }

@@ -24,8 +24,8 @@ import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 
-@ApiTags('slots')
-@Controller('slots')
+@ApiTags('property-features')
+@Controller('property-features')
 export class PropertyFeaturesController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -37,13 +37,13 @@ export class PropertyFeaturesController {
     @Body() createPropertyFeatureDto: CreatePropertyFeature,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.property.findUnique({
+    const property = await this.prisma.property.findUnique({
       where: { id: createPropertyFeatureDto.propertyId },
       include: { Brokerage: { include: { BrokerageManagers: true } } },
     });
     checkRowLevelPermission(
       user,
-      garage.Brokerage.BrokerageManagers.map((manager) => manager.uid),
+      property.Brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.propertyFeature.create({
       data: createPropertyFeatureDto,
@@ -75,7 +75,7 @@ export class PropertyFeaturesController {
     @Body() updatePropertyFeatureDto: UpdatePropertyFeature,
     @GetUser() user: GetUserType,
   ) {
-    const slot = await this.prisma.propertyFeature.findUnique({
+    const propertyFeature = await this.prisma.propertyFeature.findUnique({
       where: { id },
       include: {
         Property: {
@@ -89,7 +89,7 @@ export class PropertyFeaturesController {
     });
     checkRowLevelPermission(
       user,
-      slot.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
+      propertyFeature.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
     );
     return this.prisma.propertyFeature.update({
       where: { id },
@@ -101,7 +101,7 @@ export class PropertyFeaturesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const slot = await this.prisma.propertyFeature.findUnique({
+    const propertyFeature = await this.prisma.propertyFeature.findUnique({
       where: { id },
       include: {
         Property: {
@@ -115,7 +115,7 @@ export class PropertyFeaturesController {
     });
     checkRowLevelPermission(
       user,
-      slot.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
+      propertyFeature.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
     );
     return this.prisma.propertyFeature.delete({ where: { id } });
   }

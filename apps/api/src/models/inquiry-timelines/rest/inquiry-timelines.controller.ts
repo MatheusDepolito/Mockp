@@ -24,8 +24,8 @@ import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 import { InquiryTimelineEntity } from './entity/inquiry-timeline.entity';
 
-@ApiTags('booking-timelines')
-@Controller('booking-timelines')
+@ApiTags('inquiry-timelines')
+@Controller('inquiry-timelines')
 export class InquiryTimelinesController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -68,10 +68,10 @@ export class InquiryTimelinesController {
     @Body() updateInquiryTimelineDto: UpdateInquiryTimeline,
     @GetUser() user: GetUserType,
   ) {
-    const bookingTimeline = await this.prisma.inquiryTimeline.findUnique({
+    const inquiryTimeline = await this.prisma.inquiryTimeline.findUnique({
       where: { id },
     });
-    checkRowLevelPermission(user, bookingTimeline.managerId);
+    checkRowLevelPermission(user, inquiryTimeline.managerId);
     return this.prisma.inquiryTimeline.update({
       where: { id },
       data: updateInquiryTimelineDto,
@@ -82,10 +82,10 @@ export class InquiryTimelinesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const bookingTimeline = await this.prisma.inquiryTimeline.findUnique({
+    const inquiryTimeline = await this.prisma.inquiryTimeline.findUnique({
       where: { id },
     });
-    checkRowLevelPermission(user, bookingTimeline.managerId);
+    checkRowLevelPermission(user, inquiryTimeline.managerId);
     return this.prisma.inquiryTimeline.delete({ where: { id } });
   }
 }

@@ -24,8 +24,8 @@ import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator';
 import { GetUserType } from 'src/common/types';
 import { checkRowLevelPermission } from 'src/common/auth/util';
 
-@ApiTags('companies')
-@Controller('companies')
+@ApiTags('brokerages')
+@Controller('brokerages')
 export class BrokeragesController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -62,13 +62,13 @@ export class BrokeragesController {
     @Body() updateBrokerageDto: UpdateBrokerage,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.brokerage.findUnique({
+    const brokerage = await this.prisma.brokerage.findUnique({
       where: { id },
       include: { BrokerageManagers: true },
     });
     checkRowLevelPermission(
       user,
-      company.BrokerageManagers.map((manager) => manager.uid),
+      brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.brokerage.update({
       where: { id },
@@ -80,13 +80,13 @@ export class BrokeragesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const company = await this.prisma.brokerage.findUnique({
+    const brokerage = await this.prisma.brokerage.findUnique({
       where: { id },
       include: { BrokerageManagers: true },
     });
     checkRowLevelPermission(
       user,
-      company.BrokerageManagers.map((manager) => manager.uid),
+      brokerage.BrokerageManagers.map((manager) => manager.uid),
     );
     return this.prisma.brokerage.delete({ where: { id } });
   }
