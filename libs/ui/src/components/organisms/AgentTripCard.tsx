@@ -10,7 +10,7 @@ import { format } from 'date-fns';
 export interface IAgentTripCardProps {
   start?: Partial<LatLng> | null;
   end?: Partial<LatLng> | null;
-  booking: {
+  inquiry: {
     id: number;
     time: string;
   };
@@ -20,7 +20,7 @@ export interface IAgentTripCardProps {
 export const AgentTripCard = ({
   start,
   end,
-  booking,
+  inquiry,
   children,
 }: IAgentTripCardProps) => {
   const { data, distance, error, loading } = useMapboxDirections(start, end);
@@ -43,10 +43,10 @@ export const AgentTripCard = ({
         <div className="flex justify-between gap-2 ">
           <div>
             <div className="text-lg font-semibold">
-              {format(new Date(booking.time), 'p')}
+              {format(new Date(inquiry.time), 'p')}
             </div>
             <div className="text-xs text-gray">
-              {format(new Date(booking.time), 'PP')}
+              {format(new Date(inquiry.time), 'PP')}
             </div>
           </div>
           <div className="font-medium">

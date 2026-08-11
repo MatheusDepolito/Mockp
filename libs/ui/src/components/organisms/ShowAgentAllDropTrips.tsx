@@ -33,7 +33,7 @@ export const ShowAgentAllDropTrips = () => {
         return (
           <AgentTripCard
             key={inquiry.id}
-            booking={{
+            inquiry={{
               id: inquiry.id,
               time: inquiry.endTime,
             }}

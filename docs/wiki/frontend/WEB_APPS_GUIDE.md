@@ -45,7 +45,7 @@ Use shared packages only when the behavior is genuinely reusable. Do not move do
   - `/login`
   - `/register`
   - `/search`
-  - `/bookings`
+  - `/inquiries`
   - `/booking-failed`
   - `/professional`
   - `/professional/solo-agent`
@@ -55,7 +55,7 @@ Use shared packages only when the behavior is genuinely reusable. Do not move do
 
 Likely purpose based on route evidence:
 
-- Customer-facing or general user app for login/register, searching, bookings, and booking failure flow.
+- Customer-facing or general user app for login/register, property search, inquiries, and booking failure flow.
 
 When to edit:
 
@@ -111,24 +111,24 @@ Stop and confirm when:
   - `/`
   - `/login`
   - `/register`
-  - `/new-garage`
+  - `/new-property`
   - `/agents`
-  - `/bookings`
+  - `/inquiries`
 
 Likely purpose based on route evidence:
 
-- Manager-oriented app for garage registration/management, agents, and bookings.
+- Brokerage-manager app for property management, agent management, and inquiries.
 
 When to edit:
 
-- Garage creation or management flows.
-- Manager booking views.
-- Valet management from the manager perspective.
+- Property creation or management flows.
+- Manager inquiry views.
+- Agent management from the brokerage-manager perspective.
 
 Stop and confirm when:
 
-- The requested flow could belong to admin, valet, or customer-facing app instead.
-- The change affects garage visibility across apps.
+- The requested flow could belong to admin, agent, or customer-facing app instead.
+- The change affects property visibility across apps.
 
 ## `apps/web-agent`
 
@@ -193,4 +193,4 @@ Before touching more than one app:
 
 - Exact product ownership and persona boundaries for each app should be confirmed with the product owner.
 - Whether all frontend apps actively use the same auth/network/shared UI stack needs per-route verification.
-- The admin/manager/valet business permissions must be verified in backend auth rules before changing protected flows.
+- The admin/brokerage-manager/agent business permissions must be verified in backend auth rules before changing protected flows.

@@ -1,12 +1,5 @@
-import { IsLoggedIn } from '@mockp/ui/src/components/organisms/IsLoggedIn';
-import { ListCustomerInquiries } from '@mockp/ui/src/components/templates/ListCustomerInquiries';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return (
-    <main>
-      <IsLoggedIn>
-        <ListCustomerInquiries />
-      </IsLoggedIn>
-    </main>
-  );
+  redirect('/inquiries');
 }

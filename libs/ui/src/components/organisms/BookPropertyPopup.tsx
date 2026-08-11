@@ -47,7 +47,7 @@ export const BookPropertyPopup = ({
 
   const totalPrice = totalPriceObj.parkingCharge;
 
-  const [booking, setInquiry] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <div className="flex gap-2 text-left border-t-2 border-white bg-white/50 backdrop-blur-sm">
@@ -77,12 +77,12 @@ export const BookPropertyPopup = ({
           };
 
           try {
-            setInquiry(true);
+            setSubmitting(true);
             await createInquirySession(uid!, totalPriceObj, inquiryData);
           } catch (error) {
-            toast('An error occurred while creating the booking session.');
+            toast('An error occurred while creating the inquiry session.');
           } finally {
-            setInquiry(false);
+            setSubmitting(false);
           }
         })}
       >
@@ -158,7 +158,7 @@ export const BookPropertyPopup = ({
           </div>
         ) : null}
 
-        <Button loading={booking} type="submit" className="w-full mt-2">
+        <Button loading={submitting} type="submit" className="w-full mt-2">
           Solicitar visita
         </Button>
       </Form>
@@ -194,7 +194,7 @@ export const createInquirySession = async (
 
     return result;
   } catch (error) {
-    console.error('Error creating booking session:', error);
+    console.error('Error creating inquiry session:', error);
     throw error;
   }
 };

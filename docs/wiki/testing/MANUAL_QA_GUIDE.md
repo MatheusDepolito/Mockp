@@ -105,13 +105,13 @@ Use [[../database/PRISMA_MIGRATION_SAFETY|Prisma Migration Safety]].
 
 ### `apps/web`
 
-Routes verified from repo include `/`, `/login`, `/register`, `/search`, `/bookings`, and `/booking-failed`.
+Routes verified from repo include `/`, `/login`, `/register`, `/search`, `/inquiries`, and `/booking-failed`.
 
 QA placeholders:
 
 - Login/register.
-- Search garages.
-- Booking list.
+- Search properties.
+- Inquiry list.
 - Booking failure/Stripe failure path.
 
 > Needs verification
@@ -134,18 +134,18 @@ QA placeholders:
 
 ### `apps/web-manager`
 
-Routes verified from repo include `/`, `/login`, `/register`, `/new-garage`, `/agents`, and `/bookings`.
+Routes verified from repo include `/`, `/login`, `/register`, `/new-property`, `/agents`, and `/inquiries`.
 
 QA placeholders:
 
 - Manager login/register.
-- Create garage.
+- Create property.
 - Manage agents.
-- View bookings.
+- View inquiries.
 
 > Needs verification
 >
-> Exact manager/company ownership rules and garage visibility behavior.
+> Exact manager/brokerage ownership rules and property visibility behavior.
 
 ### `apps/web-agent`
 

@@ -1,6 +1,6 @@
 Mockp
 
-Mockp é um sistema de gerenciamento de garagens para carros, motos, bicicletas e caminhões, permitindo que clientes possam alugar vagas e utilizar serviços adicionais de manobristas ou motoristas. O projeto está estruturado como um monorepositório e conta com diversas tecnologias modernas para garantir escalabilidade e flexibilidade.
+Mockp é uma plataforma imobiliária para gestão de imóveis, atendimento de interessados e operação entre corretoras, corretores e clientes. O projeto está estruturado como um monorepositório com backend NestJS/Prisma e múltiplas aplicações Next.js por persona.
 
 ## Tecnologias Utilizadas
 
@@ -17,11 +17,12 @@ Mockp é um sistema de gerenciamento de garagens para carros, motos, bicicletas 
 
 ## Estrutura do Projeto
 
-O Mockp é dividido em três aplicações web distintas:
+O Mockp é dividido em quatro aplicações web:
 
-- **Cliente:** Interface para os clientes alugarem vagas e gerenciarem seus veículos.
-- **Managers:** Painel de administração para gerenciar vagas, valets e configurações.
-- **Valets:** Interface dedicada para os valets receberem e entregarem veículos aos clientes.
+- **Cliente (`apps/web`)**: busca de imóveis, onboarding profissional e acompanhamento de solicitações.
+- **Gestor (`apps/web-manager`)**: painel de corretora para gestão de carteira e equipe.
+- **Corretor (`apps/web-agent`)**: painel operacional para propriedades, inquiries e visitas.
+- **Admin (`apps/web-admin`)**: gestão administrativa e verificação.
 
 Atualmente, a API está completa, enquanto as interfaces web ainda estão em desenvolvimento.
 
@@ -54,14 +55,19 @@ yarn dev
 cd apps/web
 yarn dev
 ```
-#### Managers
+#### Gestor
 ```sh
 cd apps/web-manager
 yarn dev
 ```
-#### Valets
+#### Corretor
 ```sh
 cd apps/web-agent
+yarn dev
+```
+#### Admin
+```sh
+cd apps/web-admin
 yarn dev
 ```
 

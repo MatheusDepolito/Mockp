@@ -8,7 +8,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useCloudinaryUpload } from '@mockp/util/hooks/cloudinary';
 import {
   AgentMeDocument,
-  CompanyAgentsDocument,
+  BrokerageAgentsDocument,
   CreatePropertyDocument,
   PropertyPurpose,
   PropertyType,
@@ -82,7 +82,7 @@ const CreatePropertyContent = ({
   }, [agentMeData?.agentMe?.uid, isSolo, setValue]);
 
   const { data: agentsData, loading: agentsLoading } = useQuery(
-    CompanyAgentsDocument,
+    BrokerageAgentsDocument,
     {
       skip: isSolo || !brokerageId,
       variables: brokerageId
@@ -95,7 +95,7 @@ const CreatePropertyContent = ({
     },
   );
 
-  const agents = agentsData?.companyAgents ?? [];
+  const agents = agentsData?.brokerageAgents ?? [];
 
   const [createProperty, { loading }] = useMutation(CreatePropertyDocument, {
     refetchQueries: [namedOperations.Query.Properties],

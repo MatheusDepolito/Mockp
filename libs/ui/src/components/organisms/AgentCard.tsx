@@ -1,10 +1,10 @@
-import { CompanyAgentsQuery } from '@mockp/network/src/gql/generated';
+import { BrokerageAgentsQuery } from '@mockp/network/src/gql/generated';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { ProfileVerifiedBadge } from '../molecules/VerificationBadge';
 
 export interface IAgentCardProps {
-  agent: CompanyAgentsQuery['companyAgents'][0];
+  agent: BrokerageAgentsQuery['brokerageAgents'][0];
 }
 
 export const AgentCard = ({ agent }: IAgentCardProps) => {

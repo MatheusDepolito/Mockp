@@ -19,6 +19,11 @@ const nextConfig = {
         destination: '/professional/solo-agent',
         permanent: true,
       },
+      {
+        source: '/bookings',
+        destination: '/inquiries',
+        permanent: true,
+      },
     ];
   },
 };

@@ -21,10 +21,10 @@ export type Address = {
   __typename?: 'Address';
   address: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  garage?: Maybe<Property>;
   id: Scalars['Float']['output'];
   lat: Scalars['Float']['output'];
   lng: Scalars['Float']['output'];
+  property?: Maybe<Property>;
   propertyId?: Maybe<Scalars['Float']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -293,8 +293,8 @@ export type Brokerage = {
 
 export type BrokerageManager = {
   __typename?: 'BrokerageManager';
+  brokerage?: Maybe<Brokerage>;
   brokerageId: Scalars['Float']['output'];
-  company?: Maybe<Brokerage>;
   createdAt: Scalars['DateTime']['output'];
   displayName?: Maybe<Scalars['String']['output']>;
   uid: Scalars['String']['output'];
@@ -516,9 +516,9 @@ export type CreateVerificationInput = {
 
 export type Customer = {
   __typename?: 'Customer';
-  bookings: Array<Inquiry>;
   createdAt: Scalars['DateTime']['output'];
   displayName?: Maybe<Scalars['String']['output']>;
+  inquiries: Array<Inquiry>;
   uid: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
   user?: Maybe<User>;
@@ -1298,13 +1298,11 @@ export type Query = {
   agentPickups: Array<Inquiry>;
   agentPickupsTotal: Scalars['Float']['output'];
   agents: Array<Agent>;
-  bookingTimeline: InquiryTimeline;
-  bookingTimelines: Array<InquiryTimeline>;
   brokerage: Brokerage;
+  brokerageAgents: Array<Agent>;
+  brokerageAgentsTotal: Scalars['Float']['output'];
   brokerageManager: BrokerageManager;
   brokerages: Array<Brokerage>;
-  companyAgents: Array<Agent>;
-  companyAgentsTotal: Scalars['Float']['output'];
   customer: Customer;
   customers: Array<Customer>;
   getAuthProvider?: Maybe<AuthProvider>;
@@ -1314,6 +1312,8 @@ export type Query = {
   inquiriesForCustomer: Array<Inquiry>;
   inquiriesForProperty: Array<Inquiry>;
   inquiry: Inquiry;
+  inquiryTimeline: InquiryTimeline;
+  inquiryTimelines: Array<InquiryTimeline>;
   managers: Array<BrokerageManager>;
   myBrokerage: Brokerage;
   myPropertiesAsAgent: Array<Property>;
@@ -1411,23 +1411,23 @@ export type QueryAgentsArgs = {
 };
 
 
-export type QueryBookingTimelineArgs = {
-  where: InquiryTimelineWhereUniqueInput;
-};
-
-
-export type QueryBookingTimelinesArgs = {
-  cursor?: InputMaybe<InquiryTimelineWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InquiryTimelineScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<InquiryTimelineOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Float']['input']>;
-  take?: InputMaybe<Scalars['Float']['input']>;
-  where?: InputMaybe<InquiryTimelineWhereInput>;
-};
-
-
 export type QueryBrokerageArgs = {
   where: BrokerageWhereUniqueInput;
+};
+
+
+export type QueryBrokerageAgentsArgs = {
+  cursor?: InputMaybe<AgentWhereUniqueInput>;
+  distinct?: InputMaybe<Array<AgentScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<AgentOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<AgentWhereInput>;
+};
+
+
+export type QueryBrokerageAgentsTotalArgs = {
+  where?: InputMaybe<AgentWhereInput>;
 };
 
 
@@ -1443,21 +1443,6 @@ export type QueryBrokeragesArgs = {
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
   where?: InputMaybe<BrokerageWhereInput>;
-};
-
-
-export type QueryCompanyAgentsArgs = {
-  cursor?: InputMaybe<AgentWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AgentScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AgentOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Float']['input']>;
-  take?: InputMaybe<Scalars['Float']['input']>;
-  where?: InputMaybe<AgentWhereInput>;
-};
-
-
-export type QueryCompanyAgentsTotalArgs = {
-  where?: InputMaybe<AgentWhereInput>;
 };
 
 
@@ -1528,6 +1513,21 @@ export type QueryInquiriesForPropertyArgs = {
 
 export type QueryInquiryArgs = {
   where: InquiryWhereUniqueInput;
+};
+
+
+export type QueryInquiryTimelineArgs = {
+  where: InquiryTimelineWhereUniqueInput;
+};
+
+
+export type QueryInquiryTimelinesArgs = {
+  cursor?: InputMaybe<InquiryTimelineWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InquiryTimelineScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<InquiryTimelineOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<InquiryTimelineWhereInput>;
 };
 
 
@@ -2123,7 +2123,7 @@ export type MyPropertiesAsAgentQueryVariables = Exact<{
 
 export type MyPropertiesAsAgentQuery = { __typename?: 'Query', myPropertiesAsAgent: Array<{ __typename?: 'Property', id: number, displayName?: string | null, description?: string | null, images: Array<string>, verification?: { __typename?: 'Verification', verified: boolean } | null, address?: { __typename?: 'Address', id: number, lat: number, lng: number, address: string } | null, featureCounts: Array<{ __typename?: 'PropertyFeatureTypeCount', type: PropertyFeatureType, count?: number | null }> }>, myPropertiesAsAgentCount: { __typename?: 'AggregateCountOutput', count: number } };
 
-export type CompanyAgentsQueryVariables = Exact<{
+export type BrokerageAgentsQueryVariables = Exact<{
   distinct?: InputMaybe<Array<AgentScalarFieldEnum> | AgentScalarFieldEnum>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
@@ -2133,7 +2133,7 @@ export type CompanyAgentsQueryVariables = Exact<{
 }>;
 
 
-export type CompanyAgentsQuery = { __typename?: 'Query', companyAgentsTotal: number, companyAgents: Array<{ __typename?: 'Agent', displayName: string, uid: string, createdAt: any, updatedAt: any, brokerageId?: number | null, image?: string | null, licenseID: string, verified: boolean }> };
+export type BrokerageAgentsQuery = { __typename?: 'Query', brokerageAgentsTotal: number, brokerageAgents: Array<{ __typename?: 'Agent', displayName: string, uid: string, createdAt: any, updatedAt: any, brokerageId?: number | null, image?: string | null, licenseID: string, verified: boolean }> };
 
 export type AgentPickupsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
@@ -2295,7 +2295,7 @@ export const namedOperations = {
     AgentMe: 'AgentMe',
     AdminMe: 'AdminMe',
     myPropertiesAsAgent: 'myPropertiesAsAgent',
-    companyAgents: 'companyAgents',
+    brokerageAgents: 'brokerageAgents',
     AgentPickups: 'AgentPickups',
     AgentDrops: 'AgentDrops',
     myPickupTrips: 'myPickupTrips',
@@ -2352,7 +2352,7 @@ export const AgentMeDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const AdminMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AdminMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"adminMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}}]}}]} as unknown as DocumentNode<AdminMeQuery, AdminMeQueryVariables>;
 export const CreateAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createAgentInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAgentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createAgentInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createAgentInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"temporaryPassword"}}]}}]}}]} as unknown as DocumentNode<CreateAgentMutation, CreateAgentMutationVariables>;
 export const MyPropertiesAsAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myPropertiesAsAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myPropertiesAsAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"verification"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}},{"kind":"Field","name":{"kind":"Name","value":"address"}}]}},{"kind":"Field","name":{"kind":"Name","value":"featureCounts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"myPropertiesAsAgentCount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<MyPropertiesAsAgentQuery, MyPropertiesAsAgentQueryVariables>;
-export const CompanyAgentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"companyAgents"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"companyAgents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"companyAgentsTotal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<CompanyAgentsQuery, CompanyAgentsQueryVariables>;
+export const BrokerageAgentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"brokerageAgents"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentScalarFieldEnum"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AgentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brokerageAgents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"brokerageId"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"licenseID"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"brokerageAgentsTotal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<BrokerageAgentsQuery, BrokerageAgentsQueryVariables>;
 export const AgentPickupsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AgentPickups"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agentPickups"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"visitLat"}},{"kind":"Field","name":{"kind":"Name","value":"visitLng"}},{"kind":"Field","name":{"kind":"Name","value":"assignedAgentId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentPickupsTotal"}}]}}]} as unknown as DocumentNode<AgentPickupsQuery, AgentPickupsQueryVariables>;
 export const AgentDropsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AgentDrops"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"agentDrops"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactNotes"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"agentAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"visitLat"}},{"kind":"Field","name":{"kind":"Name","value":"visitLng"}},{"kind":"Field","name":{"kind":"Name","value":"assignedAgentId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"property"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lng"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"agentDropsTotal"}}]}}]} as unknown as DocumentNode<AgentDropsQuery, AgentDropsQueryVariables>;
 export const AssignAgentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignAgent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"inquiryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignAgent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"inquiryId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"inquiryId"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignAgentMutation, AssignAgentMutationVariables>;

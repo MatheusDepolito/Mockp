@@ -31,7 +31,7 @@ export default function RootLayout({
   const menuMessages = getMessages(locale).menu;
   const menuItems: MenuItem[] = [
     { label: menuMessages.search, href: '/search' },
-    { label: menuMessages.inquiries, href: '/bookings' },
+    { label: menuMessages.inquiries, href: '/inquiries' },
   ];
 
   return (

@@ -55,33 +55,35 @@ export default function ProfessionalHubPage() {
         </div>
 
         <div className="space-y-4">
-          {options.map(({ title, description, href, cta, icon: Icon, note }) => (
-            <div
-              key={href}
-              className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gray-100">
-                  <Icon size={22} />
-                </div>
-                <div className="space-y-2">
-                  <h2 className="text-lg font-bold">{title}</h2>
-                  <p className="text-sm text-gray-600">{description}</p>
-                  {note ? (
-                    <p className="text-xs text-amber-700 bg-amber-50 rounded px-2 py-1.5">
-                      {note}
-                    </p>
-                  ) : null}
-                  <Link
-                    href={href}
-                    className="inline-block text-sm font-semibold text-primary underline-offset-4 hover:underline"
-                  >
-                    {cta} →
-                  </Link>
+          {options.map(
+            ({ title, description, href, cta, icon: Icon, note }) => (
+              <div
+                key={href}
+                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+              >
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                    <Icon size={22} />
+                  </div>
+                  <div className="space-y-2">
+                    <h2 className="text-lg font-bold">{title}</h2>
+                    <p className="text-sm text-gray-600">{description}</p>
+                    {note ? (
+                      <p className="text-xs text-amber-700 bg-amber-50 rounded px-2 py-1.5">
+                        {note}
+                      </p>
+                    ) : null}
+                    <Link
+                      href={href}
+                      className="inline-block text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      {cta} →
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
     </main>

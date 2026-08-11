@@ -51,9 +51,9 @@ The Prisma schema includes user/persona-related models:
 
 | App | Path | Port | Evidence | Likely persona |
 | --- | --- | --- | --- | --- |
-| `web` | `apps/web` | `3001` | routes include `/search`, `/bookings`, `/professional`, `/login`, `/register` | General/customer-facing user |
+| `web` | `apps/web` | `3001` | routes include `/search`, `/inquiries`, `/professional`, `/login`, `/register` | General/customer-facing user |
 | `web-admin` | `apps/web-admin` | `3004` | routes include `/manageAdmins`, `/verifications`, `/login`, `/register` | Admin |
-| `web-manager` | `apps/web-manager` | `3002` | routes include `/new-garage`, `/agents`, `/bookings` | Manager |
+| `web-manager` | `apps/web-manager` | `3002` | routes include `/new-property`, `/agents`, `/inquiries` | Brokerage manager |
 | `web-agent` | `apps/web-agent` | `3003` | routes include `/my-properties`, `/new-property`, `/my-trips`, `/inquiries`, `/properties/[id]/edit`, `/login`, `/register` | Agent |
 
 These app/persona mappings are inferred from route names and app names.
@@ -81,7 +81,7 @@ Evidence:
 - Backend role exists.
 - BrokerageManager Prisma model exists.
 - `apps/web-manager` exists.
-- Manager routes include `/new-garage`, `/agents`, and `/bookings`.
+- Manager routes include `/new-property`, `/agents`, and `/inquiries`.
 - Backend resolvers protect brokerage manager operations with `@AllowAuthenticated('brokerageManager')` and `@AllowAuthenticated('brokerageManager', 'admin')`.
 
 Likely app:
@@ -107,7 +107,7 @@ Likely app:
 Evidence:
 
 - Customer Prisma model exists.
-- `apps/web` routes include search, bookings, and professional onboarding paths.
+- `apps/web` routes include search, inquiries, and professional onboarding paths.
 - Customer-specific GraphQL resolver/model exists.
 
 Likely app:
@@ -145,5 +145,5 @@ Use [[../agents/STOP_CONDITIONS|Stop Conditions]].
 
 - Exact product definitions for customer, admin, brokerageManager, and agent.
 - Whether users can hold multiple roles intentionally.
-- Whether admin can act across every brokerageManager/company boundary.
+- Whether admin can act across every brokerageManager/brokerage boundary.
 - Whether customer should become a first-class backend role.

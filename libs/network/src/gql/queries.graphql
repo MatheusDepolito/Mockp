@@ -326,7 +326,7 @@ query myPropertiesAsAgent($skip: Float, $take: Float) {
   }
 }
 
-query companyAgents(
+query brokerageAgents(
   $distinct: [AgentScalarFieldEnum!]
   $skip: Float
   $take: Float
@@ -334,7 +334,7 @@ query companyAgents(
   $orderBy: [AgentOrderByWithRelationInput!]
   $where: AgentWhereInput
 ) {
-  companyAgents(
+  brokerageAgents(
     distinct: $distinct
     skip: $skip
     take: $take
@@ -352,7 +352,7 @@ query companyAgents(
     verified
   }
 
-  companyAgentsTotal(where: $where)
+  brokerageAgentsTotal(where: $where)
 }
 
 query AgentPickups($skip: Float, $take: Float) {

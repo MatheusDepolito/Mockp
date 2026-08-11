@@ -38,9 +38,11 @@ export const formSchemaCreatePropertyBrokerage =
       .min(1, { message: 'Selecione o corretor responsável' }),
   });
 
-export const formSchemaCreatePropertySolo = formSchemaCreatePropertyBase.extend({
-  responsibleAgentId: z.string().optional(),
-});
+export const formSchemaCreatePropertySolo = formSchemaCreatePropertyBase.extend(
+  {
+    responsibleAgentId: z.string().optional(),
+  },
+);
 
 export const formSchemaCreateProperty = formSchemaCreatePropertyBrokerage;
 

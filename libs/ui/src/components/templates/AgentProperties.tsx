@@ -44,11 +44,7 @@ export const AgentProperties = () => {
         </p>
       ) : null}
       {data?.myPropertiesAsAgent.map((property) => (
-        <PropertyCard
-          key={property.id}
-          property={property}
-          showEditLink
-        />
+        <PropertyCard key={property.id} property={property} showEditLink />
       ))}
     </ShowData>
   );

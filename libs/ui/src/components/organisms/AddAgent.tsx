@@ -38,7 +38,7 @@ export const AddAgent = () => {
 
   const [createAgent, { loading }] = useMutation(CreateAgentDocument, {
     awaitRefetchQueries: true,
-    refetchQueries: [namedOperations.Query.companyAgents],
+    refetchQueries: [namedOperations.Query.brokerageAgents],
   });
 
   const { uploading, upload } = useCloudinaryUpload();

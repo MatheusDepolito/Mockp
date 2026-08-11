@@ -13,10 +13,7 @@ export interface ILoginFormProps {
   className?: string;
   redirectTo?: string;
 }
-export const LoginForm = ({
-  className,
-  redirectTo = '/',
-}: ILoginFormProps) => {
+export const LoginForm = ({ className, redirectTo = '/' }: ILoginFormProps) => {
   const {
     register,
     handleSubmit,
