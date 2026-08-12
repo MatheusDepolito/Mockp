@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main, pivot/imobiliario]
+  pull_request:
+    branches: [main, pivot/imobiliario]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      # apps/api/prisma.config.ts requires DATABASE_URL to be set even for
+      # `prisma generate` (used by both the tsc and build scripts), but no
+      # live connection is needed for generation — any syntactically valid
+      # value works.
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      # nx.json has an nxCloudId configured, but this CI has no
+      # NX_CLOUD_ACCESS_TOKEN secret. Without this, Nx Cloud calls fail
+      # with a 401 on every run. Disable it so CI stays self-contained.
+      NX_NO_CLOUD: 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+
+      - name: Activate the project's Yarn version
+        run: corepack prepare yarn@4.12.0 --activate
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Typecheck
+        run: yarn tsc
+
+      - name: Lint
+        run: yarn lint
+
+      # apps/api's lint script runs `eslint --fix` (not changed here — see
+      # checkpoint notes). --fix rewrites files in place instead of just
+      # reporting them, so a clean `yarn lint` exit code alone doesn't prove
+      # the source was already correct. Fail the job if lint silently
+      # rewrote any tracked file instead of just letting it pass.
+      - name: Fail if lint modified any tracked file
+        run: git diff --exit-code
+
+      - name: Build
+        run: yarn build
