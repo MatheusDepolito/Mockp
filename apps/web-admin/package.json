@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mockp/network": "*",
+    "@mockp/ui": "*",
+    "@mockp/util": "*",
     "next": "14.2.3",
+    "next-auth": "^4.24.11",
     "react": "^18",
     "react-dom": "^18"
   },

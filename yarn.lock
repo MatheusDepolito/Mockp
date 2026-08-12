@@ -1855,8 +1855,14 @@ __metadata:
   resolution: "@mockp/forms@workspace:libs/forms"
   dependencies:
     "@hookform/resolvers": "npm:^3.3.4"
+    "@mockp/network": "npm:*"
+    "@mockp/util": "npm:*"
+    "@types/react": "npm:^18"
+    react: "npm:^18"
     react-hook-form: "npm:^7.51.4"
     zod: "npm:^3.23.6"
+  peerDependencies:
+    react: ^18
   languageName: unknown
   linkType: soft
 
@@ -1891,11 +1897,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mockp/ui@workspace:libs/ui"
   dependencies:
+    "@apollo/client": "npm:^3.12.8"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
     "@headlessui/react": "npm:^2.2.0"
     "@mapbox/polyline": "npm:^1.2.1"
     "@mockp/forms": "npm:*"
+    "@mockp/network": "npm:*"
     "@mockp/util": "npm:*"
     "@mui/material": "npm:^6.4.2"
     "@stripe/stripe-js": "npm:^3.4.0"
@@ -1904,14 +1912,17 @@ __metadata:
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
+    date-fns: "npm:^3.6.0"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.3"
+    graphql: "npm:^16.10.0"
     mapbox-gl: "npm:^3.3.0"
     next: "npm:14.2.3"
     next-auth: "npm:^4.24.11"
     postcss: "npm:^8"
     react: "npm:^18"
     react-dom: "npm:^18"
+    react-hook-form: "npm:^7.51.4"
     react-map-gl: "npm:^7.1.7"
     react-toastify: "npm:^10.0.5"
     tailwindcss: "npm:^3.4.1"
@@ -1924,8 +1935,12 @@ __metadata:
   resolution: "@mockp/util@workspace:libs/util"
   dependencies:
     "@types/pluralize": "npm:^0.0.33"
+    "@types/react": "npm:^18"
     date-fns: "npm:^3.6.0"
     pluralize: "npm:^8.0.0"
+    react: "npm:^18"
+  peerDependencies:
+    react: ^18
   languageName: unknown
   linkType: soft
 
@@ -1933,12 +1948,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mockp/web-admin@workspace:apps/web-admin"
   dependencies:
+    "@mockp/network": "npm:*"
+    "@mockp/ui": "npm:*"
+    "@mockp/util": "npm:*"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.3"
     next: "npm:14.2.3"
+    next-auth: "npm:^4.24.11"
     postcss: "npm:^8"
     react: "npm:^18"
     react-dom: "npm:^18"
@@ -1951,12 +1970,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mockp/web-agent@workspace:apps/web-agent"
   dependencies:
+    "@mockp/network": "npm:*"
+    "@mockp/ui": "npm:*"
+    "@mockp/util": "npm:*"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.3"
     next: "npm:14.2.3"
+    next-auth: "npm:^4.24.11"
     postcss: "npm:^8"
     react: "npm:^18"
     react-dom: "npm:^18"
@@ -1969,12 +1992,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mockp/web-manager@workspace:apps/web-manager"
   dependencies:
+    "@mockp/network": "npm:*"
+    "@mockp/ui": "npm:*"
+    "@mockp/util": "npm:*"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.3"
     next: "npm:14.2.3"
+    next-auth: "npm:^4.24.11"
     postcss: "npm:^8"
     react: "npm:^18"
     react-dom: "npm:^18"
@@ -1987,6 +2014,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mockp/web@workspace:apps/web"
   dependencies:
+    "@mockp/forms": "npm:*"
     "@mockp/network": "npm:*"
     "@mockp/sample-lib": "npm:*"
     "@mockp/ui": "npm:*"

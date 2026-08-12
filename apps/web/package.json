@@ -11,6 +11,7 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@mockp/forms": "*",
     "@mockp/network": "*",
     "@mockp/sample-lib": "*",
     "@mockp/ui": "*",
