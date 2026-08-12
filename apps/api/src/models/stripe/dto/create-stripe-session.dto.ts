@@ -1,5 +1,5 @@
 import { CreateInquiryInput } from 'src/models/inquiries/graphql/dtos/create-inquiry.input';
-import { TotalPrice } from '@mockp/util/types';
+import { TotalPrice } from '@mockp/util/types.server';
 
 export class CreateStripeDto {
   uid: string;

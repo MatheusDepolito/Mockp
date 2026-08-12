@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+export type { TotalPrice } from './types.server';
+
 export type Role = 'admin' | 'brokerageManager' | 'agent';
 
 export type BaseComponent = {
@@ -16,12 +18,6 @@ export type ViewState = {
 };
 
 export type LocationInfo = { placeName: string; latLng: [number, number] };
-
-export type TotalPrice = {
-  parkingCharge: number;
-  agentChargeDropoff: number;
-  agentChargePickup: number;
-};
 
 export type LatLng = {
   lat: number;
