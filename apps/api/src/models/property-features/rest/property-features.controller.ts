@@ -89,7 +89,9 @@ export class PropertyFeaturesController {
     });
     checkRowLevelPermission(
       user,
-      propertyFeature.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
+      propertyFeature.Property.Brokerage.BrokerageManagers.map(
+        (man) => man.uid,
+      ),
     );
     return this.prisma.propertyFeature.update({
       where: { id },
@@ -115,7 +117,9 @@ export class PropertyFeaturesController {
     });
     checkRowLevelPermission(
       user,
-      propertyFeature.Property.Brokerage.BrokerageManagers.map((man) => man.uid),
+      propertyFeature.Property.Brokerage.BrokerageManagers.map(
+        (man) => man.uid,
+      ),
     );
     return this.prisma.propertyFeature.delete({ where: { id } });
   }

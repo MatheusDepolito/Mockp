@@ -111,7 +111,8 @@ export class InquiriesResolver {
     if (property.responsibleAgentId !== user.uid) {
       checkRowLevelPermission(
         user,
-        property.Brokerage?.BrokerageManagers.map((manager) => manager.uid) ?? [],
+        property.Brokerage?.BrokerageManagers.map((manager) => manager.uid) ??
+          [],
       );
     }
 
